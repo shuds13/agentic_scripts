@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running libEnsemble &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="_static/libE_logo_circle.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Running on HPC Systems" href="platforms/platforms_index.html" />
+    <link rel="prev" title="Convenience Tools and Functions" href="utilities.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/running_libE.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Running libEnsemble</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#further-command-line-options">Further Command Line Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#persistent-workers">Persistent Workers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-generator-on-the-manager">Running generator on the manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#further-run-information">Further Run Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Running libEnsemble</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/running_libE.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-libensemble">
+<span id="running-libe"></span><h1>Running libEnsemble<a class="headerlink" href="#running-libensemble" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>libEnsemble runs with one manager and multiple workers. Each worker may run either
+a generator or simulator function (both are Python scripts). Generators
+determine the parameters/inputs for simulations. Simulator functions run and
+manage simulations, which often involve running a user application (see
+<a class="reference internal" href="executor/ex_index.html"><span class="doc">Executor</span></a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As of version 1.3.0, the generator can be run as a thread on the manager,
+using the <a class="reference internal" href="data_structures/libE_specs.html#datastruct-libe-specs"><span class="std std-ref">libE_specs</span></a> option <strong>gen_on_manager</strong>.
+When using this option, set the number of workers desired for running
+simulations. See <a class="reference internal" href="#gen-on-manager"><span class="std std-ref">Running generator on the manager</span></a>
+for more details.</p>
+</div>
+<p>To use libEnsemble, you will need a calling script, which in turn will specify
+generator and simulator functions. Many <a class="reference internal" href="examples/examples_index.html"><span class="doc">examples</span></a>
+are available.</p>
+<p>There are currently three communication options for libEnsemble (determining how
+the Manager and Workers communicate). These are <code class="docutils literal notranslate"><span class="pre">local</span></code>, <code class="docutils literal notranslate"><span class="pre">mpi</span></code>, <code class="docutils literal notranslate"><span class="pre">tcp</span></code>.
+The default is <code class="docutils literal notranslate"><span class="pre">local</span></code> if <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> is specified, otherwise <code class="docutils literal notranslate"><span class="pre">mpi</span></code>.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">local</span></code> comms can be used on multi-node systems, where
+the <a class="reference internal" href="executor/overview.html"><span class="doc">MPI executor</span></a> is used to distribute MPI applications
+across the nodes. Indeed, this is the most commonly used option, even on large
+supercomputers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You do not need the <code class="docutils literal notranslate"><span class="pre">mpi</span></code> communication mode to use the
+<a class="reference internal" href="executor/mpi_executor.html"><span class="doc">MPI Executor</span></a>. The communication modes described
+here only refer to how the libEnsemble manager and workers communicate.</p>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Local Comms</label><div class="sd-tab-content docutils">
+<p>Uses Python’s built-in <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html">multiprocessing</a> module.
+The <code class="docutils literal notranslate"><span class="pre">comms</span></code> type <code class="docutils literal notranslate"><span class="pre">local</span></code> and number of workers <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> may
+be provided in <a class="reference internal" href="data_structures/libE_specs.html#datastruct-libe-specs"><span class="std std-ref">libE_specs</span></a>.</p>
+<p>Then run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">myscript</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Or, if the script uses the <a class="reference internal" href="utilities.html#tools.parse_args" title="tools.parse_args"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse_args</span></code></a> function
+or an <a class="reference internal" href="libe_module.html#libensemble.ensemble.Ensemble" title="libensemble.ensemble.Ensemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ensemble</span></code></a> object with <code class="docutils literal notranslate"><span class="pre">Ensemble(parse_args=True)</span></code>,
+you can specify these on the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">myscript</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">nworkers</span> <span class="n">N</span>
+</pre></div>
+</div>
+<p>This will launch one manager and <code class="docutils literal notranslate"><span class="pre">N</span></code> workers.</p>
+<p>The following abbreviated line is equivalent to the above:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">myscript</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">n</span> <span class="n">N</span>
+</pre></div>
+</div>
+<p>libEnsemble will run on <strong>one node</strong> in this scenario. To
+<a class="reference internal" href="platforms/platforms_index.html"><span class="doc">disallow this node</span></a>
+from app-launches (if running libEnsemble on a compute node),
+set <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;dedicated_mode&quot;]</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p>
+<p>This mode can also be used to run on a <strong>launch</strong> node of a three-tier
+system (e.g., Summit), ensuring the whole compute-node allocation is available for
+launching apps. Make sure there are no imports of <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> in your Python scripts.</p>
+<p>Note that on macOS (since Python 3.8) and Windows, the default multiprocessing method
+is <code class="docutils literal notranslate"><span class="pre">&quot;spawn&quot;</span></code> instead of <code class="docutils literal notranslate"><span class="pre">&quot;fork&quot;</span></code>; to resolve many related issues, we recommend placing
+calling script code in an <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">&quot;__main__&quot;:</span></code> block.</p>
+<p><strong>Limitations of local mode</strong></p>
+<ul class="simple">
+<li><p>Workers cannot be <a class="reference internal" href="platforms/platforms_index.html"><span class="doc">distributed</span></a> across nodes.</p></li>
+<li><p>In some scenarios, any import of <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> will cause this to break.</p></li>
+<li><p>Does not have the potential scaling of MPI mode, but is sufficient for most users.</p></li>
+</ul>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+MPI Comms</label><div class="sd-tab-content docutils">
+<p>This option uses <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/">mpi4py</a> for the Manager/Worker communication. It is used automatically if
+you run your libEnsemble calling script with an MPI runner such as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpirun</span> <span class="o">-</span><span class="n">np</span> <span class="n">N</span> <span class="n">python</span> <span class="n">myscript</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the number of processes. This will launch one manager and
+<code class="docutils literal notranslate"><span class="pre">N-1</span></code> workers.</p>
+<p>This option requires <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> to be installed to interface with the MPI on your system.
+It works on a standalone system, and with both
+<a class="reference internal" href="platforms/platforms_index.html"><span class="doc">central and distributed modes</span></a> of running libEnsemble on
+multi-node systems.</p>
+<p>It also potentially scales the best when running with many workers on HPC systems.</p>
+<p><strong>Limitations of MPI mode</strong></p>
+<p>If launching MPI applications from workers, then MPI is nested. <strong>This is not
+supported with Open MPI</strong>. This can be overcome by using a proxy launcher.
+This nesting does work with <a class="reference external" href="https://www.mpich.org/">MPICH</a> and its derivative MPI implementations.</p>
+<p>It is also unsuitable to use this mode when running on the <strong>launch</strong> nodes of
+three-tier systems (e.g., Summit). In that case <code class="docutils literal notranslate"><span class="pre">local</span></code> mode is recommended.</p>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+TCP Comms</label><div class="sd-tab-content docutils">
+<p>Run the Manager on one system and launch workers to remote
+systems or nodes over TCP. Configure through
+<a class="reference internal" href="data_structures/libE_specs.html#libensemble.specs.LibeSpecs" title="libensemble.specs.LibeSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">libE_specs</span></code></a>, or on the command line
+if using an <a class="reference internal" href="libe_module.html#libensemble.ensemble.Ensemble" title="libensemble.ensemble.Ensemble"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ensemble</span></code></a> object with
+<code class="docutils literal notranslate"><span class="pre">Ensemble(parse_args=True)</span></code>,</p>
+<p><strong>Reverse-ssh interface</strong></p>
+<p>Set <code class="docutils literal notranslate"><span class="pre">comms</span></code> to <code class="docutils literal notranslate"><span class="pre">ssh</span></code> to launch workers on remote ssh-accessible systems. This
+co-locates workers, functions, and any applications. User
+functions can also be persistent, unlike when launching remote functions via
+<a class="reference internal" href="platforms/platforms_index.html#globus-compute-ref"><span class="std std-ref">Globus Compute</span></a>.</p>
+<p>The remote working directory and Python need to be specified. This may resemble:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">myscript</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">comms</span> <span class="n">ssh</span> <span class="o">--</span><span class="n">workers</span> <span class="n">machine1</span> <span class="n">machine2</span> <span class="o">--</span><span class="n">worker_pwd</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">workers</span> <span class="o">--</span><span class="n">worker_python</span> <span class="o">/</span><span class="n">home</span><span class="o">/.</span><span class="n">conda</span><span class="o">/.../</span><span class="n">python</span>
+</pre></div>
+</div>
+<p><strong>Limitations of TCP mode</strong></p>
+<ul class="simple">
+<li><p>There cannot be two calls to <code class="docutils literal notranslate"><span class="pre">libE()</span></code> or <code class="docutils literal notranslate"><span class="pre">Ensemble.run()</span></code> in the same script.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="further-command-line-options">
+<h2>Further Command Line Options<a class="headerlink" href="#further-command-line-options" title="Link to this heading"></a></h2>
+<p>See the <a class="reference internal" href="utilities.html#tools.parse_args" title="tools.parse_args"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse_args</span></code></a> function in <a class="reference internal" href="utilities.html"><span class="doc">Convenience Tools</span></a> for
+further command line options.</p>
+</section>
+<section id="persistent-workers">
+<h2>Persistent Workers<a class="headerlink" href="#persistent-workers" title="Link to this heading"></a></h2>
+<p id="persis-worker">In a regular (non-persistent) worker, the user’s generator or simulation function is called
+whenever the worker receives work. A persistent worker is one that continues to run the
+generator or simulation function between work units, maintaining the local data environment.</p>
+<p>A common use-case consists of a persistent generator (such as <a class="reference internal" href="examples/gen_funcs.html"><span class="doc">persistent_aposmm</span></a>)
+that maintains optimization data while generating new simulation inputs. The persistent generator runs
+on a dedicated worker while in persistent mode. This requires an appropriate
+<a class="reference internal" href="examples/alloc_funcs.html"><span class="doc">allocation function</span></a> that will run the generator as persistent.</p>
+<p>When running with a persistent generator, it is important to remember that a worker will be dedicated
+to the generator and cannot run simulations. For example, the following run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpirun</span> <span class="o">-</span><span class="n">np</span> <span class="mi">3</span> <span class="n">python</span> <span class="n">my_script</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>starts one manager, one worker with a persistent generator, and one worker for running simulations.</p>
+<p>If this example was run as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpirun</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="n">python</span> <span class="n">my_script</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>No simulations will be able to run.</p>
+</section>
+<section id="running-generator-on-the-manager">
+<span id="gen-on-manager"></span><h2>Running generator on the manager<a class="headerlink" href="#running-generator-on-the-manager" title="Link to this heading"></a></h2>
+<p>The majority of libEnsemble use cases run a single generator. The
+<a class="reference internal" href="data_structures/libE_specs.html#datastruct-libe-specs"><span class="std std-ref">libE_specs</span></a> option <strong>gen_on_manager</strong> will cause
+the generator function to run on a thread on the manager. This can run
+persistent user functions, sharing data structures with the manager, and avoids
+additional communication to a generator running on a worker. When using this
+option, the number of workers specified should be the (maximum) number of
+concurrent simulations.</p>
+<p>If modifying a workflow to use <code class="docutils literal notranslate"><span class="pre">gen_on_manager</span></code> consider the following.</p>
+<ul class="simple">
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> to the number of workers desired for running simulations.</p></li>
+<li><p>If using <a class="reference internal" href="utilities.html#tools.add_unique_random_streams" title="tools.add_unique_random_streams"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_unique_random_streams()</span></code></a>
+to seed random streams, the default generator seed will be zero.</p></li>
+<li><p>If you have a line like <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;nresource_sets&quot;]</span> <span class="pre">=</span> <span class="pre">nworkers</span> <span class="pre">-1</span></code>, this
+line should be removed.</p></li>
+<li><p>If the generator does use resources, <code class="docutils literal notranslate"><span class="pre">nresource_sets</span></code> can be increased as needed
+so that the generator and all simulations are resourced.</p></li>
+</ul>
+</section>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<p>Environment variables required in your run environment can be set in your Python sim or gen function.
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OMP_NUM_THREADS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>set in your simulation script before the Executor <em>submit</em> command will export the setting
+to your run. For running a bash script in a sub environment when using the Executor, see
+the <code class="docutils literal notranslate"><span class="pre">env_script</span></code> option to the <a class="reference internal" href="executor/mpi_executor.html"><span class="doc">MPI Executor</span></a>.</p>
+</section>
+<section id="further-run-information">
+<h2>Further Run Information<a class="headerlink" href="#further-run-information" title="Link to this heading"></a></h2>
+<p>For running on multi-node platforms and supercomputers, there are alternative ways to configure
+libEnsemble to resources. See the <a class="reference internal" href="platforms/platforms_index.html"><span class="doc">Running on HPC Systems</span></a>
+guide for more information, including some examples for specific systems.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="utilities.html" class="btn btn-neutral float-left" title="Convenience Tools and Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="platforms/platforms_index.html" class="btn btn-neutral float-right" title="Running on HPC Systems" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

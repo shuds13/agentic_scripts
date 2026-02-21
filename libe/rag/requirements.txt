@@ -1,0 +1,9 @@
+# RAG System Requirements
+llama-index>=0.10.0
+llama-index-embeddings-huggingface>=0.1.0
+sentence-transformers>=2.2.0
+mcp>=0.9.0
+
+# Optional but recommended
+langchain>=0.1.0
+langchain-openai>=0.0.5

@@ -1,0 +1,705 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ensemble with an MPI Application &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Executor - Assign GPUs" href="forces_gpu_tutorial.html" />
+    <link rel="prev" title="Simple Introduction" href="local_sine_tutorial.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/tutorials/executor_forces_tutorial.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ensemble with an MPI Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calling-script">Calling Script</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exercise">Exercise</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#simulation-function">Simulation Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-example">Running the example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-generator-on-the-manager">Running the generator on the manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-forces-application-with-input-file">Running forces application with input file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-parameters">Multiple parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Ensemble with an MPI Application</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/executor_forces_tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ensemble-with-an-mpi-application">
+<h1>Ensemble with an MPI Application<a class="headerlink" href="#ensemble-with-an-mpi-application" title="Link to this heading"></a></h1>
+<p>This tutorial highlights libEnsemble’s capability to portably execute
+and monitor external scripts or user applications within simulation or generator
+functions using the <a class="reference internal" href="../executor/overview.html"><span class="doc">executor</span></a>.</p>
+<p><a class="reference external" href="http://colab.research.google.com/github/Libensemble/libensemble/blob/develop/examples/tutorials/forces_with_executor/forces_tutorial_notebook.ipynb"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>The calling script registers a compiled executable that simulates
+electrostatic forces between a collection of particles. The simulator function
+launches instances of this executable and reads output files to determine
+the result.</p>
+<p>This tutorial uses libEnsemble’s <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPI Executor</span></a>,
+which automatically detects available MPI runners and resources.</p>
+<p>This example also uses a persistent generator. This generator runs on a
+worker throughout the ensemble, producing new simulation parameters as requested.</p>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<p>The simulation source code <code class="docutils literal notranslate"><span class="pre">forces.c</span></code> can be obtained directly from the
+libEnsemble repository in the <a class="reference external" href="https://github.com/Libensemble/libensemble/tree/main/libensemble/tests/scaling_tests/forces/forces_app">forces_app</a> directory.</p>
+<p>Assuming MPI and its C compiler <code class="docutils literal notranslate"><span class="pre">mpicc</span></code> are available, compile
+<code class="docutils literal notranslate"><span class="pre">forces.c</span></code> into an executable (<code class="docutils literal notranslate"><span class="pre">forces.x</span></code>) with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpicc<span class="w"> </span>-O3<span class="w"> </span>-o<span class="w"> </span>forces.x<span class="w"> </span>forces.c<span class="w"> </span>-lm
+</pre></div>
+</div>
+<p>Alternative build lines for different platforms can be found in the <a class="reference external" href="https://github.com/Libensemble/libensemble/blob/main/libensemble/tests/scaling_tests/forces/forces_app/build_forces.sh">build_forces.sh</a>
+file in the same directory.</p>
+</section>
+<section id="calling-script">
+<h2>Calling Script<a class="headerlink" href="#calling-script" title="Link to this heading"></a></h2>
+<p>Complete scripts for this example can be found in the <a class="reference external" href="https://github.com/Libensemble/libensemble/tree/main/libensemble/tests/scaling_tests/forces/forces_simple">forces_simple</a> directory.</p>
+<p>Let’s begin by writing our calling script to specify our simulation and
+generation functions and call libEnsemble. Create a Python file called
+<cite>run_libe_forces.py</cite> containing:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 5</span><span class="kn">from</span><span class="w"> </span><span class="nn">forces_simf</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_forces</span>  <span class="c1"># Sim func from current dir</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="linenos"> 8</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.alloc_funcs.start_only_persistent</span><span class="w"> </span><span class="kn">import</span> <span class="n">only_persistent_gens</span> <span class="k">as</span> <span class="n">alloc_f</span>
+<span class="linenos"> 9</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPIExecutor</span>
+<span class="linenos">10</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.gen_funcs.persistent_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">persistent_uniform</span> <span class="k">as</span> <span class="n">gen_f</span>
+<span class="linenos">11</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">AllocSpecs</span><span class="p">,</span> <span class="n">ExitCriteria</span><span class="p">,</span> <span class="n">GenSpecs</span><span class="p">,</span> <span class="n">LibeSpecs</span><span class="p">,</span> <span class="n">SimSpecs</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">14</span>    <span class="c1"># Initialize MPI Executor</span>
+<span class="linenos">15</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">()</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span>    <span class="c1"># Register simulation executable with executor</span>
+<span class="linenos">18</span>    <span class="n">sim_app</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;../forces_app/forces.x&quot;</span><span class="p">)</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">sim_app</span><span class="p">):</span>
+<span class="linenos">21</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;forces.x not found - please build first in ../forces_app dir&quot;</span><span class="p">)</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span>    <span class="n">exctr</span><span class="o">.</span><span class="n">register_app</span><span class="p">(</span><span class="n">full_path</span><span class="o">=</span><span class="n">sim_app</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;forces&quot;</span><span class="p">)</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span>    <span class="c1"># Parse number of workers, comms type, etc. from arguments</span>
+<span class="linenos">26</span>    <span class="n">ensemble</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">(</span><span class="n">parse_args</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">exctr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We first instantiate our <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPI Executor</span></a>.
+Registering an application is as easy as providing the full file-path and giving
+it a memorable name. This Executor will later be used within our simulation
+function to launch the registered app.</p>
+<p>The last line in the above codeblock initializes the ensemble. The <a class="reference internal" href="../utilities.html#tools.parse_args" title="tools.parse_args"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse_args</span></code></a>
+parameter is used to read <cite>comms</cite> and <cite>nworkers</cite> from the command line. This sets
+the respective <cite>libE_specs</cite> options.</p>
+<p>Next, we will add basic configuration for the ensemble. As one worker will run a persistent
+generator, we calculate the number of workers that need resources to run simulations.
+We also set <cite>sim_dirs_make</cite> so that a directory is created for each simulation. This
+helps organize output and also helps prevent workers from overwriting previous results.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">28</span>    <span class="n">nsim_workers</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">nworkers</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># One worker is for persistent generator</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span>    <span class="c1"># Persistent gen does not need resources</span>
+<span class="linenos">31</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span>
+<span class="linenos">32</span>        <span class="n">num_resource_sets</span><span class="o">=</span><span class="n">nsim_workers</span><span class="p">,</span> <span class="n">sim_dirs_make</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ensemble_dir_path</span><span class="o">=</span><span class="s2">&quot;./test_executor_forces_tutorial&quot;</span>
+<span class="linenos">33</span>    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Next we define the <a class="reference internal" href="../data_structures/sim_specs.html#datastruct-sim-specs"><span class="std std-ref">sim_specs</span></a> and
+<a class="reference internal" href="../data_structures/gen_specs.html#datastruct-gen-specs"><span class="std std-ref">gen_specs</span></a>. Recall that these are used to specify
+to libEnsemble what user functions and input/output fields to
+expect, and also to parameterize user functions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">37</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">sim_specs</span> <span class="o">=</span> <span class="n">SimSpecs</span><span class="p">(</span>
+<span class="linenos">38</span>        <span class="n">sim_f</span><span class="o">=</span><span class="n">run_forces</span><span class="p">,</span>
+<span class="linenos">39</span>        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+<span class="linenos">40</span>        <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>
+<span class="linenos">41</span>    <span class="p">)</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">gen_specs</span> <span class="o">=</span> <span class="n">GenSpecs</span><span class="p">(</span>
+<span class="linenos">44</span>        <span class="n">gen_f</span><span class="o">=</span><span class="n">gen_f</span><span class="p">,</span>
+<span class="linenos">45</span>        <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># No input when starting persistent generator</span>
+<span class="linenos">46</span>        <span class="n">persis_in</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sim_id&quot;</span><span class="p">],</span>  <span class="c1"># Return sim_ids of evaluated points to generator</span>
+<span class="linenos">47</span>        <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))],</span>
+<span class="linenos">48</span>        <span class="n">user</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos">49</span>            <span class="s2">&quot;initial_batch_size&quot;</span><span class="p">:</span> <span class="n">nsim_workers</span><span class="p">,</span>
+<span class="linenos">50</span>            <span class="s2">&quot;lb&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">]),</span>  <span class="c1"># min particles</span>
+<span class="linenos">51</span>            <span class="s2">&quot;ub&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3000</span><span class="p">]),</span>  <span class="c1"># max particles</span>
+<span class="linenos">52</span>        <span class="p">},</span>
+<span class="linenos">53</span>    <span class="p">)</span>  <span class="c1"># gen_specs_end_tag</span>
+</pre></div>
+</div>
+<p>Next, configure an allocation function, which starts the one persistent
+generator and farms out the simulations. We also tell it to wait for all
+simulations to return their results, before generating more parameters.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">55</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">alloc_specs</span> <span class="o">=</span> <span class="n">AllocSpecs</span><span class="p">(</span>
+<span class="linenos">56</span>        <span class="n">alloc_f</span><span class="o">=</span><span class="n">alloc_f</span><span class="p">,</span>
+<span class="linenos">57</span>        <span class="n">user</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos">58</span>            <span class="s2">&quot;async_return&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># False causes batch returns</span>
+<span class="linenos">59</span>        <span class="p">},</span>
+<span class="linenos">60</span>    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we set <a class="reference internal" href="../data_structures/exit_criteria.html#datastruct-exit-criteria"><span class="std std-ref">exit_criteria</span></a> to
+exit after running eight simulations.</p>
+<p>We also give each worker a seeded random stream, via the
+<a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">persis_info</span></a>  option.
+These can be used for random number generation if required.</p>
+<p>Finally we <a class="reference internal" href="../libe_module.html"><span class="doc">run</span></a> the ensemble.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">62</span>    <span class="c1"># Instruct libEnsemble to exit after this many simulations</span>
+<span class="linenos">63</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">exit_criteria</span> <span class="o">=</span> <span class="n">ExitCriteria</span><span class="p">(</span><span class="n">sim_max</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="linenos">64</span>
+<span class="linenos">65</span>    <span class="c1"># Seed random streams for each worker, particularly for gen_f</span>
+<span class="linenos">66</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">add_random_streams</span><span class="p">()</span>
+<span class="linenos">67</span>
+<span class="linenos">68</span>    <span class="c1"># Run ensemble</span>
+<span class="linenos">69</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="exercise">
+<h3>Exercise<a class="headerlink" href="#exercise" title="Link to this heading"></a></h3>
+<p>This may take some additional browsing of the docs to complete.</p>
+<p>Write an alternative Calling Script similar to above, but with the following differences:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Set <a class="reference internal" href="../history_output_logging.html#logger-config"><span class="std std-ref">libEnsemble’s logger</span></a> to print debug messages.</p></li>
+<li><p>Override the MPIExecutor’s detected MPI runner with <code class="docutils literal notranslate"><span class="pre">&quot;openmpi&quot;</span></code>.</p></li>
+<li><p>Tell the allocation function to return results to the generator asynchronously.</p></li>
+<li><p>Use the ensemble function <a class="reference internal" href="../libe_module.html#libensemble.ensemble.Ensemble.save_output" title="libensemble.ensemble.Ensemble.save_output"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_output()</span></code></a> to save the History array and <code class="docutils literal notranslate"><span class="pre">persis_info</span></code> to files after libEnsemble completes.</p></li>
+</ol>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><strong>Click Here for Solutions</strong></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><strong>Soln 1.</strong> Debug logging gives lots of information.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span><span class="p">,</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.alloc_funcs.start_only_persistent</span><span class="w"> </span><span class="kn">import</span> <span class="n">only_persistent_gens</span> <span class="k">as</span> <span class="n">alloc_f</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPIExecutor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.gen_funcs.persistent_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">persistent_uniform</span> <span class="k">as</span> <span class="n">gen_f</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">AllocSpecs</span><span class="p">,</span> <span class="n">ExitCriteria</span><span class="p">,</span> <span class="n">GenSpecs</span><span class="p">,</span> <span class="n">LibeSpecs</span><span class="p">,</span> <span class="n">SimSpecs</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text"><strong>Soln 2.</strong> This can also be specified via <a class="reference internal" href="../data_structures/platform_specs.html#datastruct-platform-specs"><span class="std std-ref">platform_specs</span></a> option.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Initialize MPI Executor</span>
+    <span class="n">exctr</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">(</span><span class="n">custom_info</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;mpi_runner&quot;</span><span class="p">:</span> <span class="s2">&quot;openmpi&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text"><strong>Soln 3.</strong> Set <code class="docutils literal notranslate"><span class="pre">async_return</span></code> to <em>True</em> in the allocation .</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Starts one persistent generator. Simulated values are returned in batch.</span>
+    <span class="n">ensemble</span><span class="o">.</span><span class="n">alloc_specs</span> <span class="o">=</span> <span class="n">AllocSpecs</span><span class="p">(</span>
+        <span class="n">alloc_f</span><span class="o">=</span><span class="n">alloc_f</span><span class="p">,</span>
+        <span class="n">user</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;async_return&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text"><strong>Soln 4.</strong> End your script in the following manner to save the output based
+on the name of the calling script. You can give any string in place of <code class="docutils literal notranslate"><span class="pre">__file__</span></code>.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Run ensemble</span>
+    <span class="n">ensemble</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+    <span class="n">ensemble</span><span class="o">.</span><span class="n">save_output</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</details></section>
+</section>
+<section id="simulation-function">
+<h2>Simulation Function<a class="headerlink" href="#simulation-function" title="Link to this heading"></a></h2>
+<p>Our simulation function is where we’ll use libEnsemble’s executor to configure and submit
+our application for execution. We’ll poll this task’s state while
+it runs, and once we’ve detected it has finished we’ll send any results or
+exit statuses back to the manager.</p>
+<p>Create another Python file named <code class="docutils literal notranslate"><span class="pre">forces_simf.py</span></code> containing the following
+for starters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># Optional status codes to display in libE_stats.txt for each gen or sim</span>
+<span class="linenos"> 4</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.message_numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TASK_FAILED</span><span class="p">,</span> <span class="n">WORKER_DONE</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">def</span><span class="w"> </span><span class="nf">run_forces</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs the forces MPI application&quot;&quot;&quot;</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>    <span class="n">calc_status</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span>    <span class="c1"># Parse out num particles, from generator function</span>
+<span class="linenos">13</span>    <span class="n">particles</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>    <span class="c1"># app arguments: num particles, timesteps, also using num particles as seed</span>
+<span class="linenos">16</span>    <span class="n">args</span> <span class="o">=</span> <span class="n">particles</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">particles</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span>    <span class="c1"># Retrieve our MPI Executor</span>
+<span class="linenos">19</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span>    <span class="c1"># Submit our forces app for execution.</span>
+<span class="linenos">22</span>    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;forces&quot;</span><span class="p">,</span> <span class="n">app_args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span>    <span class="c1"># Block until the task finishes</span>
+<span class="linenos">25</span>    <span class="n">task</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We retrieve the generated number of particles from <code class="docutils literal notranslate"><span class="pre">H</span></code> and construct
+an argument string for our launched application. The particle count doubles up
+as a random number seed here.</p>
+<p>We then retrieve our previously instantiated Executor. libEnsemble will use
+the MPI runner detected (or provided by <a class="reference internal" href="../data_structures/platform_specs.html#datastruct-platform-specs"><span class="std std-ref">platform options</span></a>).
+As <cite>num_procs</cite> (or similar) is not specified, libEnsemble will assign the processors
+available to this worker.</p>
+<p>After submitting the “forces” app for execution,
+a <a class="reference internal" href="../executor/executor.html#task-tag"><span class="std std-ref">Task</span></a> object is returned that correlates with the launched app.
+This object is roughly equivalent to a Python future and can be polled, killed,
+and evaluated in a variety of helpful ways. For now, we’re satisfied with waiting
+for the task to complete via <code class="docutils literal notranslate"><span class="pre">task.wait()</span></code>.</p>
+<p>We can assume that afterward, any results are now available to parse. Our application
+produces a <code class="docutils literal notranslate"><span class="pre">forces.stat</span></code> file that contains either energy
+computations for every timestep or a “kill” message if particles were lost, which
+indicates a bad run - this can be ignored for now.</p>
+<p>To complete our simulation function, parse the last energy value from the output file into
+a local output <a class="reference internal" href="../function_guides/history_array.html#funcguides-history"><span class="std std-ref">History array</span></a>, and if successful,
+set the simulation function’s exit status <a class="reference internal" href="../function_guides/calc_status.html#funcguides-calcstatus"><span class="std std-ref">calc_status</span></a>
+to <code class="docutils literal notranslate"><span class="pre">WORKER_DONE</span></code>. Otherwise, send back <code class="docutils literal notranslate"><span class="pre">NAN</span></code> and a <code class="docutils literal notranslate"><span class="pre">TASK_FAILED</span></code> status:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">27</span>    <span class="c1"># Try loading final energy reading, set the sim&#39;s status</span>
+<span class="linenos">28</span>    <span class="n">statfile</span> <span class="o">=</span> <span class="s2">&quot;forces.stat&quot;</span>
+<span class="linenos">29</span>    <span class="k">try</span><span class="p">:</span>
+<span class="linenos">30</span>        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">statfile</span><span class="p">)</span>
+<span class="linenos">31</span>        <span class="n">final_energy</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos">32</span>        <span class="n">calc_status</span> <span class="o">=</span> <span class="n">WORKER_DONE</span>
+<span class="linenos">33</span>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<span class="linenos">34</span>        <span class="n">final_energy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="linenos">35</span>        <span class="n">calc_status</span> <span class="o">=</span> <span class="n">TASK_FAILED</span>
+<span class="linenos">36</span>
+<span class="linenos">37</span>    <span class="c1"># Define our output array, populate with energy reading</span>
+<span class="linenos">38</span>    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+<span class="linenos">39</span>    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_energy</span>
+<span class="linenos">40</span>
+<span class="linenos">41</span>    <span class="c1"># Return final information to worker, for reporting to manager</span>
+<span class="linenos">42</span>    <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">calc_status</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">calc_status</span></code> will be displayed in the <code class="docutils literal notranslate"><span class="pre">libE_stats.txt</span></code> log file.</p>
+<p>That’s it! As can be seen, with libEnsemble, it’s relatively easy to get started
+with launching applications.</p>
+</section>
+<section id="running-the-example">
+<h2>Running the example<a class="headerlink" href="#running-the-example" title="Link to this heading"></a></h2>
+<p>This completes our calling script and simulation function. Run libEnsemble with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_libe_forces.py<span class="w"> </span>--nworkers<span class="w"> </span><span class="o">[</span>nworkers<span class="o">]</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> is one more than the number of concurrent simulations.</p>
+<p>Output files (including <code class="docutils literal notranslate"><span class="pre">forces.stat</span></code> and files containing <code class="docutils literal notranslate"><span class="pre">stdout</span></code> and
+<code class="docutils literal notranslate"><span class="pre">stderr</span></code> content for each task) should appear in the current working
+directory. Overall workflow information should appear in <code class="docutils literal notranslate"><span class="pre">libE_stats.txt</span></code>
+and <code class="docutils literal notranslate"><span class="pre">ensemble.log</span></code> as usual.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><strong>Example run / output</strong></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">For example, after running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_libe_forces.py<span class="w"> </span>--nworkers<span class="w"> </span><span class="m">3</span>
+</pre></div>
+</div>
+<p class="sd-card-text">my <code class="docutils literal notranslate"><span class="pre">libE_stats.txt</span></code> resembled:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Manager</span>     <span class="p">:</span> <span class="n">Starting</span> <span class="n">ensemble</span> <span class="n">at</span><span class="p">:</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">12</span> <span class="mi">18</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span><span class="mf">08.517</span>
+<span class="n">Worker</span>     <span class="mi">2</span><span class="p">:</span> <span class="n">sim_id</span>     <span class="mi">0</span><span class="p">:</span> <span class="n">sim</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">0.205</span> <span class="n">Start</span><span class="p">:</span> <span class="o">...</span> <span class="n">End</span><span class="p">:</span> <span class="o">...</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Completed</span>
+<span class="n">Worker</span>     <span class="mi">3</span><span class="p">:</span> <span class="n">sim_id</span>     <span class="mi">1</span><span class="p">:</span> <span class="n">sim</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">0.284</span> <span class="n">Start</span><span class="p">:</span> <span class="o">...</span> <span class="n">End</span><span class="p">:</span> <span class="o">...</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Completed</span>
+<span class="n">Worker</span>     <span class="mi">2</span><span class="p">:</span> <span class="n">sim_id</span>     <span class="mi">2</span><span class="p">:</span> <span class="n">sim</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">0.117</span> <span class="n">Start</span><span class="p">:</span> <span class="o">...</span> <span class="n">End</span><span class="p">:</span> <span class="o">...</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Completed</span>
+<span class="n">Worker</span>     <span class="mi">3</span><span class="p">:</span> <span class="n">sim_id</span>     <span class="mi">3</span><span class="p">:</span> <span class="n">sim</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">0.294</span> <span class="n">Start</span><span class="p">:</span> <span class="o">...</span> <span class="n">End</span><span class="p">:</span> <span class="o">...</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Completed</span>
+<span class="n">Worker</span>     <span class="mi">2</span><span class="p">:</span> <span class="n">sim_id</span>     <span class="mi">4</span><span class="p">:</span> <span class="n">sim</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">0.124</span> <span class="n">Start</span><span class="p">:</span> <span class="o">...</span> <span class="n">End</span><span class="p">:</span> <span class="o">...</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Completed</span>
+<span class="n">Worker</span>     <span class="mi">3</span><span class="p">:</span> <span class="n">sim_id</span>     <span class="mi">5</span><span class="p">:</span> <span class="n">sim</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">0.174</span> <span class="n">Start</span><span class="p">:</span> <span class="o">...</span> <span class="n">End</span><span class="p">:</span> <span class="o">...</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Completed</span>
+<span class="n">Worker</span>     <span class="mi">3</span><span class="p">:</span> <span class="n">sim_id</span>     <span class="mi">7</span><span class="p">:</span> <span class="n">sim</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">0.135</span> <span class="n">Start</span><span class="p">:</span> <span class="o">...</span> <span class="n">End</span><span class="p">:</span> <span class="o">...</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Completed</span>
+<span class="n">Worker</span>     <span class="mi">2</span><span class="p">:</span> <span class="n">sim_id</span>     <span class="mi">6</span><span class="p">:</span> <span class="n">sim</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">0.275</span> <span class="n">Start</span><span class="p">:</span> <span class="o">...</span> <span class="n">End</span><span class="p">:</span> <span class="o">...</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Completed</span>
+<span class="n">Worker</span>     <span class="mi">1</span><span class="p">:</span> <span class="n">Gen</span> <span class="n">no</span>     <span class="mi">1</span><span class="p">:</span> <span class="n">gen</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">1.038</span> <span class="n">Start</span><span class="p">:</span> <span class="o">...</span> <span class="n">End</span><span class="p">:</span> <span class="o">...</span> <span class="n">Status</span><span class="p">:</span> <span class="n">Persis</span> <span class="n">gen</span> <span class="n">finished</span>
+<span class="n">Manager</span>     <span class="p">:</span> <span class="n">Exiting</span> <span class="n">ensemble</span> <span class="n">at</span><span class="p">:</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">12</span> <span class="mi">18</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span><span class="mf">09.565</span> <span class="n">Time</span> <span class="n">Taken</span><span class="p">:</span> <span class="mf">1.048</span>
+</pre></div>
+</div>
+<p class="sd-card-text">where <code class="docutils literal notranslate"><span class="pre">status</span></code> is set based on the simulation function’s returned <code class="docutils literal notranslate"><span class="pre">calc_status</span></code>.</p>
+<p class="sd-card-text">My <code class="docutils literal notranslate"><span class="pre">ensemble.log</span></code> (on a four-core laptop) resembled:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">libE</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Logger</span> <span class="n">initializing</span><span class="p">:</span> <span class="p">[</span><span class="n">workerID</span><span class="p">]</span> <span class="n">precedes</span> <span class="n">each</span> <span class="n">line</span><span class="o">.</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Manager</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">libE</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">libE</span> <span class="n">version</span> <span class="n">v0</span><span class="mf">.10.2</span><span class="o">+</span><span class="n">dev</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">manager</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Manager</span> <span class="n">initiated</span> <span class="n">on</span> <span class="n">node</span> <span class="n">shuds</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">manager</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Manager</span> <span class="n">exit_criteria</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;sim_max&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">worker</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Worker</span> <span class="mi">2</span> <span class="n">initiated</span> <span class="n">on</span> <span class="n">node</span> <span class="n">shuds</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">worker</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Worker</span> <span class="mi">3</span> <span class="n">initiated</span> <span class="n">on</span> <span class="n">node</span> <span class="n">shuds</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">worker</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Worker</span> <span class="mi">1</span> <span class="n">initiated</span> <span class="n">on</span> <span class="n">node</span> <span class="n">shuds</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">mpi_executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Launching</span> <span class="n">task</span> <span class="n">libe_task_forces_worker2_0</span><span class="p">:</span> <span class="n">mpirun</span> <span class="o">-</span><span class="n">hosts</span> <span class="n">shuds</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="o">--</span><span class="n">ppn</span> <span class="mi">2</span> <span class="o">/</span><span class="n">home</span><span class="o">/.../</span><span class="n">forces_app</span><span class="o">/</span><span class="n">forces</span><span class="o">.</span><span class="n">x</span> <span class="mi">2023</span> <span class="mi">10</span> <span class="mi">2023</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">mpi_executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Launching</span> <span class="n">task</span> <span class="n">libe_task_forces_worker3_0</span><span class="p">:</span> <span class="n">mpirun</span> <span class="o">-</span><span class="n">hosts</span> <span class="n">shuds</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="o">--</span><span class="n">ppn</span> <span class="mi">2</span> <span class="o">/</span><span class="n">home</span><span class="o">/.../</span><span class="n">forces_app</span><span class="o">/</span><span class="n">forces</span><span class="o">.</span><span class="n">x</span> <span class="mi">2900</span> <span class="mi">10</span> <span class="mi">2900</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Task</span> <span class="n">libe_task_forces_worker2_0</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">errcode</span> <span class="mi">0</span> <span class="p">(</span><span class="n">FINISHED</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Task</span> <span class="n">libe_task_forces_worker3_0</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">errcode</span> <span class="mi">0</span> <span class="p">(</span><span class="n">FINISHED</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">mpi_executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Launching</span> <span class="n">task</span> <span class="n">libe_task_forces_worker2_1</span><span class="p">:</span> <span class="n">mpirun</span> <span class="o">-</span><span class="n">hosts</span> <span class="n">shuds</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="o">--</span><span class="n">ppn</span> <span class="mi">2</span> <span class="o">/</span><span class="n">home</span><span class="o">/.../</span><span class="n">forces_app</span><span class="o">/</span><span class="n">forces</span><span class="o">.</span><span class="n">x</span> <span class="mi">1288</span> <span class="mi">10</span> <span class="mi">1288</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">mpi_executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Launching</span> <span class="n">task</span> <span class="n">libe_task_forces_worker3_1</span><span class="p">:</span> <span class="n">mpirun</span> <span class="o">-</span><span class="n">hosts</span> <span class="n">shuds</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="o">--</span><span class="n">ppn</span> <span class="mi">2</span> <span class="o">/</span><span class="n">home</span><span class="o">/.../</span><span class="n">forces_app</span><span class="o">/</span><span class="n">forces</span><span class="o">.</span><span class="n">x</span> <span class="mi">2897</span> <span class="mi">10</span> <span class="mi">2897</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Task</span> <span class="n">libe_task_forces_worker2_1</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">errcode</span> <span class="mi">0</span> <span class="p">(</span><span class="n">FINISHED</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Task</span> <span class="n">libe_task_forces_worker3_1</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">errcode</span> <span class="mi">0</span> <span class="p">(</span><span class="n">FINISHED</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">mpi_executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Launching</span> <span class="n">task</span> <span class="n">libe_task_forces_worker2_2</span><span class="p">:</span> <span class="n">mpirun</span> <span class="o">-</span><span class="n">hosts</span> <span class="n">shuds</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="o">--</span><span class="n">ppn</span> <span class="mi">2</span> <span class="o">/</span><span class="n">home</span><span class="o">/.../</span><span class="n">forces_app</span><span class="o">/</span><span class="n">forces</span><span class="o">.</span><span class="n">x</span> <span class="mi">1623</span> <span class="mi">10</span> <span class="mi">1623</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">mpi_executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Launching</span> <span class="n">task</span> <span class="n">libe_task_forces_worker3_2</span><span class="p">:</span> <span class="n">mpirun</span> <span class="o">-</span><span class="n">hosts</span> <span class="n">shuds</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="o">--</span><span class="n">ppn</span> <span class="mi">2</span> <span class="o">/</span><span class="n">home</span><span class="o">/.../</span><span class="n">forces_app</span><span class="o">/</span><span class="n">forces</span><span class="o">.</span><span class="n">x</span> <span class="mi">1846</span> <span class="mi">10</span> <span class="mi">1846</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Task</span> <span class="n">libe_task_forces_worker2_2</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">errcode</span> <span class="mi">0</span> <span class="p">(</span><span class="n">FINISHED</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Task</span> <span class="n">libe_task_forces_worker3_2</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">errcode</span> <span class="mi">0</span> <span class="p">(</span><span class="n">FINISHED</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">mpi_executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Launching</span> <span class="n">task</span> <span class="n">libe_task_forces_worker2_3</span><span class="p">:</span> <span class="n">mpirun</span> <span class="o">-</span><span class="n">hosts</span> <span class="n">shuds</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="o">--</span><span class="n">ppn</span> <span class="mi">2</span> <span class="o">/</span><span class="n">home</span><span class="o">/.../</span><span class="n">forces_app</span><span class="o">/</span><span class="n">forces</span><span class="o">.</span><span class="n">x</span> <span class="mi">2655</span> <span class="mi">10</span> <span class="mi">2655</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">mpi_executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Launching</span> <span class="n">task</span> <span class="n">libe_task_forces_worker3_3</span><span class="p">:</span> <span class="n">mpirun</span> <span class="o">-</span><span class="n">hosts</span> <span class="n">shuds</span> <span class="o">-</span><span class="n">np</span> <span class="mi">2</span> <span class="o">--</span><span class="n">ppn</span> <span class="mi">2</span> <span class="o">/</span><span class="n">home</span><span class="o">/.../</span><span class="n">forces_app</span><span class="o">/</span><span class="n">forces</span><span class="o">.</span><span class="n">x</span> <span class="mi">1818</span> <span class="mi">10</span> <span class="mi">1818</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Task</span> <span class="n">libe_task_forces_worker3_3</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">errcode</span> <span class="mi">0</span> <span class="p">(</span><span class="n">FINISHED</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">executors</span><span class="o">.</span><span class="n">executor</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Task</span> <span class="n">libe_task_forces_worker2_3</span> <span class="n">finished</span> <span class="k">with</span> <span class="n">errcode</span> <span class="mi">0</span> <span class="p">(</span><span class="n">FINISHED</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">manager</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Term</span> <span class="n">test</span> <span class="n">tripped</span><span class="p">:</span> <span class="n">sim_max</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">manager</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Term</span> <span class="n">test</span> <span class="n">tripped</span><span class="p">:</span> <span class="n">sim_max</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">...</span> <span class="n">libensemble</span><span class="o">.</span><span class="n">libE</span> <span class="p">(</span><span class="n">INFO</span><span class="p">):</span> <span class="n">Manager</span> <span class="n">total</span> <span class="n">time</span><span class="p">:</span> <span class="mf">1.043</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Note again that the four cores were divided equally among two workers that run simulations.</p>
+</div>
+</details><p>That concludes this tutorial. Each of these example files can be found in the
+repository in <a class="reference external" href="https://github.com/Libensemble/libensemble/tree/develop/examples/tutorials/forces_with_executor">examples/tutorials/forces_with_executor</a>.</p>
+<p>For further experimentation, we recommend trying out this libEnsemble tutorial
+workflow on a cluster or multi-node system, since libEnsemble can also manage
+those resources and is developed to coordinate computations at huge scales.
+See <a class="reference internal" href="../platforms/platforms_index.html#platform-index"><span class="std std-ref">HPC platform guides</span></a> for more information.</p>
+<p>See the <a class="reference internal" href="forces_gpu_tutorial.html"><span class="doc">forces_gpu tutorial</span></a> for a similar workflow
+including GPUs. That tutorial also shows how to dynamically assign resources to
+each simulation.</p>
+<p>Please feel free to contact us or open an issue on <a class="reference external" href="https://github.com/Libensemble/libensemble/issues">GitHub</a> if this tutorial
+workflow doesn’t work properly on your cluster or other compute resource.</p>
+<section id="exercises">
+<h3>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h3>
+<p>These may require additional browsing of the documentation to complete.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Adjust <a class="reference internal" href="../executor/mpi_executor.html#libensemble.executors.mpi_executor.MPIExecutor.submit" title="libensemble.executors.mpi_executor.MPIExecutor.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a> to launch with four processes.</p></li>
+<li><p>Adjust <code class="docutils literal notranslate"><span class="pre">submit()</span></code> again so the app’s <code class="docutils literal notranslate"><span class="pre">stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">stderr</span></code> are written to <code class="docutils literal notranslate"><span class="pre">stdout.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">stderr.txt</span></code> respectively.</p></li>
+<li><p>Add a fourth argument to the args line to make 20% of simulations go bad.</p></li>
+<li><p>Construct a <code class="docutils literal notranslate"><span class="pre">while</span> <span class="pre">not</span> <span class="pre">task.finished:</span></code> loop that periodically sleeps for a tenth of a second, calls <a class="reference internal" href="../executor/executor.html#libensemble.executors.executor.Task.poll" title="libensemble.executors.executor.Task.poll"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task.poll()</span></code></a>,
+then reads the output <code class="docutils literal notranslate"><span class="pre">.stat</span></code> file, and calls <a class="reference internal" href="../executor/executor.html#libensemble.executors.executor.Task.kill" title="libensemble.executors.executor.Task.kill"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task.kill()</span></code></a> if the output file contains <code class="docutils literal notranslate"><span class="pre">&quot;kill\n&quot;</span></code>
+or if <code class="docutils literal notranslate"><span class="pre">task.runtime</span></code> exceeds sixty seconds.</p></li>
+</ol>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><strong>Click Here for Solution</strong></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Showing updated sections only (<code class="docutils literal notranslate"><span class="pre">---</span></code> refers to snips where code is unchanged).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="o">...</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">particles</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">particles</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">statfile</span> <span class="o">=</span> <span class="s2">&quot;forces.stat&quot;</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+    <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;forces&quot;</span><span class="p">,</span>
+    <span class="n">app_args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
+    <span class="n">num_procs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">stdout</span><span class="o">=</span><span class="s2">&quot;stdout.txt&quot;</span><span class="p">,</span>
+    <span class="n">stderr</span><span class="o">=</span><span class="s2">&quot;stderr.txt&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">while</span> <span class="ow">not</span> <span class="n">task</span><span class="o">.</span><span class="n">finished</span><span class="p">:</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">task</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">file_exists_in_workdir</span><span class="p">(</span><span class="n">statfile</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">statfile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;kill</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+                <span class="n">task</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">runtime</span> <span class="o">&gt;</span> <span class="mi">60</span><span class="p">:</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</details></section>
+</section>
+<section id="running-the-generator-on-the-manager">
+<h2>Running the generator on the manager<a class="headerlink" href="#running-the-generator-on-the-manager" title="Link to this heading"></a></h2>
+<p>As of version 1.3.0, the generator can be run on a thread on the manager,
+using the <a class="reference internal" href="../data_structures/libE_specs.html#datastruct-libe-specs"><span class="std std-ref">libE_specs</span></a> option <strong>gen_on_manager</strong>.</p>
+<p>Change the libE_specs as follows.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">28</span><span class="n">nsim_workers</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">nworkers</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span><span class="c1"># Persistent gen does not need resources</span>
+<span class="linenos">31</span><span class="n">ensemble</span><span class="o">.</span><span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span>
+<span class="linenos">32</span>    <span class="n">gen_on_manager</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">33</span>    <span class="n">sim_dirs_make</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">34</span>    <span class="n">ensemble_dir_path</span><span class="o">=</span><span class="s2">&quot;./test_executor_forces_tutorial&quot;</span><span class="p">,</span>
+<span class="linenos">35</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>When running set <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> to the number of workers desired for running simulations.
+E.g., Instead of:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_libe_forces.py<span class="w"> </span>--nworkers<span class="w"> </span><span class="m">5</span>
+</pre></div>
+</div>
+<p>use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_libe_forces.py<span class="w"> </span>--nworkers<span class="w"> </span><span class="m">4</span>
+</pre></div>
+</div>
+<p>Note that as the generator random number seed will be zero instead of one, the checksum will change.</p>
+<p>For more information see <a class="reference internal" href="../running_libE.html#gen-on-manager"><span class="std std-ref">Running generator on the manager</span></a>.</p>
+</section>
+<section id="running-forces-application-with-input-file">
+<h2>Running forces application with input file<a class="headerlink" href="#running-forces-application-with-input-file" title="Link to this heading"></a></h2>
+<p>Many applications read an input file instead of being given parameters directly on the run line.</p>
+<p><a class="reference external" href="https://github.com/Libensemble/libensemble/tree/main/libensemble/tests/scaling_tests/forces/forces_simple_with_input_file">forces_simple_with_input_file</a> directory contains a variant of this example, where a templated
+input file is parameterized for each evaluation.</p>
+<p>This requires <strong>jinja2</strong> to be installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">jinja2</span>
+</pre></div>
+</div>
+<p>The file <code class="docutils literal notranslate"><span class="pre">forces_input</span></code> contains the following (remember we are using particles
+as seed also for simplicity):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_particles</span> <span class="o">=</span> <span class="p">{{</span><span class="n">particles</span><span class="p">}}</span>
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">rand_seed</span> <span class="o">=</span> <span class="p">{{</span><span class="n">particles</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>libEnsemble will copy this input file to each simulation directory.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> uses the following function to customize the input file with the parameters
+for the current simulation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">set_input_file_params</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">ints</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a general function to parameterize the input file with any inputs</span>
+<span class="sd">    from sim_specs[&quot;in&quot;]</span>
+
+<span class="sd">    Often sim_specs_in[&quot;x&quot;] may be multi-dimensional, where each dimension</span>
+<span class="sd">    corresponds to a different input name in sim_specs[&quot;user&quot;][&quot;input_names&quot;]).</span>
+<span class="sd">    Effectively an unpacking of &quot;x&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_file</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;input_filename&quot;</span><span class="p">]</span>
+    <span class="n">input_values</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;input_names&quot;</span><span class="p">]):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="k">if</span> <span class="n">ints</span> <span class="k">else</span> <span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">input_values</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">input_values</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This is called in the simulation function as follows.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run_forces</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs the forces MPI application reading input from file&quot;&quot;&quot;</span>
+
+    <span class="n">calc_status</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">input_file</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;input_filename&quot;</span><span class="p">]</span>
+    <span class="n">set_input_file_params</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">ints</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Retrieve our MPI Executor</span>
+    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Submit our forces app for execution.</span>
+    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;forces&quot;</span><span class="p">)</span>  <span class="c1"># app_args removed</span>
+
+    <span class="c1"># Block until the task finishes</span>
+    <span class="n">task</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that we convert the parameters to integers in this example.</p>
+<p>The calling script then specifies the templated input file as follows.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos">30</span><span class="n">input_file</span> <span class="o">=</span> <span class="s2">&quot;forces_input&quot;</span>
+</span><span class="linenos">31</span>
+<span class="linenos">32</span><span class="c1"># Persistent gen does not need resources</span>
+<span class="linenos">33</span><span class="n">ensemble</span><span class="o">.</span><span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span>
+<span class="linenos">34</span>    <span class="n">num_resource_sets</span><span class="o">=</span><span class="n">nsim_workers</span><span class="p">,</span>
+<span class="linenos">35</span>    <span class="n">sim_dirs_make</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="hll"><span class="linenos">36</span>    <span class="n">sim_dir_copy_files</span><span class="o">=</span><span class="p">[</span><span class="n">input_file</span><span class="p">],</span>
+</span><span class="linenos">37</span><span class="p">)</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="n">ensemble</span><span class="o">.</span><span class="n">sim_specs</span> <span class="o">=</span> <span class="n">SimSpecs</span><span class="p">(</span>
+<span class="linenos">40</span>    <span class="n">sim_f</span><span class="o">=</span><span class="n">run_forces</span><span class="p">,</span>
+<span class="linenos">41</span>    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+<span class="linenos">42</span>    <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>
+<span class="hll"><span class="linenos">43</span>    <span class="n">user</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;input_filename&quot;</span><span class="p">:</span> <span class="n">input_file</span><span class="p">,</span> <span class="s2">&quot;input_names&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;particles&quot;</span><span class="p">]},</span>
+</span><span class="linenos">44</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Line 36 tells the templated input file to be copied to each simulation directory.</p>
+<p>An alternative is to use <code class="docutils literal notranslate"><span class="pre">sim_input_dir</span></code>, which gives the name of a directory
+that may contain multiple files and will be used as the base of each simulation
+directory.</p>
+<p>Line 43 gives the input file name and the name of each parameter to the simulation
+function.</p>
+<section id="multiple-parameters">
+<h3>Multiple parameters<a class="headerlink" href="#multiple-parameters" title="Link to this heading"></a></h3>
+<p>In our case, the only parameter name is <code class="docutils literal notranslate"><span class="pre">x</span></code>. However, in some cases, <code class="docutils literal notranslate"><span class="pre">x</span></code>
+(as defined by <code class="docutils literal notranslate"><span class="pre">sim_specs[&quot;in&quot;]</span></code>) may be multi-dimensional, where each
+component has a different parameter name (e.g., “x”, “y”). For example, if the
+input file were:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_particles</span> <span class="o">=</span> <span class="p">{{</span><span class="n">particles</span><span class="p">}}</span>
+<span class="n">num_steps</span> <span class="o">=</span> <span class="p">{{</span><span class="n">nsteps</span><span class="p">}}</span>
+<span class="n">rand_seed</span> <span class="o">=</span> <span class="p">{{</span><span class="n">seed</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>then line 43 would be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;input_filename&quot;</span><span class="p">:</span> <span class="n">input_file</span><span class="p">,</span> <span class="s2">&quot;input_names&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;particles&quot;</span><span class="p">,</span> <span class="s2">&quot;nsteps&quot;</span><span class="p">,</span> <span class="s2">&quot;seed&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p>and <code class="docutils literal notranslate"><span class="pre">gen_specs</span></code> would contain something similar to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">46</span><span class="n">ensemble</span><span class="o">.</span><span class="n">gen_specs</span> <span class="o">=</span> <span class="n">GenSpecs</span><span class="p">(</span>
+<span class="linenos">47</span>    <span class="n">gen_f</span><span class="o">=</span><span class="n">gen_f</span><span class="p">,</span>
+<span class="linenos">48</span>    <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span>
+<span class="linenos">49</span>    <span class="n">persis_in</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sim_id&quot;</span><span class="p">],</span>
+<span class="hll"><span class="linenos">50</span>    <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="mi">3</span><span class="p">)],</span>
+</span><span class="linenos">51</span>    <span class="o">...</span><span class="p">,</span>
+<span class="linenos">52</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>libEnsemble uses a convention of a multi-dimensional <code class="docutils literal notranslate"><span class="pre">x</span></code> in generator functions. However,
+these parameters can also be specified as different variables with corresponding modification
+to generator and simulator functions.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="local_sine_tutorial.html" class="btn btn-neutral float-left" title="Simple Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="forces_gpu_tutorial.html" class="btn btn-neutral float-right" title="Executor - Assign GPUs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

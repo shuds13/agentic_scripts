@@ -1,0 +1,1463 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Release Notes &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="_static/libE_logo_circle.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing to libEnsemble" href="contributing.html" />
+    <link rel="prev" title="Known Issues" href="known_issues.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/release_notes.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-5-0">Release 1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-4-3">Release 1.4.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-4-2">Release 1.4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-4-1">Release 1.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-4-0">Release 1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-3-0">Release 1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-2-2">Release 1.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-2-1">Release 1.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-2-0">Release 1.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-1-0">Release 1.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-0-0">Release 1.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-10-2">Release 0.10.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-10-1">Release 0.10.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-10-0">Release 0.10.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-9-3">Release 0.9.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-9-2">Release 0.9.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-9-1">Release 0.9.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-9-0">Release 0.9.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-8-0">Release 0.8.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-7-2">Release 0.7.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-7-1">Release 0.7.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-7-0">Release 0.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-6-0">Release 0.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-5-2">Release 0.5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-5-1">Release 0.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-5-0">Release 0.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-4-1">Release 0.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-4-0">Release 0.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-3-0">Release 0.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-2-0">Release 0.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-0-1-0">Release 0.1.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Release Notes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/release_notes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="release-notes">
+<h1>Release Notes<a class="headerlink" href="#release-notes" title="Link to this heading"></a></h1>
+<p>Below are the notes from all libEnsemble releases.</p>
+<p>GitHub issues are referenced, and can be viewed with hyperlinks on the <a class="reference external" href="https://github.com/Libensemble/libensemble/releases">github releases page</a>.</p>
+<section id="release-1-5-0">
+<h2>Release 1.5.0<a class="headerlink" href="#release-1-5-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Apr 10, 2025</p>
+</dd>
+</dl>
+<p>General Updates:</p>
+<ul class="simple">
+<li><p>Migrate package build system to <cite>pyproject.toml</cite> (with <cite>pixi</cite> support). #1459</p></li>
+<li><p>Improve handling when no MPI found. #1514</p></li>
+<li><p><cite>ensemble.save_output()</cite> can save without appending attributes <cite>append_attrs=False</cite>.  #1531</p></li>
+<li><p>Improve handling of worker-specific <cite>persis_info</cite> fields when they are not initially provided. #1531
+* Bugfix: Fix <cite>final_gen_send</cite> when there are no worker-specific <cite>persis_info</cite> fields.
+* Handle worker-generated <cite>persis_info</cite> fields.
+* Ensure <cite>persis_info</cite> is initialized to an empty dictionary in user functions instead of <cite>None</cite>.</p></li>
+</ul>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Update Ax generator for <cite>Ax v0.5.0</cite>. #1508</p></li>
+<li><p>Rename gpCAM generators. #1516
+* <cite>persistent_gpCAM_ask_tell</cite> to <cite>persistent_gpCAM</cite>
+* <cite>persistent_gpCAM_simple</cite> to <cite>persistent_gpCAM_covar</cite> (in fact less simple)</p></li>
+<li><p>Persistent generators return <cite>None</cite> as first return value unless <cite>H_o</cite> is updated. #1515</p></li>
+<li><p>Add LUMI to known platforms. #1546</p></li>
+</ul>
+<p>Documentation:</p>
+<ul class="simple">
+<li><p>Revamp Examples and HPC section of documentation. #1501, #1536, #1539</p></li>
+<li><p>Add tutorial and notebook demonstrating surrogate model creation with gpCAM. #1531</p></li>
+<li><p>Update Aurora guide. #1510</p></li>
+<li><p>Update and documented APOSMM/WarpX example. #1543</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.10, 3.11, 3.12, 3.13</p></li>
+<li><p>Heterogeneous workflows tested on Aurora (ALCF), Polaris (ALCF), LUMI (EuroHPC JU), and Perlmutter (NERSC).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-4-3">
+<h2>Release 1.4.3<a class="headerlink" href="#release-1-4-3" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dec 16, 2024</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Fix <cite>wait_on_start</cite> type-instance condition checking. #1474</p></li>
+<li><p>Logging updates:
+* Add <cite>VDEBUG</cite> logging level for the tracking of log message communications. #1486
+* Show worker node in the log only when running in distributed mode and with DEBUG logging. #1486
+* Update uneven distribution messaging. #1486</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Scripts<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Add scripts for plotting APOSMM optimization runs. #1461</p></li>
+<li><p>Convert test runner to Python. #1437</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Examples<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Move dragonfly GP, heFFTe, ytopt, and Ax multitask tests to community examples. #1439</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.9, 3.10, 3.11, 3.12, 3.13</p></li>
+<li><p>Heterogeneous workflows tested on Polaris (ALCF) and Perlmutter (NERSC).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-4-2">
+<h2>Release 1.4.2<a class="headerlink" href="#release-1-4-2" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>August 14, 2024</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Fix under-utilized resource usage. #1398
+* Fixes bug causing executor to wrongly increase processor counts when not all nodes are utilized.
+* Fixes case where setting <cite>num_gpus</cite> to zero was treated as <cite>None</cite>.</p></li>
+<li><p>Add missing PerlmutterGPU specs (these were detected anyway). #1393</p></li>
+<li><p>Handle case where Perlmutter finds no partition. #1391</p></li>
+<li><p>Launch environment scripts in shell. #1392</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Examples<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Add proxystore example (uses a proxy in history array). #1326</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.9, 3.10, 3.11, 3.12</p></li>
+<li><p>Heterogeneous workflows tested on Frontier (OLCF), Polaris (ALCF), and Perlmutter (NERSC).</p></li>
+<li><p>Note that tests have been recently run on Aurora (ALCF), but the system was unavailable at time of release.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-4-1">
+<h2>Release 1.4.1<a class="headerlink" href="#release-1-4-1" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>July 29, 2024</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Fix erroneous <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> warning when using <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> comms. #1383</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.9, 3.10, 3.11, 3.12</p></li>
+<li><p>Heterogeneous workflows tested on Frontier (OLCF), Polaris (ALCF), and Perlmutter (NERSC).</p></li>
+<li><p>Note that tests have been recently run on Aurora (ALCF), but the system was unavailable at time of release.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-4-0">
+<h2>Release 1.4.0<a class="headerlink" href="#release-1-4-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>July 25, 2024</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Add a <code class="docutils literal notranslate"><span class="pre">live_data</span></code> option for real-time data collection / plotting. #1310</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nworkers</span></code>/<code class="docutils literal notranslate"><span class="pre">is_manager</span></code> are set when <code class="docutils literal notranslate"><span class="pre">Ensemble</span></code> object is created. #1331/ #1336
+* This update locks the comms method when <code class="docutils literal notranslate"><span class="pre">Ensemble</span></code> object is created.</p></li>
+<li><p>Add a <code class="docutils literal notranslate"><span class="pre">group_size</span></code> option to deal with unevenly resourced nodes. #1349</p></li>
+<li><p>Bug fix: Fix shutdown hang on worker error when using <code class="docutils literal notranslate"><span class="pre">gen_on_manager</span></code>. #1348</p></li>
+<li><p>Bug fix: Log level was locked to <code class="docutils literal notranslate"><span class="pre">INFO</span></code> when using class interface.</p></li>
+<li><p>Updated code to support <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 2.0.</p></li>
+</ul>
+<p>Documentation:</p>
+<ul class="simple">
+<li><p>Notebook examples with Colab links added to documentation. #1310
+* E.g., <a class="reference external" href="https://colab.research.google.com/github/Libensemble/libensemble/blob/develop/examples/tutorials/aposmm/aposmm_tutorial_notebook.ipynb">https://colab.research.google.com/github/Libensemble/libensemble/blob/develop/examples/tutorials/aposmm/aposmm_tutorial_notebook.ipynb</a></p></li>
+<li><p>Example of templating input files added to forces tutorial.  #1310</p></li>
+</ul>
+<p>Example user functions:</p>
+<ul class="simple">
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">gpCAM</span></code> generators to work with latest interface.</p></li>
+<li><p>Change <code class="docutils literal notranslate"><span class="pre">one_d_func</span></code> to <code class="docutils literal notranslate"><span class="pre">norm_eval</span></code>. Works with multiple dimensions.  #1352 / #1354</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.9, 3.10, 3.11, 3.12</p></li>
+<li><p>Heterogeneous workflows tested on Frontier (OLCF), Polaris (ALCF), and Perlmutter (NERSC).</p></li>
+<li><p>Note that tests have been recently run on Aurora (ALCF), but the system was unavailable at time of release.</p></li>
+<li><p>Tests were also run on Bebop and Improv LCRC systems.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-3-0">
+<h2>Release 1.3.0<a class="headerlink" href="#release-1-3-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>May 01, 2024</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Support generator running on the manager (on a thread). #1216/#1290
+* Set <cite>libE_specs[“gen_on_manager”] = True</cite>
+* Then run with <cite>nworkers</cite> equal to the number of simulation workers.</p></li>
+<li><p>Default to local comms when <cite>nworkers</cite> is supplied and no MPI runner is detected. #1169</p></li>
+<li><p>Parse args defaults to <strong>local</strong> comms when <cite>–nworkers</cite> (or <cite>-n</cite>) is set on the command line. #1169</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.9, 3.10, 3.11, 3.12</p></li>
+<li><p>Heterogeneous workflows tested on Frontier (OLCF), Polaris (ALCF), and Perlmutter (NERSC).</p></li>
+<li><p>Note that tests have been recently run on Aurora (ALCF), but the system was unavailable at time of release.</p></li>
+<li><p>Tests were also run on Bebop and Improv LCRC systems.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-2-2">
+<h2>Release 1.2.2<a class="headerlink" href="#release-1-2-2" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>March 21, 2024</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Bugfix: Some <cite>libE_specs</cite> were not passed through correctly when added after ensemble initialization. #1264</p></li>
+<li><p><cite>platform_specs</cite> options are now merged with detected platforms, rather than replacing. #1265</p></li>
+<li><p>Ensure simulation directories are created when <cite>sim_input_dir</cite> is specified, likewise for gen dirs. #1266</p></li>
+</ul>
+<p>Example user functions:</p>
+<ul class="simple">
+<li><p>Improved structure of gpCAM generator. #1260</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.9, 3.10, 3.11, 3.12</p></li>
+<li><p>Heterogeneous workflows tested on Frontier (OLCF), Polaris (ALCF), and Perlmutter (NERSC).</p></li>
+<li><p>Note that tests have been recently run on Aurora (ALCF), but the system was unavailable at time of release.</p></li>
+<li><p>Tests were also run on Bebop and Improv LCRC systems.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-2-1">
+<h2>Release 1.2.1<a class="headerlink" href="#release-1-2-1" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>February 23, 2024</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Fix documentation bug where pydantic models do not display correctly.  #1249</p></li>
+<li><p>Improve internal efficiency. #1243 / #1249</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.9, 3.10, 3.11, 3.12</p></li>
+<li><p>Heterogeneous workflows tested on Aurora (ALCF), Frontier (OLCF), Polaris, and Perlmutter (NERSC).</p></li>
+<li><p>Tests were also run on Bebop and Improv LCRC systems.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-2-0">
+<h2>Release 1.2.0<a class="headerlink" href="#release-1-2-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>February 8, 2024</p>
+</dd>
+</dl>
+<p>New capabilities:</p>
+<ul class="simple">
+<li><p>Support for both Pydantic 1 and 2. #1135</p></li>
+<li><p>Support <code class="docutils literal notranslate"><span class="pre">object</span></code> dtype in history array. #1179 / #1181</p></li>
+<li><p>Users can add additional fields to output arrays in user functions. #1203</p></li>
+<li><p>Decorators to provide user function in/out specs. #1072</p></li>
+</ul>
+<p>Fixes:</p>
+<ul class="simple">
+<li><p>Bug fix - Overwrite history file on completion when even when the pathname is unchanged. #1177</p></li>
+<li><p>Prevent duplicate save when using <code class="docutils literal notranslate"><span class="pre">save_every_k_gens</span></code>. #1154</p></li>
+<li><p>Add a <code class="docutils literal notranslate"><span class="pre">FAILED_TO_START</span></code> task status. #1229</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">ensemble.nworkers</span></code> when create ensemble object even when <code class="docutils literal notranslate"><span class="pre">parse_args</span></code> is <em>False</em>. #1162</p></li>
+</ul>
+<p>Platform support:</p>
+<ul class="simple">
+<li><p>Add platform support for <strong>Aurora</strong>. #1183
+* Support for GPU tiles (new platform spec <cite>tiles_per_gpu</cite>).
+* Add <em>libE_specs</em> option <cite>use_tiles_as_gpus</cite> to treat each tile as a GPU.
+* Add Aurora platform guide.</p></li>
+<li><p>Add platform guide for <strong>Improv</strong>. #1235</p></li>
+<li><p>Detection of Perlmutter GPU nodes updated. #1211</p></li>
+<li><p>Make <code class="docutils literal notranslate"><span class="pre">srun</span></code> GPU setting default to <cite>gpus_per_task</cite> instead of <cite>gpus_per_node</cite>. #1206</p></li>
+<li><p>Remove Theta support and guide. #1200</p></li>
+</ul>
+<p>Example user functions:</p>
+<ul class="simple">
+<li><p>Add <strong>gpCAM</strong> generator. #1189 / #1213 / #1220</p></li>
+<li><p>Support for IBCDFO local optimization methods in APOSMM. #998</p></li>
+<li><p>Add <cite>mock_sim</cite> to enable replay of a previous run using history file. #1207</p></li>
+<li><p>Fix Sine tutorial. #1168</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.9, 3.10, 3.11, 3.12</p></li>
+<li><p>Heterogeneous workflows tested on Aurora (ALCF), Frontier (OLCF), Polaris, and Perlmutter (NERSC).</p></li>
+<li><p>Tests were also run on Bebop and Improv LCRC systems.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-1-0">
+<h2>Release 1.1.0<a class="headerlink" href="#release-1-1-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>November 8, 2023</p>
+</dd>
+</dl>
+<p>New capabilities:</p>
+<ul class="simple">
+<li><p>New history array save options in libE_specs. #1103/#1139/#1141
+* <cite>save_H_on_completion</cite> saves history before exiting main libE function.
+* <cite>save_H_with_date</cite> includes date and timestamp in the save.
+* <cite>H_file_prefix</cite> provides prefix for saved file.
+* <cite>save_H_on_completion</cite> defaults to True when <cite>save_every_k_gens/sims</cite> is set.</p></li>
+</ul>
+<p>Support for Python versions:</p>
+<ul class="simple">
+<li><p>Adds support/testing for Python 3.12</p></li>
+<li><p>Removes testing of Python 3.8</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tests were run on Linux and MacOS with Python versions 3.9, 3.10, 3.11, 3.12</p></li>
+<li><p>Heterogeneous workflows tested on Frontier (OLCF), Polaris, and Perlmutter (NERSC).</p></li>
+<li><p>Tests were also run on Bebop and Improv LCRC systems.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-1-0-0">
+<h2>Release 1.0.0<a class="headerlink" href="#release-1-0-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>September 25, 2023</p>
+</dd>
+</dl>
+<p>New capabilities:</p>
+<ul class="simple">
+<li><p><em>libE_specs</em> option <cite>final_gen_send</cite> returns last results to the generator (replaces <cite>final_fields</cite>). #1086</p></li>
+<li><p><em>libE_specs</em> option <cite>reuse_output_dir</cite> allows reuse of workflow and ensemble directories. #1028 #1041</p></li>
+<li><p><em>libE_specs</em> option <cite>calc_dir_id_width</cite> no. of digits for calc ID in output sim/gen directories. #1052 / #1066</p></li>
+<li><p>Added <cite>gen_num_procs</cite> and <cite>gen_num_gpus</cite> <em>libE_specs</em> (and <em>persis_info</em>) options for resourcing a generator. #1068</p></li>
+<li><p>Added <cite>gpu_env_fallback</cite> option to platform fields - specifies a GPU environment variable (for non-MPI usage). #1050</p></li>
+<li><p>New MPIExecutor <cite>submit()</cite> argument <cite>mpi_runner_type</cite> specifies an MPI runner for current call only. #1054</p></li>
+<li><p>Allow oversubscription when using the <cite>num_procs</cite> <em>gen_specs[“out”]</em> option. #1058</p></li>
+<li><p>sim/gen_specs can use <cite>outputs</cite> in place of <cite>out</cite> to be consistent with <cite>inputs</cite>. #1075</p></li>
+<li><p>Executor can be obtained from <cite>libE_info</cite> (4th parameter) in user functions. #1078</p></li>
+</ul>
+<p>Breaking changes:</p>
+<ul class="simple">
+<li><p><em>libE_specs</em> option <cite>final_fields</cite> is removed in favor of <cite>final_gen_send</cite>. #1086</p></li>
+<li><p><em>libE_specs</em> option <cite>kill_canceled_sims</cite> now defaults to <strong>False</strong>. #1062</p></li>
+<li><p><em>parse_args</em> is not run automatically by <cite>Ensemble</cite> constructor.</p></li>
+</ul>
+<p>Updates to <strong>Object Oriented</strong> Ensemble interface:</p>
+<ul class="simple">
+<li><p>Added <cite>parse_args</cite> as option to <cite>Ensemble</cite> constructor. #1065</p></li>
+<li><p>The <em>executor</em> can be passed as an option to the <cite>Ensemble</cite> constructor. #1078</p></li>
+<li><p>Better handling of <cite>Ensemble.add_random_streams</cite> and <cite>ensemble.persis_info</cite>. #1074</p></li>
+</ul>
+<p>Output changes:</p>
+<ul class="simple">
+<li><p>The worker ID suffix is removed from sim/gen output directories. #1041</p></li>
+<li><p>Separate <em>ensemble.log</em> and <em>libE_stats.txt</em> for different workflows directories. #1027 #1041</p></li>
+<li><p>Defaults to four digits for sim/gen ID in output directories (adds digits on overflow). #1052 / #1066</p></li>
+</ul>
+<p>Bug fixes:</p>
+<ul class="simple">
+<li><p>Resolved PETSc/Open-MPI issue (when using the Executor). #1064</p></li>
+<li><p>Prevent <cite>mpi4py</cite> validation running during local comms (when using OO interface). #1065</p></li>
+</ul>
+<p>Performance changes:</p>
+<ul class="simple">
+<li><p>Optimize <cite>kill_cancelled_sims</cite> function. #1043 / #1063</p></li>
+<li><p><em>safe_mode</em> defaults to <strong>False</strong> (for performance). #1053</p></li>
+</ul>
+<p>Updates to example functions:</p>
+<ul class="simple">
+<li><p>Multiple regression tests and examples ported to use OO ensemble interface. #1014</p></li>
+</ul>
+<p>Update forces examples:</p>
+<ul class="simple">
+<li><p>Make persistent generator the default for both simple and GPU examples (inc. updated tutorials).</p></li>
+<li><p>Update to object oriented interface.</p></li>
+<li><p>Added separate variable resources example for forces GPU.</p></li>
+<li><p>Rename <cite>multi_task</cite> example to <cite>multi_app</cite>.</p></li>
+</ul>
+<p>Documentation:</p>
+<ul class="simple">
+<li><p>General overhaul and simplification of documentation. #992</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Windows, and major systems such as Frontier (OLCF), Polaris, and Perlmutter (NERSC). The major system tests ran heterogeneous workflows.</p></li>
+<li><p>Tested Python versions: (Cpython) 3.7, 3.8, 3.9, 3.10, 3.11.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known Issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-0-10-2">
+<h2>Release 0.10.2<a class="headerlink" href="#release-0-10-2" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>July 24, 2023</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Fixes issues with workflow directories:
+* Ensure relative paths are interpreted from where libEnsemble is run. #1020
+* Create intermediate directories for workflow paths. #1017</p></li>
+<li><p>Fixes issue where libEnsemble pre-initialized a shared multiprocessing queue. #1026</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Windows and major systems including Frontier (OLCF), Polaris (ALCF), Perlmutter (NERSC), Theta (ALCF) and Bebop. The major system tests ran heterogeneous workflows.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>On systems using SLURM 23.02, some issues have been experienced when using <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> comms.</p></li>
+<li><p>See the known issues section in the documentation for more information (<a class="reference external" href="https://libensemble.readthedocs.io/en/main/known_issues.html">https://libensemble.readthedocs.io/en/main/known_issues.html</a>).</p></li>
+</ul>
+</section>
+<section id="release-0-10-1">
+<h2>Release 0.10.1<a class="headerlink" href="#release-0-10-1" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>July 10, 2023</p>
+</dd>
+</dl>
+<p>Hotfix for breaking changes in Pydantic.</p>
+<ul class="simple">
+<li><p>Pin Pydantic to version &lt; 2.</p></li>
+<li><p>Minor fixes for NumPy 1.25 deprecations.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Windows and major systems including Frontier (OLCF) and Perlmutter (NERSC). The major system tests ran heterogeneous workflows.</p></li>
+<li><p>Tested Python versions: (Cpython) 3.7, 3.8, 3.9, 3.10, 3.11.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-0-10-0">
+<h2>Release 0.10.0<a class="headerlink" href="#release-0-10-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>May 26, 2023</p>
+</dd>
+</dl>
+<p>New capabilities:</p>
+<ul class="simple">
+<li><p>Enhance portability and simplify the assignment of procs/GPUs to worker resources #928 / #983
+* Auto-detect GPUs across systems (inc. Nvidia, AMD, and Intel GPUs).
+* Auto-determination of GPU assignment method by MPI runner or provided platform.
+* Portable <cite>auto_assign_gpus</cite> / <cite>match_procs_to_gpus</cite> and <cite>num_gpus</cite> arguments added to the MPI executor submit.
+* Add <cite>set_to_gpus</cite> function (similar to <cite>set_to_slots</cite>).
+* Allow users to specify known systems via option or environment variable.
+* Allow users to specify their own system configurations.
+* These changes remove a number of tweaks that were needed for particular platforms.</p></li>
+<li><p>Resource management supports GPU and non-GPU simulations in the same ensemble. #993
+* User’s can specify <cite>num_procs</cite> and <cite>num_gpus</cite> in the generator for each evaluation.</p></li>
+<li><p>Pydantic models are used for validating major libE input (input can be provided as classes or dictionaries). #878</p></li>
+<li><p>Added option to store output and ensemble directories in a workflow directory. #982</p></li>
+<li><p>Simplify user function interface. Valid user functions can accept &lt;4 parameters and return &lt;3 values. #971</p></li>
+<li><p>New option to parse settings from <strong>TOML</strong>. #745</p></li>
+<li><p>New <cite>dry_run</cite> option to <cite>libE()</cite> that checks scripts are valid and returns. #987</p></li>
+<li><p>Added an option to the executor submit function to pre-execute a script in the task environment. #996</p></li>
+</ul>
+<p>Breaking changes:</p>
+<ul class="simple">
+<li><p>Removed old Balsam Executor. #921</p></li>
+<li><p>Ensemble class moved from <cite>libensemble.api</cite> to <cite>libensemble.ensemble</cite>. #1003</p></li>
+<li><p>Default to one resource set per simulation in dynamic scheduling mode. #996</p></li>
+</ul>
+<p>Documentation:</p>
+<ul class="simple">
+<li><p>Added type hints/annotations for major modules/functions. #823</p></li>
+<li><p>Added Polaris Guide. #930</p></li>
+<li><p>Added Frontier Guide. #909</p></li>
+<li><p>Added PBS example scripts. #956 #930</p></li>
+<li><p>Streamlined and improved the readability of docs. #1004</p></li>
+</ul>
+<p>Tests and Examples:</p>
+<ul class="simple">
+<li><p>Updated forces_gpu tutorial example. #956
+* Source code edit is not required for the GPU version.
+* Reports whether running on device or host.
+* Increases problem size.
+* Added versions with persistent generator and multi-task (GPU v non-GPU).</p></li>
+<li><p>Moved multiple tests, generators, and simulators to the community repo.</p></li>
+<li><p>Added ytopt example. And updated heFFTe example. #943</p></li>
+<li><p>Support Python 3.11 #922</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Windows and major systems: Frontier (OLCF), Polaris (ALCF), and Perlmutter (NERSC). The major system tests ran heterogeneous workflows.</p></li>
+<li><p>Recent testing was also carried out on Summit (IBM Power9/LSF), but this was not possible at time of release.</p></li>
+<li><p>Tested Python versions: (Cpython) 3.7, 3.8, 3.9, 3.10, 3.11.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-0-9-3">
+<h2>Release 0.9.3<a class="headerlink" href="#release-0-9-3" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>October 13, 2022</p>
+</dd>
+</dl>
+<p>New capabilities:</p>
+<ul class="simple">
+<li><p>New pair of utilities, <cite>liberegister</cite> and <cite>libesubmit</cite> (based on <em>PSI/J</em>), for easily preparing and launching libEnsemble workflows with local comms onto most machines and schedulers. #807</p></li>
+<li><p>New persistent support function to cancel sim_ids (<cite>request_cancel_sim_ids</cite>). #880</p></li>
+<li><p><cite>keep_state</cite> option for persistent workers: this lets the manager know that the information being sent is intermediate. #880</p></li>
+</ul>
+<p>Other enhancements:</p>
+<ul class="simple">
+<li><p>The Executor <cite>manager_poll()</cite> interface now sets consistent flags instead of literal strings. #877</p></li>
+<li><p>Some internal modules and the test suite now work on Windows. #869 #888</p></li>
+<li><p>Specifying the <cite>num_resource_sets</cite> <em>libE_specs</em> option instead of <cite>zero_resource_workers</cite> is now recommended except when using a fixed worker/resource mapping. Use <code class="docutils literal notranslate"><span class="pre">persis_info[&quot;gen_resources&quot;]</span></code> to assign persistent generator resources (default is zero). #905</p></li>
+<li><p>An extraneous warning removed. #903</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Windows, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), Bebop (Cray CS400/Slurm), Swing (A100 GPU system), Perlmutter (HPE Cray EX with A100 NVIDIA GPUs). For Perlmutter, see “Known issues” below.</p></li>
+<li><p>Tested Python versions: (Cpython) 3.7, 3.8, 3.9, 3.10.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>At time of testing on Perlmutter there was an issue running concurrent applications on a node, following a recent system update. This also affects previous versions of libEnsemble, and is being investigated.</p></li>
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-0-9-2">
+<h2>Release 0.9.2<a class="headerlink" href="#release-0-9-2" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>July 06, 2022</p>
+</dd>
+</dl>
+<p>New capabilities:</p>
+<ul class="simple">
+<li><p>Support auto-detection of PBS node lists. #602</p></li>
+<li><p>Added configuration options for <cite>libE_stats.txt</cite> file. #743</p></li>
+<li><p>Support for <cite>spawn</cite> and <cite>forkserver</cite> multiprocessing start methods. #797</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>Note that macOS no longer switches to using <cite>fork</cite>. macOS (since Python 3.8) and Windows default to
+using <cite>spawn</cite>. When using <cite>spawn</cite>, we recommend placing calling script code in an <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">&quot;__main__&quot;:</span></code> block.
+The multiprocessing interface can be used to switch methods (<a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#multiprocessing.set_start_method">https://docs.python.org/3/library/multiprocessing.html#multiprocessing.set_start_method</a>).</p></li>
+</ul>
+</div></blockquote>
+<p>Updates to example functions:</p>
+<p>Added simple dynamic sampling example. #833
+Added heFFTe example. #844
+Regression tests separated into problem examples and functionality tests. #839</p>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), Bebop (Cray CS400/Slurm), Swing (A100 GPU system), Perlmutter (HPE Cray EX with A100 NVIDIA GPUs).</p></li>
+<li><p>Tested Python versions: (Cpython) 3.7, 3.8, 3.9, 3.10.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>The APOSMM generator function has been noted to operate slower than expected with the <cite>spawn</cite> multiprocessing start method. For this reason we recommend using <cite>fork</cite> with APOSMM, when using <cite>local</cite> comms (<cite>fork</cite> is the default method on Linux systems).</p></li>
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-0-9-1">
+<h2>Release 0.9.1<a class="headerlink" href="#release-0-9-1" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>May 11, 2022</p>
+</dd>
+</dl>
+<p>This release has minimal changes, but a large number of touched lines.</p>
+<ul class="simple">
+<li><p>Reformatted code for <strong>black</strong> compliance, including string normalization. #811, #814, #821</p></li>
+<li><p>Added Spock and Crusher guides. #802</p></li>
+<li><p>User can now set <code class="docutils literal notranslate"><span class="pre">calc_status</span></code> to any string (for output in libE_stats). #808</p></li>
+<li><p>Added a workflows community initiative file. #817</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), Bebop (Cray CS400/Slurm), Swing (A100 GPU system), Perlmutter (HPE Cray EX with A100 NVIDIA GPUs).</p></li>
+<li><p>Tested Python versions: (Cpython) 3.7, 3.8, 3.9, 3.10.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>See known issues section in the documentation.</p></li>
+</ul>
+</section>
+<section id="release-0-9-0">
+<h2>Release 0.9.0<a class="headerlink" href="#release-0-9-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Apr 29, 2022</p>
+</dd>
+</dl>
+<p>Featured new capabilities:</p>
+<ul class="simple">
+<li><p>New <cite>Balsam</cite> Executor with multi-site capability (run user applications on remote systems). #631, #729</p></li>
+<li><p>Support for <cite>funcX</cite> (place user functions on remote systems).  #712 / #713</p></li>
+<li><p>Added partial support for concurrent/futures interface. (cancel(), cancelled(), done(), running(), result(), exception() and context manager) #719</p></li>
+</ul>
+<p>Breaking API / helper function changes:</p>
+<p>See “Updating for libEnsemble v0.9.0” wiki for details:
+<a class="reference external" href="https://github.com/Libensemble/libensemble/wiki/Updating-for-libEnsemble-v0.9.0">https://github.com/Libensemble/libensemble/wiki/Updating-for-libEnsemble-v0.9.0</a></p>
+<ul class="simple">
+<li><p>Scheduler options moved from <cite>alloc_specs[‘user’]</cite> to <cite>libE_specs</cite>. #790</p></li>
+<li><p><cite>BalsamMPIExecutor</cite> is now <cite>LegacyBalsamMPIExecutor</cite>. #729</p></li>
+<li><p>The exit_criteria <cite>elapsed_wallclock_time</cite> has been renamed <cite>wallclock_max</cite>.  #750 (with a deprecation warning)</p></li>
+<li><p>Clearer and consistent naming of libE-protected fields in history array. #760</p></li>
+</ul>
+<p>Updates to example functions:</p>
+<ul class="simple">
+<li><p>Moved some examples to new repository - [libe-community-examples](<a class="reference external" href="https://github.com/Libensemble/libe-community-examples">https://github.com/Libensemble/libe-community-examples</a>) (VTMOP, DEAP, DeepDriveMD).  #716,  #721, #726</p></li>
+<li><p>Updates to Tasmanian examples to include asynchronous generator example. #727 / #732</p></li>
+<li><p>Added multi-task, multi-fidelity optimization regression tests using <cite>ax</cite>. #717 / #720</p></li>
+</ul>
+<p>Other functionality enhancements:</p>
+<ul class="simple">
+<li><p>Non-blocking option added for persistent user function receives. #752</p></li>
+<li><p>Added <cite>match_slots</cite> option to resource scheduler. #746</p></li>
+</ul>
+<p>Documentation:</p>
+<ul class="simple">
+<li><p>Added tutorial on assigning tasks to GPUs. #768</p></li>
+<li><p>Refactored Executor tutorial for simplicity. #749</p></li>
+<li><p>Added Perlmutter guide. #728</p></li>
+<li><p>Added Slurm guide. #728</p></li>
+<li><p>Refactored examples and tutorials - added exercises. #736 / #737</p></li>
+<li><p>Updated history array documentation with visual workflow example. #723</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), Bebop (Cray CS400/Slurm), Swing (A100 GPU system), Perlmutter (HPE Cray EX with A100 NVIDIA GPUs).</p></li>
+<li><p>Tested Python versions: (Cpython) 3.7, 3.8, 3.9, 3.10.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Open-MPI does not work with direct MPI job launches in <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> comms mode,
+since it does not support nested MPI launches.
+(Either use local mode or the Balsam Executor.)</p></li>
+<li><p>See known issues section in the documentation for more issues.</p></li>
+</ul>
+</section>
+<section id="release-0-8-0">
+<h2>Release 0.8.0<a class="headerlink" href="#release-0-8-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Oct 20, 2021</p>
+</dd>
+</dl>
+<p>Featured new capabilities:</p>
+<ul class="simple">
+<li><p>Variable resource workers (dynamic reassignment of resources to workers). #643</p></li>
+<li><p>Alternative libE interface. An Ensemble object is created and can be parameterized by a YAML file.  #645</p></li>
+<li><p>Improved support classes/functions for alloc/gen/sims and executors.</p></li>
+<li><p>Many new example generator/simulators and workflows.</p></li>
+</ul>
+<p>Breaking API / helper function changes:</p>
+<p>See “Updating for libEnsemble v0.8.0” wiki for details:
+<a class="reference external" href="https://github.com/Libensemble/libensemble/wiki/Updating-for-libEnsemble-v0.8.0">https://github.com/Libensemble/libensemble/wiki/Updating-for-libEnsemble-v0.8.0</a></p>
+<ul class="simple">
+<li><p>Resources management is now independent of the executor.  #345</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">'persis_in'</span></code> field has been added to gen_specs/sim_specs (instead of being hard-coded in alloc funcs). #626 / #670</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alloc</span> <span class="pre">support</span></code> module is now a class. #643 / #656</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gen_support</span></code> module is replaced by Persistent Worker support module (now a class). #609 / #671</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">libE_</span></code> prefix from the logger. #608</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avail_worker_ids</span></code> function should specify <code class="docutils literal notranslate"><span class="pre">EVAL_GEN_TAG</span></code> or <code class="docutils literal notranslate"><span class="pre">EVAL_SIM_TAG</span></code> instead of <code class="docutils literal notranslate"><span class="pre">True</span></code>. #615 #643</p></li>
+<li><p>Pass <code class="docutils literal notranslate"><span class="pre">libE_info</span></code> to allocation functions (allows more flexibility for user and efficiency improvements). #672</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'given_back'</span></code> is now a protected libEnsemble field in the manager’s history array. #651</p></li>
+<li><p>Several name changes to functions and parameters (See the wiki above for details). #529 / #659</p></li>
+</ul>
+<p>Updates to example functions:</p>
+<ul class="simple">
+<li><p>Suite of distributed optimization methods for minimizing sums of convex functions. #647 / #649. Methods include:</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>primal-dual sliding (<a class="reference external" href="https://arxiv.org/pdf/2101.00143">https://arxiv.org/pdf/2101.00143</a>).</p></li>
+<li><p>N-agent, or distributed gradient descent w/ gradient tracking (<a class="reference external" href="https://arxiv.org/abs/1908.11444">https://arxiv.org/abs/1908.11444</a>).</p></li>
+<li><p>proximal sliding (<a class="reference external" href="https://arxiv.org/abs/1406.0919">https://arxiv.org/abs/1406.0919</a>).</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>Added batched construction for Tasmanian example. #644</p></li>
+<li><p>Added Tasmanian dependency to Spack package. spack/spack#25762</p></li>
+<li><p>Added VTMOP source code and example usage. #676</p></li>
+<li><p>Added a multi-fidelity persistent_gp regression test. #683 / #684</p></li>
+<li><p>Added a DeepDriveMD inspired workflow. #630</p></li>
+<li><p>Created a persistent sim example. #614 / #615</p></li>
+<li><p>Added an example where cancellations are given from the alloc func. #677</p></li>
+</ul>
+<p>Other functionality changes:</p>
+<ul class="simple">
+<li><p>A helper function for generic task polling loop has been added. #572 / #612</p></li>
+<li><p>Break main loop now happens when sim_max is returned rather than given out. #624</p></li>
+<li><p>Enable a final communication with gen. #620 / #628</p></li>
+<li><p>Logging updates - includes timestamps, enhanced debug logging, and libEnsemble version. #629 / #674</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), Bebop (Cray CS400/Slurm), Swing (A100 GPU system).</p></li>
+<li><p>Tested Python versions: (Cpython) 3.6, 3.7, 3.8, 3.9, 3.10 <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></li>
+</ul>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>A reduced set of tests were run for python 3.10 due to some unavailable test dependencies at time of release.</p>
+</aside>
+</aside>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Open-MPI does not work with direct MPI job launches in <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> comms mode,
+since it does not support nested MPI launches.
+(Either use local mode or the Balsam Executor.)</p></li>
+<li><p>See known issues section in the documentation for more issues.</p></li>
+</ul>
+</section>
+<section id="release-0-7-2">
+<h2>Release 0.7.2<a class="headerlink" href="#release-0-7-2" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>May 03, 2021</p>
+</dd>
+</dl>
+<p>API additions:</p>
+<ul class="simple">
+<li><p>Active receive option added that allows irregular manager/worker communication patterns. (#527 / #595)</p></li>
+<li><p>A mechanism is added for the cancellation/killing of previously issued evaluations. (#528 / #595 / #596)</p></li>
+<li><p>A submit function is added in the base <code class="docutils literal notranslate"><span class="pre">Executor</span></code> class that runs a serial application locally. (#531 / #595)</p></li>
+<li><p>Added libEnsemble history array protected fields: <cite>returned_time</cite>, <cite>last_given_time</cite>, and <cite>last_gen_time</cite>. (#590)</p></li>
+<li><p>Updated libE_specs options (<code class="docutils literal notranslate"><span class="pre">mpi_comm</span></code> and <code class="docutils literal notranslate"><span class="pre">profile</span></code>). (#547 / #548)</p></li>
+<li><p>Explicit seeding of random streams in <code class="docutils literal notranslate"><span class="pre">add_unique_random_streams()</span></code> is now possible. (#542 / #545)</p></li>
+</ul>
+<p>Updates to example functions:</p>
+<ul class="simple">
+<li><p>Added Surmise calibration generator function and two examples (regression tests). (#595)</p></li>
+</ul>
+<p>Other changes:</p>
+<ul class="simple">
+<li><p>Better support for uneven worker to node distribution (including at sub-node level). (#591 / #600)</p></li>
+<li><p>Fixed crash when running on Windows. (#534)</p></li>
+<li><p>Fixed crash when running with empty <cite>persis_info</cite>. (#571 / #578)</p></li>
+<li><p>Error handling has been made more robust. (#592)</p></li>
+<li><p>Improve <code class="docutils literal notranslate"><span class="pre">H0</span></code> processing (esp. for pre-generated, but not evaluated points). (#536 / #537)</p></li>
+<li><p>A global <code class="docutils literal notranslate"><span class="pre">sim_id</span></code> is now given, rather than a local count, in _libE_stats.txt_. Also a global gen count is given. (#587, #588)</p></li>
+<li><p>Added support for Python 3.9. (#532 / Removed support for Python 3.5. (#562)</p></li>
+<li><p>Improve SLURM nodelist detection (more robust). (#560)</p></li>
+<li><p>Add check that user does not change protected history fields (Disable via <code class="docutils literal notranslate"><span class="pre">libE_specs['safe_mode']</span> <span class="pre">=</span> <span class="pre">False</span></code>). (#541)</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">print_fields.py</span></code> script for better interrogating the output history files. (#558)</p></li>
+<li><p>In examples, <code class="docutils literal notranslate"><span class="pre">is_master</span></code> changed to <code class="docutils literal notranslate"><span class="pre">is_manager</span></code> to be consistent with manager/worker nomenclature. (#524)</p></li>
+</ul>
+<p>Documentation:</p>
+<ul class="simple">
+<li><p>Added tutorial <strong>Borehole Calibration with Selective Simulation Cancellation</strong>. (#581 / #595)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), Bebop (Cray CS400/Slurm).</p></li>
+<li><p>Tested Python versions: (Cpython) 3.6, 3.7, 3.8, 3.9.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Open-MPI does not work with direct MPI job launches in <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> comms mode, since it does not support nested MPI launches
+(Either use local mode or Balsam Executor).</p></li>
+<li><p>See known issues section in the documentation for more issues.</p></li>
+</ul>
+</section>
+<section id="release-0-7-1">
+<h2>Release 0.7.1<a class="headerlink" href="#release-0-7-1" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Oct 15, 2020</p>
+</dd>
+</dl>
+<p>Dependencies:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">psutils</span></code> is now a required dependency. (#478 #491)</p></li>
+</ul>
+<p>API additions:</p>
+<ul class="simple">
+<li><p>Executor updates:</p>
+<ul>
+<li><p>Addition of a zero-resource worker option for persistent gens (does not allocate nodes to gen). (#500)</p></li>
+<li><p>Multiple applications can be registered to the Executor (and submitted) by name. (#498)</p></li>
+<li><p>Wait function added to Tasks. (#499)</p></li>
+</ul>
+</li>
+<li><p>Gen directories can now be created with options analogous to those for sim dirs. (#349 / #489)</p></li>
+</ul>
+<p>Other changes:</p>
+<ul class="simple">
+<li><p>Improve comms efficiency (Repack fields when NumPy version 1.15+). (#511)</p></li>
+<li><p>Fix multiprocessing error on macOS/Python3.8 (Use ‘fork’ instead of ‘spawn’). (#502 / #503)</p></li>
+</ul>
+<p>Updates to example functions:</p>
+<ul class="simple">
+<li><p>Allow APOSMM to trigger ensemble exit when condition reached. (#507)</p></li>
+<li><p>Improvement in how persistent APOSMM shuts down subprocesses (preventing PETSc MPI-abort). (#478)</p></li>
+</ul>
+<p>Documentation:</p>
+<ul class="simple">
+<li><p>APOSMM Tutorial added. (#468)</p></li>
+<li><p>Writing guide for user functions added to docs (e.g., creating sim_f, gen_f, alloc_f). (#510)</p></li>
+<li><p>Addition of posters and presentations section to docs (inc. Jupyter notebooks/binder links). (#492 #497)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), Bebop (Cray CS400/Slurm), and Bridges (HPE system at PSC).</p></li>
+<li><p>Cori (Cray XC40/Slurm) was not tested with release code due to system issues.</p></li>
+<li><p>Tested Python versions: (Cpython) 3.5, 3.6, 3.7, 3.8.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>We currently recommend running in Central mode on Bridges, as distributed runs are experiencing hangs.</p></li>
+<li><p>Open-MPI does not work with direct MPI job launches in mpi4py comms mode, since it does not support nested MPI launches
+(Either use local mode or Balsam Executor).</p></li>
+<li><p>See known issues section in the documentation for more issues.</p></li>
+</ul>
+</section>
+<section id="release-0-7-0">
+<h2>Release 0.7.0<a class="headerlink" href="#release-0-7-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>May 22, 2020</p>
+</dd>
+</dl>
+<p>Breaking API changes:</p>
+<ul class="simple">
+<li><p><cite>Job_controller</cite>/<cite>Job</cite> renamed to <cite>Executor</cite>/<cite>Task</cite> and <code class="docutils literal notranslate"><span class="pre">launch</span></code> function to <code class="docutils literal notranslate"><span class="pre">submit</span></code>. (#285)</p></li>
+<li><p>Executors/Resources/Utils moved into sub-packages. <code class="docutils literal notranslate"><span class="pre">utils</span></code> now in package <code class="docutils literal notranslate"><span class="pre">tools</span></code>. (#285)</p></li>
+<li><p>sim/gen/alloc support functions moved into <code class="docutils literal notranslate"><span class="pre">tools</span></code> sub-package. (#285)</p></li>
+<li><p>Restructuring of <cite>sim</cite> directory creation with <code class="docutils literal notranslate"><span class="pre">libE_specs</span></code> configuration options.
+E.g: When <code class="docutils literal notranslate"><span class="pre">sim_input_dir</span></code> is given, directories for each <cite>sim</cite> are created. (#267)</p></li>
+<li><p>User can supply a file called <code class="docutils literal notranslate"><span class="pre">node_list</span></code> (replaces <code class="docutils literal notranslate"><span class="pre">worker_list</span></code>). (#455)</p></li>
+</ul>
+<p>API additions:</p>
+<ul class="simple">
+<li><p>Added gen_funcs.rc configuration framework with option to select APOSMM Optimizers for import. (#444)</p></li>
+<li><p>Provide <code class="docutils literal notranslate"><span class="pre">alloc_specs</span></code> defaults via <cite>alloc_funcs.defaults</cite> module. (#325)</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">extra_args</span></code> option to the Executor submit function to allow addition of arbitrary MPI runner options. (#445)</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">custom_info</span></code> argument to MPI Executor to allow overriding of detected settings. (#448)</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">libE_specs</span></code> option to disable log files. (#368)</p></li>
+</ul>
+<p>Other changes:</p>
+<ul class="simple">
+<li><p>Added libEnsemble Conda package, hosted on conda-forge.</p></li>
+<li><p>Bugfix: Intermittent failures with repeated libE calls under <cite>mpi4py</cite> comms.
+Every libE call now uses its own duplicate of provided communicator and closes out. (#373/#387)</p></li>
+<li><p>More accurate timing in <cite>libE_stats.txt</cite>. (#318)</p></li>
+<li><p>Addition of new post-processing scripts.</p></li>
+</ul>
+<p>Updates to example functions:</p>
+<ul class="simple">
+<li><p>Persistent APOSMM is now the recommended APOSMM (<cite>aposmm.py</cite> renamed to <cite>old_aposmm.py</cite>). (#435)</p></li>
+<li><p>New alloc/gen func: Finite difference parameters with noise estimation.  (#350)</p></li>
+<li><p>New example gen func: Tasmanian UQ generator.  (#351)</p></li>
+<li><p>New example gen func: Deap/NSGA2 generator.  (#407)</p></li>
+<li><p>New example gen func to interface with VTMOP.</p></li>
+<li><p>New example sim func: Borehole. (#367)</p></li>
+<li><p>New example use-case: WarpX/APOSMM. (#425)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), Bebop (Cray CS400/Slurm), Cori (Cray XC40/Slurm), and Bridges (HPE system at PSC).</p></li>
+<li><p>Tested Python versions: (Cpython) 3.5, 3.6, 3.7, 3.8.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>We currently recommended running in Central mode on Bridges as distributed runs are experiencing hangs.</p></li>
+<li><p>See known issues section in the documentation for more issues.</p></li>
+</ul>
+</section>
+<section id="release-0-6-0">
+<h2>Release 0.6.0<a class="headerlink" href="#release-0-6-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>December 4, 2019</p>
+</dd>
+</dl>
+<p>API changes:</p>
+<ul class="simple">
+<li><p>sim/gen/alloc_specs options that do not directly involve these routines are moved to libE_specs (see docs). (#266, #269)</p></li>
+<li><p>sim/gen/alloc_specs now require user-defined attributes to be added under the <code class="docutils literal notranslate"><span class="pre">'user'</span></code> field (see docs and examples). (#266, #269)</p></li>
+<li><p>Addition of a utils module to help users create calling scripts. Includes an argument parser and utility functions. (#308)</p></li>
+<li><p>check_inputs() function is moved to the utils module. (#308)</p></li>
+<li><p>The libE_specs option <code class="docutils literal notranslate"><span class="pre">nprocesses</span></code> has been changed to <code class="docutils literal notranslate"><span class="pre">nworkers</span></code>. (#235)</p></li>
+</ul>
+<p>New example functions:</p>
+<ul class="simple">
+<li><p>Addition of a persistent APOSMM generator function. (#217)</p></li>
+</ul>
+<p>Other changes:</p>
+<ul class="simple">
+<li><p>Overhaul of documentation, including HPC platform guides and a new pdf structure. (inc. #232, #282)</p></li>
+<li><p>Addition of OpenMP threading and GPU support to forces test. (#250)</p></li>
+<li><p>Balsam job_controller now tested on Travis. (#47)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), Bebop (Cray CS400/Slurm), and Cori (Cray XC40/Slurm).</p></li>
+<li><p>Tested Python versions: (Cpython) 3.5, 3.6, 3.7</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>These are unchanged from v0.5.0.</p></li>
+<li><p>A known issues section has now been added to the documentation.</p></li>
+</ul>
+</section>
+<section id="release-0-5-2">
+<h2>Release 0.5.2<a class="headerlink" href="#release-0-5-2" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>August 19, 2019</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Code has been restructured to meet xSDK package policies for interoperable ECP software (version 0.5.0). #208</p></li>
+<li><p>The use of MPI.COMM_WORLD has been removed. Uses a duplicate of COMM_WORLD if no communicator passed (any process not in communicator returns with an exit code of 3). #108</p></li>
+<li><p>All output from libEnsemble goes via logger. MANAGER_WARNING level added. This level and above are echoed to stderr by default. API option to change echo level.</p></li>
+<li><p>Simulation directories are created only during sim_f calls are suffixed by _worker. #146</p></li>
+<li><p>New user function libE.check_inputs() can be used to check valid configuration of inputs. Can be called in serial or under MPI (see libE API). #65</p></li>
+<li><p>Installation option has been added to install dependencies used in tests <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">libensemble[extras]</span></code>.</p></li>
+<li><p>A profiling option has been added to sim_specs. #170</p></li>
+<li><p>Results comparison scripts have been included for convenience.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Linux, MacOS (<strong>New</strong>), Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), and Bebop (Cray CS400/Slurm).</p></li>
+<li><p>Tested Python versions: (Cpython) 3.5, 3.6, 3.7</p></li>
+<li><p><strong>Note</strong> Support has been removed for Python 3.4 since it is officially retired. Also NumPy has removed support.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>These are unchanged from v0.5.0.</p></li>
+</ul>
+</section>
+<section id="release-0-5-1">
+<h2>Release 0.5.1<a class="headerlink" href="#release-0-5-1" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>July 11, 2019</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Fixed LSF resource detection for large jobs on LSF systems (e.g., Summit). #184</p></li>
+<li><p>Added support for macOS. #182</p></li>
+<li><p>Improved the documentation (including addition of beginner’s tutorial and FAQ).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Tested platforms include Local Linux, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), and Bebop (Cray CS400/Slurm).</p></li>
+<li><p>Tested Python versions: (Cpython) 3.4, 3.5, 3.6, 3.7.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>These are unchanged from v0.5.0.</p></li>
+</ul>
+</section>
+<section id="release-0-5-0">
+<h2>Release 0.5.0<a class="headerlink" href="#release-0-5-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>May 22, 2019</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Added local (multiprocessing) and TCP options for manager/worker communications, in addition to mpi4py. (#42).</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>Example: libEnsemble can be run on MOM/launch nodes (e.g., those of ALCF/Theta &amp; OLCF/Summit) and can remotely detect compute resources.</p></li>
+<li><p>Example: libEnsemble can be run on a system without MPI.</p></li>
+<li><p>Example: libEnsemble can be run with a local manager and remote TCP workers.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>Added support for Summit/LSF scheduler in job controller.</p></li>
+<li><p>MPI job controller detects and retries launches on failure; adding resilience. (#143)</p></li>
+<li><p>Job controller supports option to extract/print job times in libE_stats.txt. (#136)</p></li>
+<li><p>Default logging level changed to INFO. (#164)</p></li>
+<li><p>Logging interface added, which allows user to change logging level and file. (#110)</p></li>
+<li><p>All worker logging and calculation stats are routed through manager.</p></li>
+<li><p>libEnsemble can be run without a gen_func, for example, when using a previously computed random sample. (#122)</p></li>
+<li><p>Aborts dump persis_info with the history.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Note<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><strong>This version no longer supports Python 2.</strong></p></li>
+<li><p>Tested platforms include Local Linux, Theta (Cray XC40/Cobalt), Summit (IBM Power9/LSF), and Bebop (Cray CS400/Slurm).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Open-MPI does not work with direct MPI job launches in mpi4py comms mode, since it does not support nested MPI launches
+(Either use local mode or Balsam job controller).</p></li>
+<li><p>Local comms mode (multiprocessing) may fail if MPI is initialized before forking processors. This is thought to be responsible for issues combining with PETSc.</p></li>
+<li><p>Remote detection of logical cores via LSB_HOSTS (e.g., Summit) returns number of physical cores since SMT info not available.</p></li>
+<li><p>TCP mode does not support (1) more than one libEnsemble call in a given script or (2) the auto-resources option to the job controller.</p></li>
+</ul>
+</section>
+<section id="release-0-4-1">
+<h2>Release 0.4.1<a class="headerlink" href="#release-0-4-1" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>February 20, 2019</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Logging no longer uses root logger (also added option to change libEnsemble log level). (#105)</p></li>
+<li><p>Added wait_on_run option for job controller launch to block until jobs have started. (#111)</p></li>
+<li><p>persis_info can be passed to sim as well as gen functions. (#112)</p></li>
+<li><p>Postprocessing scripts added to create performance/utilization graphs. (#102)</p></li>
+<li><p>New scaling test added (not part of current CI test suite). (#114)</p></li>
+</ul>
+</section>
+<section id="release-0-4-0">
+<h2>Release 0.4.0<a class="headerlink" href="#release-0-4-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>November 7, 2018</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Separated job controller classes into different modules including a base class (API change).</p></li>
+<li><p>Added central_mode run option to distributed type (MPI) job_controllers (API addition). (#93)</p></li>
+<li><p>Made poll and kill job methods (API change).</p></li>
+<li><p>In job_controller, set_kill_mode is removed and replaced by a wait argument for a hard kill (API change).</p></li>
+<li><p>Removed register module - incorporated into job_controller (API change).</p></li>
+<li><p>APOSMM has improved asynchronicity when batch mode is false (with new example). (#96)</p></li>
+<li><p>Manager errors (instead of hangs) when alloc_f or gen_f don’t return work when all workers are idle. (#95)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Open-MPI is not supported with direct MPI launches since nested MPI launches are not supported.</p></li>
+</ul>
+</section>
+<section id="release-0-3-0">
+<h2>Release 0.3.0<a class="headerlink" href="#release-0-3-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>September 7, 2018</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Issues with killing jobs have been fixed. (#21)</p></li>
+<li><p>Fixed job_controller manager_poll to work with multiple jobs. (#62)</p></li>
+<li><p>API change: persis_info now included as an argument to libE and is returned from libE instead of gen_info</p></li>
+<li><p>Gen funcs: aposmm_logic module renamed to aposmm.</p></li>
+<li><p>New example gen and allocation functions.</p></li>
+<li><p>Updated Balsam launch script (with new Balsam workflow).</p></li>
+<li><p>History is dumped to file on manager or worker exception and MPI aborted (with exit code 1). (#46)</p></li>
+<li><p>Default logging level changed to DEBUG and redirected to file ensemble.log.</p></li>
+<li><p>Added directory of standalone tests (comms, job kills, and nested MPI launches).</p></li>
+<li><p>Improved and sped up unit tests. (#68)</p></li>
+<li><p>Considerable documentation enhancements.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Open-MPI is not supported with direct MPI launches since nested MPI launches are not supported.</p></li>
+</ul>
+</section>
+<section id="release-0-2-0">
+<h2>Release 0.2.0<a class="headerlink" href="#release-0-2-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>June 29, 2018</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Added job_controller interface (for portable user scripts).</p></li>
+<li><p>Added support for using the Balsam job manager. Enables portability and dynamic scheduling.</p></li>
+<li><p>Added autodetection of system resources.</p></li>
+<li><p>Scalability testing: Ensemble performed with 1023 workers on Theta (Cray XC40) using Balsam.</p></li>
+<li><p>Tested MPI libraries: MPICH and Intel MPI.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Known issues<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Killing MPI jobs does not work correctly on some systems (including Cray XC40 and CS400). In these cases, libEnsemble continues, but processes remain running.</p></li>
+<li><p>Open-MPI does not work correctly with direct launches (and has not been tested with Balsam).</p></li>
+</ul>
+</section>
+<section id="release-0-1-0">
+<h2>Release 0.1.0<a class="headerlink" href="#release-0-1-0" title="Link to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Date<span class="colon">:</span></dt>
+<dd class="field-odd"><p>November 30, 2017</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Initial release.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="known_issues.html" class="btn btn-neutral float-left" title="Known Issues" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing to libEnsemble" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

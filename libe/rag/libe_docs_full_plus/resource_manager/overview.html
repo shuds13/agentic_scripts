@@ -1,0 +1,405 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Assignment of Resources &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Resource Detection" href="resource_detection.html" />
+    <link rel="prev" title="Zero-resource workers" href="zero_resource_workers.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/resource_manager/overview.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="resources_index.html">Resource Manager</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="zero_resource_workers.html">Zero-resource workers (e.g., Persistent gen does not need resources)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Dynamic Assignment of Resources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variable-resource-assignment">Variable resource assignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-scenarios">Example scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="resource_detection.html">Resource Detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scheduler_module.html">Scheduler Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_resources.html">Worker Resources Module (query resources for current worker)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+          <li class="breadcrumb-item"><a href="resources_index.html">Resource Manager</a></li>
+      <li class="breadcrumb-item active">Dynamic Assignment of Resources</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/resource_manager/overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dynamic-assignment-of-resources">
+<h1>Dynamic Assignment of Resources<a class="headerlink" href="#dynamic-assignment-of-resources" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>libEnsemble comes with built-in resource management. This entails the
+<a class="reference internal" href="resource_detection.html#resource-detection"><span class="std std-ref">detection of available resources</span></a> (e.g., nodelists,
+core counts, and GPUs), and the allocation of resources to workers.</p>
+<p>By default, the provisioned resources are divided by the number of workers.
+libEnsemble’s <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPI Executor</span></a> is aware of
+these supplied resources, and if not given any of <code class="docutils literal notranslate"><span class="pre">num_nodes</span></code>, <code class="docutils literal notranslate"><span class="pre">num_procs</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">procs_per_node</span></code> in the submit function, it will try to use all nodes and
+CPU cores available to the worker.</p>
+<p>Detected resources can be overridden using the <code class="docutils literal notranslate"><span class="pre">libE_specs</span></code> option
+<a class="reference internal" href="../data_structures/libE_specs.html#resource-info"><span class="std std-ref">resource_info</span></a>.</p>
+</section>
+<section id="variable-resource-assignment">
+<h2>Variable resource assignment<a class="headerlink" href="#variable-resource-assignment" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As of <strong>version 0.10.0</strong>, the concept of resource sets is not needed. The generator
+can use special <code class="docutils literal notranslate"><span class="pre">gen_specs[&quot;out&quot;]</span></code> fields of <code class="docutils literal notranslate"><span class="pre">num_procs</span></code> and <code class="docutils literal notranslate"><span class="pre">num_gpus</span></code> for each
+simulation generated. These will be used to assign resources and will be
+automatically passed through and used by the executor (if no other run configuration
+is given in the submit line). Furthermore, GPUs will be automatically assigned
+in the correct way for the given system (including Nvidia, AMD, and Intel GPUs);
+you do not need to set <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> or equivalent. Example:
+<a class="reference external" href="https://github.com/Libensemble/libensemble/blob/develop/libensemble/tests/regression_tests/test_GPU_variable_resources.py">test_GPU_variable_resources.py</a></p>
+</div>
+<p>In slightly more detail, the resource manager divides resources into <strong>resource sets</strong>.
+One resource set is the smallest unit of resources that can be assigned (and
+dynamically reassigned) to workers. By default, the provisioned resources are
+divided by the number of workers (excluding any workers given in the
+<code class="docutils literal notranslate"><span class="pre">zero_resource_workers</span></code> <a class="reference internal" href="../data_structures/libE_specs.html#libensemble.specs.LibeSpecs" title="libensemble.specs.LibeSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">libE_specs</span></code></a> option).
+However, it can also be set directly by the <code class="docutils literal notranslate"><span class="pre">num_resource_sets</span></code>
+<a class="reference internal" href="../data_structures/libE_specs.html#libensemble.specs.LibeSpecs" title="libensemble.specs.LibeSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">libE_specs</span></code></a> option. If the latter is set, the
+dynamic resource assignment algorithm will always be used.</p>
+<p>If there are more resource sets than nodes, then the resource sets on each node
+will be given a slot number, enumerated from zero. For example, if there are three
+slots on a node, they will have slot numbers 0, 1, and 2.</p>
+<p>The resource manager will not split a resource set over nodes, rather the resource
+sets on each node will be the integer division of resource sets over nodes, with
+the remainder dealt out from the first node. Even breakdowns are generally
+preferable, however.</p>
+<p>For example, say a given system has four GPUs per node, and the user has run
+libEnsemble on two nodes, with eight workers. The default division of resources
+would be:</p>
+<img alt="../_images/variable_resources1.png" id="rsets-diagram" src="../_images/variable_resources1.png" />
+<section id="variable-size-simulations">
+<h3>Variable Size simulations<a class="headerlink" href="#variable-size-simulations" title="Link to this heading"></a></h3>
+<p>A dynamic assignment of resources to simulation workers can be achieved by the
+convention of using a field in the history array called <code class="docutils literal notranslate"><span class="pre">resource_sets</span></code>. While
+this is technically a user space field, the allocation functions are set up to
+read this field, check available resources, and assign resource sets to workers,
+along with the work request (simulation).</p>
+<p>In the calling script, use a <code class="docutils literal notranslate"><span class="pre">gen_specs[&quot;out&quot;]</span></code> field called <code class="docutils literal notranslate"><span class="pre">resource_sets</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gen_specs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;gen_f&quot;</span><span class="p">:</span> <span class="n">gen_f</span><span class="p">,</span>
+    <span class="s2">&quot;in&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;sim_id&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;priority&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+<span class="hll">        <span class="p">(</span><span class="s2">&quot;resource_sets&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>
+</span>        <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For an example calling script, see the regression test
+<a class="reference external" href="https://github.com/Libensemble/libensemble/blob/develop/libensemble/tests/functionality_tests/test_persistent_sampling_CUDA_variable_resources.py">test_persistent_sampling_CUDA_variable_resources.py</a></p>
+<p>In the generator, the <code class="docutils literal notranslate"><span class="pre">resource_sets</span></code> field must be set to a value for each point
+(simulation) generated (if it is not set, it will have the initialized value of zero,
+and supply zero resources).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">H_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+<span class="hll">    <span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;resource_sets&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim_size</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+</span></pre></div>
+</div>
+<p>For an example generator, see the <em>uniform_sample</em>
+function in <a class="reference external" href="https://github.com/Libensemble/libensemble/blob/develop/libensemble/gen_funcs/persistent_sampling_var_resources.py">persistent_sampling_var_resources.py</a></p>
+<p>When the allocation function assigns the points to workers for evaluation, it
+will check if the requested number of resource sets are available for each point
+to evaluate. If they are not available, then the evaluation will not be given to
+a worker until enough resources become available. This functionality is built
+into the supplied allocation functions and generally requires no modification
+from the user.</p>
+<img alt="../_images/variable_resources2.png" src="../_images/variable_resources2.png" />
+<img alt="../_images/variable_resources3.png" src="../_images/variable_resources3.png" />
+<p>The particular nodes and slots assigned to each worker will be determined by the
+libEnsemble <a class="reference internal" href="scheduler_module.html"><span class="doc">built-in scheduler</span></a>, although users can provide
+an alternative scheduler via the <a class="reference internal" href="../function_guides/allocator.html"><span class="doc">allocation function</span></a>.
+In short, the scheduler will prefer fitting simulations onto a node, and using
+even splits across nodes, if necessary.</p>
+</section>
+<section id="accessing-resources-from-the-simulation-function">
+<h3>Accessing resources from the simulation function<a class="headerlink" href="#accessing-resources-from-the-simulation-function" title="Link to this heading"></a></h3>
+<p>In the user’s simulation function, the resources supplied to the worker can be
+<a class="reference internal" href="worker_resources.html"><span class="doc">interrogated directly via the resources class attribute</span></a>.
+libEnsemble’s executors (e.g., the <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPI Executor</span></a>) are
+aware of these supplied resources, and if not given any of <code class="docutils literal notranslate"><span class="pre">num_nodes</span></code>, <code class="docutils literal notranslate"><span class="pre">num_procs</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">procs_per_node</span></code> in the submit function, it will try to use all nodes and CPU
+cores available.</p>
+<p><a class="reference external" href="https://github.com/Libensemble/libensemble/blob/develop/libensemble/sim_funcs/var_resources.py">var_resources.py</a> has two examples of how resource information for the worker may be
+accessed in the sim function (<em>multi_points_with_variable_resources</em> and
+<em>CUDA_variable_resources</em>).</p>
+<p>For example, in <em>CUDA_variable_resources</em>, the environment variable
+<code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> is set to slots:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">resources</span> <span class="o">=</span> <span class="n">Resources</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">worker_resources</span>
+<span class="hll"><span class="n">resources</span><span class="o">.</span><span class="n">set_env_to_slots</span><span class="p">(</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">)</span>  <span class="c1"># Use convenience function.</span>
+</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">local_node_count</span>
+<span class="n">cores_per_node</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">slot_count</span>  <span class="c1"># One CPU per GPU</span>
+</pre></div>
+</div>
+<p>In the figure above, this would result in worker one setting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>while worker five would set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the user sets the number of resource sets directly using the <code class="docutils literal notranslate"><span class="pre">num_resource_sets</span></code>
+<a class="reference internal" href="../data_structures/libE_specs.html#libensemble.specs.LibeSpecs" title="libensemble.specs.LibeSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">libE_specs</span></code></a> option, then the dynamic resource
+assignment algorithm will always be used. If <code class="docutils literal notranslate"><span class="pre">resource_sets</span></code> is not a field in <code class="docutils literal notranslate"><span class="pre">H</span></code>,
+then each worker will use one resource set.</p>
+</div>
+</section>
+<section id="resource-scheduler-options">
+<h3>Resource Scheduler Options<a class="headerlink" href="#resource-scheduler-options" title="Link to this heading"></a></h3>
+<p>The following options are available for the <a class="reference internal" href="scheduler_module.html"><span class="doc">built-in scheduler</span></a>
+and can be set by a dictionary supplied via <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;scheduler_opts&quot;]</span></code></p>
+<blockquote>
+<div><dl class="simple">
+<dt><strong>split2fit</strong> [boolean]</dt><dd><p>Try to split resource sets across more nodes if space is not currently
+available on the minimum node count required. Allows more efficient
+scheduling.
+Default: True</p>
+</dd>
+<dt><strong>match_slots</strong> [boolean]:</dt><dd><p>When splitting resource sets across multiple nodes, slot IDs must match.
+Useful if setting an environment variable such as <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code>
+to specific slot counts, which should match over multiple nodes.
+Default: True</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>In the following example, assume the next simulation requires <strong>four</strong> resource
+sets. This could fit on one node if all slots were free, but only two are free on each
+node.</p>
+<img alt="../_images/variable_resources_sched_opts.png" src="../_images/variable_resources_sched_opts.png" />
+<p><code class="docutils literal notranslate"><span class="pre">split2fit</span></code> allows the two resource sets to be used on each node. However, the task
+will not be scheduled unless <code class="docutils literal notranslate"><span class="pre">match_slots</span></code> is set to <em>False</em>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;scheduler_opts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;match_slots&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This is only recommended if not enumerating resources to slot IDs (e.g., via <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code>).</p>
+<p>Note that if six resource sets were requested, then they would be split three per node, even
+if <code class="docutils literal notranslate"><span class="pre">split2fit</span></code> is <em>False</em>, as this could otherwise never be scheduled.</p>
+</section>
+<section id="varying-generator-resources">
+<h3>Varying generator resources<a class="headerlink" href="#varying-generator-resources" title="Link to this heading"></a></h3>
+<p>By default, generators are not allocated resources in dynamic mode. Fixed resources
+for the generator can be set using the <em>libE_specs</em> options
+<code class="docutils literal notranslate"><span class="pre">gen_num_procs</span></code> and <code class="docutils literal notranslate"><span class="pre">gen_num_gpus</span></code>, which take integer values.
+If only <code class="docutils literal notranslate"><span class="pre">gen_num_gpus</span></code> is set, then the number of processors will be set to match.</p>
+<p>To vary generator resources, <code class="docutils literal notranslate"><span class="pre">persis_info</span></code> settings can be used in allocation
+functions before calling the <code class="docutils literal notranslate"><span class="pre">gen_work</span></code> support function. This takes the
+same options (<code class="docutils literal notranslate"><span class="pre">gen_num_procs</span></code> and <code class="docutils literal notranslate"><span class="pre">gen_num_gpus</span></code>).</p>
+<p>Alternatively, the setting <code class="docutils literal notranslate"><span class="pre">persis_info[&quot;gen_resources&quot;]</span></code> can also be set to
+a number of resource sets.</p>
+<p>Note that persistent workers maintain their resources until they come out of a
+persistent state.</p>
+</section>
+</section>
+<section id="example-scenarios">
+<h2>Example scenarios<a class="headerlink" href="#example-scenarios" title="Link to this heading"></a></h2>
+<section id="persistent-generator">
+<h3>Persistent generator<a class="headerlink" href="#persistent-generator" title="Link to this heading"></a></h3>
+<p>You have <em>one</em> persistent generator and want <em>eight</em> workers to run concurrent
+simulations. In this case you can run with <em>nine</em> workers.</p>
+<p>Either explicitly set eight resource sets (recommended):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;num_resource_sets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+</pre></div>
+</div>
+<p>Or if the generator should always be the same worker, use one zero-resource worker:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;zero_resource_workers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>For the second option, an allocation function supporting zero-resource workers must be used.</p>
+<p>Using the two-node example above, the initial worker mapping in this example will be:</p>
+<a class="reference internal image-reference" href="../_images/variable_resources_persis_gen1.png"><img alt="../_images/variable_resources_persis_gen1.png" src="../_images/variable_resources_persis_gen1.png" style="width: 98%;" />
+</a>
+</section>
+<section id="using-large-resource-sets">
+<h3>Using large resource sets<a class="headerlink" href="#using-large-resource-sets" title="Link to this heading"></a></h3>
+<p>Note that resource_sets and slot numbers are based on workers by default. If you
+halved the workers in this example you would have the following (each resource
+set has twice the CPUs and GPUs).</p>
+<img alt="../_images/variable_resources_larger_rsets1.png" src="../_images/variable_resources_larger_rsets1.png" />
+<p>To set CUDA_VISIBLE_DEVICES to slots in this case, use the  <code class="docutils literal notranslate"><span class="pre">multiplier</span></code>
+argument in the <code class="docutils literal notranslate"><span class="pre">set_env_to_slots</span></code> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">resources</span> <span class="o">=</span> <span class="n">Resources</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">worker_resources</span>
+<span class="hll"><span class="n">resources</span><span class="o">.</span><span class="n">set_env_to_slots</span><span class="p">(</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">,</span> <span class="n">multiplier</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="setting-more-resource-sets-than-workers">
+<h3>Setting more resource sets than workers<a class="headerlink" href="#setting-more-resource-sets-than-workers" title="Link to this heading"></a></h3>
+<p>Resource sets can be set to more than the number of corresponding workers. In this
+example there are 5 workers (one for the generator) and 8 resource sets. The additional
+resources will be used for larger simulations.</p>
+<a class="reference internal image-reference" href="../_images/variable_resources_more_rsets1.png"><img alt="../_images/variable_resources_more_rsets1.png" src="../_images/variable_resources_more_rsets1.png" style="width: 98%;" />
+</a>
+<p>This could be achieved by setting:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;num_resource_sets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+</pre></div>
+</div>
+<p>and running on 5 workers.</p>
+<p>Also, this can be set on the command line as a convenience.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_ensemble.py<span class="w"> </span>--nworkers<span class="w"> </span><span class="m">5</span><span class="w"> </span>--nresource_sets<span class="w"> </span><span class="m">8</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="zero_resource_workers.html" class="btn btn-neutral float-left" title="Zero-resource workers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="resource_detection.html" class="btn btn-neutral float-right" title="Resource Detection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+[0]  2026-02-01 20:37:26,393 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:37:26,393 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:37:26,398 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 20:37:27,800 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:37:27,801 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:37:27,842 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:37:27,843 libensemble.libE (INFO): Manager total time: 1.447
+[0]  2026-02-01 20:37:44,705 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:37:44,705 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:37:44,707 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 600}
+[0]  2026-02-01 20:37:46,652 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:37:46,654 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:37:46,676 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:37:46,677 libensemble.libE (INFO): Manager total time: 1.97

@@ -1,0 +1,18 @@
+OPTIMIZATION_NEEDED (attempt 1)
+Stdout:
+First 3: [(0, [-0.72607663,  2.53957343], 140.31303976)
+ (1, [-1.91805295,  2.03305527],  50.79510117)
+ (2, [-0.37345952,  3.82551115], 797.22965451)]
+Last 3: [(300, [-0.86194829,  3.65191444], 0.)
+ (301, [-0.93567905,  3.62648819], 0.)
+ (302, [-0.08353872,  0.71666361], 0.)]
+
+Number of local minima found: 0
+Local minima x values: []
+
+APOSMM_NOT_SUCCEEDED: Found only 0 local minima (required: 3)
+
+
+Stderr:
+------------------ Run completed -------------------
+Saving results to file: ./run_example_history_length=303_evals=300_workers=4

@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template with dynamic resources (CPU app and GPU app) &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../_static/libE_logo_circle.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <script src="../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Mock simulation evaluations (re-run using history file)" href="mock_sim.html" />
+    <link rel="prev" title="Template for GPU executables with dynamic resources" href="forces_simf_gpu_vary_resources.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/examples/sim_funcs/forces_simf_gpu_multi_app.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sim_funcs.html">Simulation Functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../sim_funcs.html#simple-simulation-functions">Simple simulation functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../sim_funcs.html#functions-that-run-user-applications">Functions that run user applications</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="var_resources.html">Variable resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="forces_simf.html">Template for CPU executables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="forces_simf_input_file.html">Template for CPU executables with input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="forces_simf_gpu.html">Template for GPU executables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="forces_simf_gpu_vary_resources.html">Template for GPU executables with dynamic resources</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Template with dynamic resources (CPU app and GPU app)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#forces_multi_app.forces_simf.run_forces"><code class="docutils literal notranslate"><span class="pre">run_forces()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/simulators.html#module-warpx-simf">WarpX Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sim_funcs.html#special-simulation-functions">Special simulation functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sim_funcs.html">Simulation Functions</a></li>
+      <li class="breadcrumb-item active">Template with dynamic resources (CPU app and GPU app)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/sim_funcs/forces_simf_gpu_multi_app.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="template-with-dynamic-resources-cpu-app-and-gpu-app">
+<h1>Template with dynamic resources (CPU app and GPU app)<a class="headerlink" href="#template-with-dynamic-resources-cpu-app-and-gpu-app" title="Link to this heading"></a></h1>
+<p>Launches either the CPU-only or GPU version of the forces MPI app and auto-assigns
+ranks and GPU resources as requested by the generator.</p>
+<p>This makes efficient use of each node as the expensive GPU simulations will use the GPUs on
+the node/s, while the rest of the CPU cores are assigned to the simple CPU-only simulations.</p>
+<p>See this <a class="reference external" href="https://doi.org/10.1103/PhysRevAccelBeams.26.084601">publication</a> for a real-world demonstration of these capabilities.</p>
+<dl class="py function" id="module-forces_multi_app.forces_simf">
+<dt class="sig sig-object py" id="forces_multi_app.forces_simf.run_forces">
+<span class="sig-prename descclassname"><span class="pre">forces_multi_app.forces_simf.</span></span><span class="sig-name descname"><span class="pre">run_forces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#forces_multi_app.forces_simf.run_forces" title="Link to this definition"></a></dt>
+<dd><p>Launches the either the CPU-only or GPU version of the forces MPI app
+and auto-assigns ranks and GPU resources as requested by the generator.</p>
+</dd></dl>
+
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><span class="underline">forces_simf.py</span></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># Optional status codes to display in libE_stats.txt for each gen or sim</span>
+<span class="linenos"> 4</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.message_numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TASK_FAILED</span><span class="p">,</span> <span class="n">WORKER_DONE</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="c1"># Optional - to print GPU settings</span>
+<span class="linenos"> 7</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools.test_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_gpu_setting</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="k">def</span><span class="w"> </span><span class="nf">run_forces</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+<span class="linenos">11</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Launches the either the CPU-only or GPU version of the forces MPI app</span>
+<span class="linenos">12</span><span class="sd">    and auto-assigns ranks and GPU resources as requested by the generator.</span>
+<span class="linenos">13</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>    <span class="n">calc_status</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span>    <span class="c1"># Parse out num particles, from generator function</span>
+<span class="linenos">18</span>    <span class="n">particles</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span>    <span class="c1"># app arguments: num particles, timesteps, also using num particles as seed</span>
+<span class="linenos">21</span>    <span class="n">args</span> <span class="o">=</span> <span class="n">particles</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">particles</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span>    <span class="c1"># Retrieve our MPI Executor</span>
+<span class="linenos">24</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span>    <span class="n">app_type</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="s2">&quot;app_type&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span>    <span class="c1"># Submit our forces app for execution.</span>
+<span class="linenos">29</span>    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+<span class="linenos">30</span>        <span class="n">app_name</span><span class="o">=</span><span class="n">app_type</span><span class="p">,</span>
+<span class="linenos">31</span>        <span class="n">app_args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
+<span class="linenos">32</span>    <span class="p">)</span>
+<span class="linenos">33</span>
+<span class="linenos">34</span>    <span class="c1"># Block until the task finishes</span>
+<span class="linenos">35</span>    <span class="n">task</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="linenos">36</span>
+<span class="linenos">37</span>    <span class="c1"># Optional - prints GPU assignment (method and numbers)</span>
+<span class="linenos">38</span>    <span class="n">check_gpu_setting</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">assert_setting</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">print_setting</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">app_type</span><span class="p">)</span>
+<span class="linenos">39</span>
+<span class="linenos">40</span>    <span class="c1"># Stat file to check for bad runs</span>
+<span class="linenos">41</span>    <span class="n">statfile</span> <span class="o">=</span> <span class="s2">&quot;forces.stat&quot;</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span>    <span class="c1"># Try loading final energy reading, set the sim&#39;s status</span>
+<span class="linenos">44</span>    <span class="k">try</span><span class="p">:</span>
+<span class="linenos">45</span>        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">statfile</span><span class="p">)</span>
+<span class="linenos">46</span>        <span class="n">final_energy</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos">47</span>        <span class="n">calc_status</span> <span class="o">=</span> <span class="n">WORKER_DONE</span>
+<span class="linenos">48</span>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<span class="linenos">49</span>        <span class="n">final_energy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="linenos">50</span>        <span class="n">calc_status</span> <span class="o">=</span> <span class="n">TASK_FAILED</span>
+<span class="linenos">51</span>
+<span class="linenos">52</span>    <span class="c1"># Define our output array,  populate with energy reading</span>
+<span class="linenos">53</span>    <span class="n">outspecs</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">]</span>
+<span class="linenos">54</span>    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">outspecs</span><span class="p">)</span>
+<span class="linenos">55</span>    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_energy</span>
+<span class="linenos">56</span>
+<span class="linenos">57</span>    <span class="c1"># Return final information to worker, for reporting to manager</span>
+<span class="linenos">58</span>    <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">calc_status</span>
+</pre></div>
+</div>
+</div>
+</details><p>The generator in the example below assigns to each simulation either the CPU application
+or the GPU application and also randomly assigns the number of processors for each
+simulation. For the GPU application, one GPU is used for each MPI rank. As many nodes
+as necessary will be used for each application.</p>
+<p>The special generator output fields “num_procs” and “num_gpus” are automatically picked
+up by each worker and these will be used when the simulation is run, unless overridden.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><span class="underline">Example usage</span></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="ch">#!/usr/bin/env python</span>
+<span class="linenos">  2</span>
+<span class="linenos">  3</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  4</span><span class="sd">This example runs different applications, one that uses only CPUs and one</span>
+<span class="linenos">  5</span><span class="sd">that uses GPUs. Both use a variable number of processors. The GPU application</span>
+<span class="linenos">  6</span><span class="sd">uses one GPU per processor. As the generator creates simulations, it randomly</span>
+<span class="linenos">  7</span><span class="sd">assigns between one and max_proc processors to each simulation, and also randomly</span>
+<span class="linenos">  8</span><span class="sd">assigns which application is to be run.</span>
+<span class="linenos">  9</span>
+<span class="linenos"> 10</span><span class="sd">The forces.c application should be compiled for the CPU to `forces_cpu.x`, and</span>
+<span class="linenos"> 11</span><span class="sd">for the GPU (setting the GPU preprocessor condition) to `forces_gpu.x`.</span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span><span class="sd">For compile lines, see examples in ../forces_app/build_forces.sh.</span>
+<span class="linenos"> 14</span>
+<span class="linenos"> 15</span><span class="sd">It is recommended to run this test such that:</span>
+<span class="linenos"> 16</span><span class="sd">    ((nworkers - 1) - gpus_on_node) &gt;= gen_specs[&quot;user&quot;][max_procs]</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="sd">E.g., if running on one node with four GPUs, then use:</span>
+<span class="linenos"> 19</span><span class="sd">    python run_libE_forces.py --nworkers 9</span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span><span class="sd">E.g., if running on one node with eight GPUs, then use:</span>
+<span class="linenos"> 22</span><span class="sd">    python run_libE_forces.py --nworkers 17</span>
+<span class="linenos"> 23</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos"> 26</span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="linenos"> 27</span>
+<span class="linenos"> 28</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 29</span><span class="kn">from</span><span class="w"> </span><span class="nn">forces_simf</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_forces</span>  <span class="c1"># Sim func from current dir</span>
+<span class="linenos"> 30</span>
+<span class="linenos"> 31</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="linenos"> 32</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.alloc_funcs.start_only_persistent</span><span class="w"> </span><span class="kn">import</span> <span class="n">only_persistent_gens</span> <span class="k">as</span> <span class="n">alloc_f</span>
+<span class="linenos"> 33</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPIExecutor</span>
+<span class="linenos"> 34</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.gen_funcs.persistent_sampling_var_resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">uniform_sample_diff_simulations</span> <span class="k">as</span> <span class="n">gen_f</span>
+<span class="linenos"> 35</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">AllocSpecs</span><span class="p">,</span> <span class="n">ExitCriteria</span><span class="p">,</span> <span class="n">GenSpecs</span><span class="p">,</span> <span class="n">LibeSpecs</span><span class="p">,</span> <span class="n">SimSpecs</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos"> 38</span>    <span class="c1"># Initialize MPI Executor instance</span>
+<span class="linenos"> 39</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">()</span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span>    <span class="c1"># Register simulation executable with executor</span>
+<span class="linenos"> 42</span>    <span class="n">cpu_app</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;../forces_app/forces_cpu.x&quot;</span><span class="p">)</span>
+<span class="linenos"> 43</span>    <span class="n">gpu_app</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;../forces_app/forces_gpu.x&quot;</span><span class="p">)</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">cpu_app</span><span class="p">):</span>
+<span class="linenos"> 46</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cpu_app</span><span class="si">}</span><span class="s2"> not found - please build first in ../forces_app dir&quot;</span><span class="p">)</span>
+<span class="linenos"> 47</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">gpu_app</span><span class="p">):</span>
+<span class="linenos"> 48</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gpu_app</span><span class="si">}</span><span class="s2"> not found - please build first in ../forces_app dir&quot;</span><span class="p">)</span>
+<span class="linenos"> 49</span>
+<span class="linenos"> 50</span>    <span class="n">exctr</span><span class="o">.</span><span class="n">register_app</span><span class="p">(</span><span class="n">full_path</span><span class="o">=</span><span class="n">cpu_app</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;cpu_app&quot;</span><span class="p">)</span>
+<span class="linenos"> 51</span>    <span class="n">exctr</span><span class="o">.</span><span class="n">register_app</span><span class="p">(</span><span class="n">full_path</span><span class="o">=</span><span class="n">gpu_app</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;gpu_app&quot;</span><span class="p">)</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span>    <span class="c1"># Parse number of workers, comms type, etc. from arguments</span>
+<span class="linenos"> 54</span>    <span class="n">ensemble</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">(</span><span class="n">parse_args</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">exctr</span><span class="p">)</span>
+<span class="linenos"> 55</span>    <span class="n">nsim_workers</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">nworkers</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># One worker is for persistent generator</span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span>    <span class="c1"># Persistent gen does not need resources</span>
+<span class="linenos"> 58</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span>
+<span class="linenos"> 59</span>        <span class="n">num_resource_sets</span><span class="o">=</span><span class="n">nsim_workers</span><span class="p">,</span>
+<span class="linenos"> 60</span>        <span class="n">sim_dirs_make</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos"> 61</span>        <span class="n">stats_fmt</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;show_resource_sets&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>  <span class="c1"># see resource sets in libE_stats.txt</span>
+<span class="linenos"> 62</span>        <span class="c1"># resource_info = {&quot;gpus_on_node&quot;: 4},  # for mocking GPUs</span>
+<span class="linenos"> 63</span>    <span class="p">)</span>
+<span class="linenos"> 64</span>
+<span class="linenos"> 65</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">sim_specs</span> <span class="o">=</span> <span class="n">SimSpecs</span><span class="p">(</span>
+<span class="linenos"> 66</span>        <span class="n">sim_f</span><span class="o">=</span><span class="n">run_forces</span><span class="p">,</span>
+<span class="linenos"> 67</span>        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;app_type&quot;</span><span class="p">],</span>
+<span class="linenos"> 68</span>        <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>
+<span class="linenos"> 69</span>    <span class="p">)</span>
+<span class="linenos"> 70</span>
+<span class="linenos"> 71</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">gen_specs</span> <span class="o">=</span> <span class="n">GenSpecs</span><span class="p">(</span>
+<span class="linenos"> 72</span>        <span class="n">gen_f</span><span class="o">=</span><span class="n">gen_f</span><span class="p">,</span>
+<span class="linenos"> 73</span>        <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># No input when starting persistent generator</span>
+<span class="linenos"> 74</span>        <span class="n">persis_in</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sim_id&quot;</span><span class="p">],</span>  <span class="c1"># Return sim_ids of evaluated points to generator</span>
+<span class="linenos"> 75</span>        <span class="n">outputs</span><span class="o">=</span><span class="p">[</span>
+<span class="linenos"> 76</span>            <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)),</span>
+<span class="linenos"> 77</span>            <span class="p">(</span><span class="s2">&quot;num_procs&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>  <span class="c1"># num_procs auto given to sim when using MPIExecutor</span>
+<span class="linenos"> 78</span>            <span class="p">(</span><span class="s2">&quot;num_gpus&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>  <span class="c1"># num_gpus auto given to sim when using MPIExecutor</span>
+<span class="linenos"> 79</span>            <span class="p">(</span><span class="s2">&quot;app_type&quot;</span><span class="p">,</span> <span class="s2">&quot;S10&quot;</span><span class="p">),</span>  <span class="c1"># select app type (cpu_app or gpu_app)</span>
+<span class="linenos"> 80</span>        <span class="p">],</span>
+<span class="linenos"> 81</span>        <span class="n">user</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos"> 82</span>            <span class="s2">&quot;initial_batch_size&quot;</span><span class="p">:</span> <span class="n">nsim_workers</span><span class="p">,</span>
+<span class="linenos"> 83</span>            <span class="s2">&quot;lb&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5000</span><span class="p">]),</span>  <span class="c1"># min particles</span>
+<span class="linenos"> 84</span>            <span class="s2">&quot;ub&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10000</span><span class="p">]),</span>  <span class="c1"># max particles</span>
+<span class="linenos"> 85</span>            <span class="s2">&quot;max_procs&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">nsim_workers</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># Any sim created can req. 1 worker up to max</span>
+<span class="linenos"> 86</span>        <span class="p">},</span>
+<span class="linenos"> 87</span>    <span class="p">)</span>
+<span class="linenos"> 88</span>
+<span class="linenos"> 89</span>    <span class="c1"># Starts one persistent generator. Simulated values are returned in batch.</span>
+<span class="linenos"> 90</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">alloc_specs</span> <span class="o">=</span> <span class="n">AllocSpecs</span><span class="p">(</span>
+<span class="linenos"> 91</span>        <span class="n">alloc_f</span><span class="o">=</span><span class="n">alloc_f</span><span class="p">,</span>
+<span class="linenos"> 92</span>        <span class="n">user</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos"> 93</span>            <span class="s2">&quot;async_return&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># False causes batch returns</span>
+<span class="linenos"> 94</span>        <span class="p">},</span>
+<span class="linenos"> 95</span>    <span class="p">)</span>
+<span class="linenos"> 96</span>
+<span class="linenos"> 97</span>    <span class="c1"># Instruct libEnsemble to exit after this many simulations.</span>
+<span class="linenos"> 98</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">exit_criteria</span> <span class="o">=</span> <span class="n">ExitCriteria</span><span class="p">(</span><span class="n">sim_max</span><span class="o">=</span><span class="n">nsim_workers</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos"> 99</span>
+<span class="linenos">100</span>    <span class="c1"># Seed random streams for each worker, particularly for gen_f.</span>
+<span class="linenos">101</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">add_random_streams</span><span class="p">()</span>
+<span class="linenos">102</span>
+<span class="linenos">103</span>    <span class="c1"># Run ensemble</span>
+<span class="linenos">104</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="linenos">105</span>
+<span class="linenos">106</span>    <span class="k">if</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">is_manager</span><span class="p">:</span>
+<span class="linenos">107</span>        <span class="c1"># Note, this will change if changing sim_max, nworkers, lb, ub, etc.</span>
+<span class="linenos">108</span>        <span class="n">chksum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ensemble</span><span class="o">.</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">])</span>
+<span class="linenos">109</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final energy checksum: </span><span class="si">{</span><span class="n">chksum</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">110</span>
+<span class="linenos">111</span>        <span class="n">exp_chksums</span> <span class="o">=</span> <span class="p">{</span><span class="mi">16</span><span class="p">:</span> <span class="o">-</span><span class="mf">21935405.696289998</span><span class="p">,</span> <span class="mi">32</span><span class="p">:</span> <span class="o">-</span><span class="mf">26563930.6356</span><span class="p">}</span>
+<span class="linenos">112</span>        <span class="n">exp_chksum</span> <span class="o">=</span> <span class="n">exp_chksums</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ensemble</span><span class="o">.</span><span class="n">exit_criteria</span><span class="o">.</span><span class="n">sim_max</span><span class="p">)</span>
+<span class="linenos">113</span>
+<span class="linenos">114</span>        <span class="k">if</span> <span class="n">exp_chksum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">115</span>            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">chksum</span><span class="p">,</span> <span class="n">exp_chksum</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;energy check sum is </span><span class="si">{</span><span class="n">chksum</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="linenos">116</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Checksum passed&quot;</span><span class="p">)</span>
+<span class="linenos">117</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos">118</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Run complete. An expected checksum has not been provided for the given sim_max&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>More information is available in the <a class="reference internal" href="../../tutorials/forces_gpu_tutorial.html"><span class="doc">Forces GPU tutorial</span></a>
+and the <a class="reference external" href="https://www.youtube.com/watch?v=H2fmbZ6DnVc">video</a> demonstration on <a class="reference external" href="https://docs.olcf.ornl.gov/systems/frontier_user_guide.html">Frontier</a>.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="forces_simf_gpu_vary_resources.html" class="btn btn-neutral float-left" title="Template for GPU executables with dynamic resources" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mock_sim.html" class="btn btn-neutral float-right" title="Mock simulation evaluations (re-run using history file)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

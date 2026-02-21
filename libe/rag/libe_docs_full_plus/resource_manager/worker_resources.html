@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Worker Resources Module &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Writing User Functions" href="../function_guides/function_guide_index.html" />
+    <link rel="prev" title="Scheduler Module" href="scheduler_module.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/resource_manager/worker_resources.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="resources_index.html">Resource Manager</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="zero_resource_workers.html">Zero-resource workers (e.g., Persistent gen does not need resources)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Dynamic Assignment of Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resource_detection.html">Resource Detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scheduler_module.html">Scheduler Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Worker Resources Module (query resources for current worker)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+          <li class="breadcrumb-item"><a href="resources_index.html">Resource Manager</a></li>
+      <li class="breadcrumb-item active">Worker Resources Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/resource_manager/worker_resources.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="worker-resources-module">
+<h1>Worker Resources Module<a class="headerlink" href="#worker-resources-module" title="Link to this heading"></a></h1>
+<p>The worker resources module can be interrogated by the user function on a worker
+to obtain the following attributes. The convenience functions below can also be used.</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">resources.worker_resources.</span></span><span class="sig-name descname"><span class="pre">WorkerResources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_workers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workerID</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RSetResources</span></code></p>
+<p>Provide system resources per worker to libEnsemble and executor.</p>
+<p><strong>Object Attributes:</strong></p>
+<p>Some of these attributes may be updated as the ensemble progresses.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rsets</span></code> below is used to abbreviate <code class="docutils literal notranslate"><span class="pre">resource</span> <span class="pre">sets</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>workerID</strong> (<em>int</em>) – workerID for this worker.</p></li>
+<li><p><strong>local_nodelist</strong> (<em>list</em>) – A list of all nodes assigned to this worker.</p></li>
+<li><p><strong>rset_team</strong> (<em>list</em>) – list of rset IDs currently assigned to this worker.</p></li>
+<li><p><strong>num_rsets</strong> (<em>int</em>) – The number of resource sets assigned to this worker.</p></li>
+<li><p><strong>slots</strong> (<em>dict</em>) – A dictionary with a list of slot IDs for each node.</p></li>
+<li><p><strong>even_slots</strong> (<em>bool</em>) – True if each node has the same number of slots.</p></li>
+<li><p><strong>matching_slots</strong> (<em>bool</em>) – True if each node has matching slot IDs.</p></li>
+<li><p><strong>slot_count</strong> (<em>int</em>) – The number of slots per node if even_slots is True, else None.</p></li>
+<li><p><strong>slots_on_node</strong> (<em>list</em>) – A list of slots IDs if matching_slots is True, else None.</p></li>
+<li><p><strong>local_node_count</strong> (<em>int</em>) – The number of nodes available to this worker (rounded up to whole number).</p></li>
+<li><p><strong>rsets_per_node</strong> (<em>int</em>) – The number of rsets per node (if a rset &gt; 1 node, will be 1).</p></li>
+</ul>
+</dd>
+</dl>
+<p>The worker_resources attributes can be queried, and convenience functions
+called, via the resources class attribute. For example:</p>
+<p>With resources imported:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.resources.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resources</span>
+</pre></div>
+</div>
+<p>A user function (sim/gen) may do:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">resources</span> <span class="o">=</span> <span class="n">Resources</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">worker_resources</span>
+<span class="n">num_nodes</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">local_node_count</span>
+<span class="n">cores_per_node</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">slot_count</span>  <span class="c1"># One CPU per GPU</span>
+<span class="n">resources</span><span class="o">.</span><span class="n">set_env_to_slots</span><span class="p">(</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">)</span>  <span class="c1"># Use convenience function.</span>
+</pre></div>
+</div>
+<p>Note that <strong>slots</strong> are resource sets enumerated on a node (starting with zero).
+If a resource set has more than one node, then each node is considered to have slot zero.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">even_slots</span></code> is True, then the attributes <code class="docutils literal notranslate"><span class="pre">slot_count</span></code> will give the number
+of slots on each node. If <code class="docutils literal notranslate"><span class="pre">matching_slots</span></code> is True, then  <code class="docutils literal notranslate"><span class="pre">slots_on_node</span></code> will
+give the slot IDs for all nodes. These can be used for simplicity; otherwise, the
+<code class="docutils literal notranslate"><span class="pre">slots</span></code> dictionary can be used to get information for each node.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_slots_as_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Returns list of slots as a string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>multiplier</strong> – Optional int. Assume this many items per slot.</p></li>
+<li><p><strong>delimiter</strong> – Optional int. Delimiter for output string.</p></li>
+<li><p><strong>limit</strong> – Optional int. Maximum slots (truncate list after this many slots).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_env_to_slots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Sets the given environment variable to slots</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_var</strong> – String. Name of environment variable to set.</p></li>
+<li><p><strong>multiplier</strong> – Optional int. Assume this many items per slot.</p></li>
+<li><p><strong>delimiter</strong> – Optional int. Delimiter for output string.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example usage in a sim function:</p>
+<p>With resources imported:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.resources.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resources</span>
+</pre></div>
+</div>
+<p>Obtain worker resources:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">resources</span> <span class="o">=</span> <span class="n">Resources</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">worker_resources</span>
+<span class="n">resources</span><span class="o">.</span><span class="n">set_env_to_slots</span><span class="p">(</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_env_to_gpus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Sets the given environment variable to GPUs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_var</strong> – String. Name of environment variable to set.</p></li>
+<li><p><strong>delimiter</strong> – Optional int. Delimiter for output string.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example usage in a sim function:</p>
+<p>With resources imported:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.resources.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resources</span>
+</pre></div>
+</div>
+<p>Obtain worker resources:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">resources</span> <span class="o">=</span> <span class="n">Resources</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">worker_resources</span>
+<span class="n">resources</span><span class="o">.</span><span class="n">set_env_to_gpus</span><span class="p">(</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="scheduler_module.html" class="btn btn-neutral float-left" title="Scheduler Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../function_guides/function_guide_index.html" class="btn btn-neutral float-right" title="Writing User Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

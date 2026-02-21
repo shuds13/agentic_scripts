@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APOSMM &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="uniform_or_localopt" href="uniform_or_localopt.html" />
+    <link rel="prev" title="persistent_sampling_var_resources" href="persistent_sampling_var_resources.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/examples/aposmm.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="gen_funcs.html">Generator Functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="gen_funcs.html#sampling">Sampling</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="gen_funcs.html#optimization">Optimization</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">APOSMM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-aposmm">Configuring APOSMM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-persistent_aposmm">Persistent APOSMM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-aposmm_localopt_support">LocalOptInterfacer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="uniform_or_localopt.html">uniform_or_localopt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ax_multitask.html">ax_multitask</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/generators.html#module-vtmop">VTMOP</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/generators.html#module-ytopt_heffte.ytopt_asktell">ytopt</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/generators.html#gens.persistent_independent_optimize">consensus</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/generators.html#persistent-deap-nsga2">DEAP-NSGA-II</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gen_funcs.html#modeling-and-approximation">Modeling and Approximation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="gen_funcs.html">Generator Functions</a></li>
+      <li class="breadcrumb-item active">APOSMM</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/aposmm.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="aposmm">
+<h1>APOSMM<a class="headerlink" href="#aposmm" title="Link to this heading"></a></h1>
+<p>Asynchronously Parallel Optimization Solver for finding Multiple Minima
+(APOSMM) coordinates concurrent local optimization runs to identify
+many local minima faster on parallel hardware.</p>
+<p>Supported local optimization routines include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://github.com/numericalalgorithmsgroup/dfols">DFO-LS</a> Derivative-free solver for (bound constrained) nonlinear least-squares minimization</p></li>
+<li><p><a class="reference external" href="https://nlopt.readthedocs.io/en/latest/">NLopt</a> Library for nonlinear optimization, providing a common interface for various methods</p></li>
+<li><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.html">scipy.optimize</a> Open-source solvers for nonlinear problems, linear programming,
+constrained and nonlinear least-squares, root finding, and curve fitting.</p></li>
+<li><p><a class="reference external" href="http://www.mcs.anl.gov/petsc">PETSc/TAO</a> Routines for the scalable (parallel) solution of scientific applications</p></li>
+</ul>
+</div></blockquote>
+<p>Required: <a class="reference external" href="https://pypi.org/project/mpmath">mpmath</a>, <a class="reference external" href="https://pypi.org/project/scipy">SciPy</a></p>
+<p>Optional (see below): <a class="reference external" href="https://bitbucket.org/petsc/petsc4py">petsc4py</a>, <a class="reference external" href="https://nlopt.readthedocs.io/en/latest/">nlopt</a>, <a class="reference external" href="https://github.com/numericalalgorithmsgroup/dfols">DFO-LS</a></p>
+<section id="configuring-aposmm">
+<h2>Configuring APOSMM<a class="headerlink" href="#configuring-aposmm" title="Link to this heading"></a></h2>
+<p>APOSMM works with a choice of optimizers, some requiring external packages. Specify
+them on a global level before importing APOSMM:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">libensemble.gen_funcs</span>
+<span class="n">libensemble</span><span class="o">.</span><span class="n">gen_funcs</span><span class="o">.</span><span class="n">rc</span><span class="o">.</span><span class="n">aposmm_optimizers</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">optimizers</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">optimizers</span></code> is a string (or list-of-strings) from:</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;petsc&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;nlopt&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;dfols&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;scipy&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;external&quot;</span></code></p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Issues with ensemble hanging or failed simulations with PETSc?</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">If using the MPIExecutor or other MPI routines
+and your MPI backend is Open MPI, then you must:</p>
+<ul class="simple">
+<li><p class="sd-card-text">Use <code class="docutils literal notranslate"><span class="pre">local</span></code> comms for libEnsemble (no <code class="docutils literal notranslate"><span class="pre">mpirun</span></code>, <code class="docutils literal notranslate"><span class="pre">mpiexec</span></code>, <code class="docutils literal notranslate"><span class="pre">aprun</span></code>, etc.).</p></li>
+<li><p class="sd-card-text">Must <strong>NOT</strong> include the <em>aposmm_optimizers</em> line above.</p></li>
+</ul>
+<p class="sd-card-text">This is because PETSc imports MPI, and a global import of PETSc results
+in nested MPI (which is not supported by Open MPI).</p>
+</div>
+</details><p>To see the optimization algorithms supported, see <a class="reference internal" href="#localoptinterfacer">LocalOptInterfacer</a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../tutorials/aposmm_tutorial.html"><span class="doc">Persistent APOSMM Tutorial</span></a></p>
+</div>
+</section>
+<section id="module-persistent_aposmm">
+<span id="persistent-aposmm"></span><h2>Persistent APOSMM<a class="headerlink" href="#module-persistent_aposmm" title="Link to this heading"></a></h2>
+<p>This module contains methods used our implementation of the Asynchronously
+Parallel Optimization Solver for finding Multiple Minima (APOSMM) method.
+<a class="reference external" href="https://doi.org/10.1007/s12532-017-0131-4">https://doi.org/10.1007/s12532-017-0131-4</a></p>
+<p>This implementation of APOSMM was developed by Kaushik Kulkarni and Jeffrey
+Larson in the summer of 2019.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="persistent_aposmm.aposmm">
+<span class="sig-prename descclassname"><span class="pre">persistent_aposmm.</span></span><span class="sig-name descname"><span class="pre">aposmm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#persistent_aposmm.aposmm" title="Link to this definition"></a></dt>
+<dd><p>APOSMM coordinates multiple local optimization runs, dramatically reducing time for
+discovering multiple minima on parallel systems. APOSMM tracks these fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;x&quot;</span> <span class="pre">[n</span> <span class="pre">floats]</span></code>: Parameters being optimized over</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;x_on_cube&quot;</span> <span class="pre">[n</span> <span class="pre">floats]</span></code>: Parameters scaled to the unit cube</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;f&quot;</span> <span class="pre">[float]</span></code>: Objective function being minimized</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;local_pt&quot;</span> <span class="pre">[bool]</span></code>: True if point from a local optimization run</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;started_run&quot;</span> <span class="pre">[bool]</span></code>: True if point has started a local opt run</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;num_active_runs&quot;</span> <span class="pre">[int]</span></code>: Number of active local runs point is in</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;local_min&quot;</span> <span class="pre">[float]</span></code>: True if point has been ruled a local minima</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;sim_id&quot;</span> <span class="pre">[int]</span></code>: Row number of entry in history</p></li>
+</ul>
+<p>and optionally</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;fvec&quot;</span> <span class="pre">[m</span> <span class="pre">floats]</span></code>: All objective components (if performing a least-squares calculation)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;grad&quot;</span> <span class="pre">[n</span> <span class="pre">floats]</span></code>: The gradient (if available) of the objective with respect to <cite>x</cite>.</p></li>
+</ul>
+<p>Note:</p>
+<ul class="simple">
+<li><p>If any of the above fields are desired after a libEnsemble run, name
+them in <code class="docutils literal notranslate"><span class="pre">gen_specs[&quot;out&quot;]</span></code>.</p></li>
+<li><p>If intitializing APOSMM with past function values, make sure to include
+<code class="docutils literal notranslate"><span class="pre">&quot;x&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;x_on_cube&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;f&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;local_pt&quot;</span></code>, etc. in
+<code class="docutils literal notranslate"><span class="pre">gen_specs[&quot;in&quot;]</span></code> (and, of course, include them in the H0 array given
+to libensemble).</p></li>
+</ul>
+<p>Necessary quantities in <code class="docutils literal notranslate"><span class="pre">gen_specs[&quot;user&quot;]</span></code> are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;lb&quot;</span> <span class="pre">[n</span> <span class="pre">floats]</span></code>: Lower bound on search domain</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;ub&quot;</span> <span class="pre">[n</span> <span class="pre">floats]</span></code>: Upper bound on search domain</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;localopt_method&quot;</span> <span class="pre">[str]</span></code>: Name of an NLopt, PETSc/TAO, or SciPy method
+(see “advance_local_run” below for supported methods). When using a SciPy
+method, must supply <code class="docutils literal notranslate"><span class="pre">&quot;opt_return_codes&quot;</span></code>, a list of integers that will
+be used to determine if the x produced by the localopt method should be
+ruled a local minimum. (For example, SciPy’s COBYLA has a “status” of <code class="docutils literal notranslate"><span class="pre">1</span></code> if
+at an optimum, but SciPy’s Nelder-Mead and BFGS have a “status” of <code class="docutils literal notranslate"><span class="pre">0</span></code> if at
+an optimum.)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;initial_sample_size&quot;</span> <span class="pre">[int]</span></code>: Number of uniformly sampled points
+to be evaluated before starting the localopt runs. Can be
+zero if no additional sampling is desired, but if zero there must be past
+sim_f values given to libEnsemble in H0.</p></li>
+</ul>
+<p>Optional <code class="docutils literal notranslate"><span class="pre">gen_specs[&quot;user&quot;]</span></code> entries are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;max_active_runs&quot;</span> <span class="pre">[int]</span></code>: Bound on number of runs APOSMM is advancing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;sample_points&quot;</span> <span class="pre">[numpy</span> <span class="pre">array]</span></code>: Points to be sampled (original domain).
+If more sample points are needed by APOSMM during the course of the
+optimization, points will be drawn uniformly over the domain</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;components&quot;</span> <span class="pre">[int]</span></code>: Number of objective components</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;dist_to_bound_multiple&quot;</span> <span class="pre">[float</span> <span class="pre">in</span> <span class="pre">(0,</span> <span class="pre">1]]</span></code>: What fraction of the
+distance to the nearest boundary should the initial step size be in
+localopt runs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;lhs_divisions&quot;</span> <span class="pre">[int]</span></code>: Number of Latin hypercube sampling partitions
+(0 or 1 results in uniform sampling)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;mu&quot;</span> <span class="pre">[float]</span></code>: Distance from the boundary that all localopt starting
+points must satisfy</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;nu&quot;</span> <span class="pre">[float]</span></code>: Distance from identified minima that all starting
+points must satisfy</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;rk_const&quot;</span> <span class="pre">[float]</span></code>: Multiplier in front of the <code class="docutils literal notranslate"><span class="pre">r_k</span></code> value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;stop_after_k_minima&quot;</span> <span class="pre">[int]</span></code>: Tell APOSMM to stop after this many
+local minima have been identified by a local optimization run.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;stop_after_k_runs&quot;</span> <span class="pre">[int]</span></code>: Tell APOSMM to stop after this many runs
+have ended. (The number of ended runs may be less than the number of
+minima if, for example, a local optimization run ends due to a evaluation
+constraint, but not convergence criteria.)</p></li>
+</ul>
+<p>If the rules in <code class="docutils literal notranslate"><span class="pre">decide_where_to_start_localopt</span></code> produces more than
+<code class="docutils literal notranslate"><span class="pre">&quot;max_active_runs&quot;</span></code> in some iteration, then existing runs are prioritized.</p>
+<p>And <code class="docutils literal notranslate"><span class="pre">gen_specs[&quot;user&quot;]</span></code> must also contain fields for the given
+localopt_method’s convergence tolerances (e.g., <code class="docutils literal notranslate"><span class="pre">gatol/grtol</span></code> for PETSC/TAO
+or <code class="docutils literal notranslate"><span class="pre">ftol_rel</span></code> for NLopt)</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://github.com/Libensemble/libensemble/blob/develop/libensemble/tests/regression_tests/test_persistent_aposmm_scipy.py">test_persistent_aposmm_scipy</a>
+for basic APOSMM usage.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://github.com/Libensemble/libensemble/blob/develop/libensemble/tests/regression_tests/test_persistent_aposmm_with_grad.py">test_persistent_aposmm_with_grad</a>
+for an example where past function values are given to libEnsemble/APOSMM.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://github.com/Libensemble/libensemble/blob/develop/libensemble/tests/unit_tests/test_aposmm_starting_point_finder.py">test_aposmm_starting_point_finder</a>
+for an example the APOSMM r_k radius logic is adjusted to produce a certain number of localopt starting points.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-aposmm_localopt_support">
+<span id="localoptinterfacer"></span><h2>LocalOptInterfacer<a class="headerlink" href="#module-aposmm_localopt_support" title="Link to this heading"></a></h2>
+<p>This module contains methods for APOSMM to interface with various local
+optimization routines.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="aposmm_localopt_support.LocalOptInterfacer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aposmm_localopt_support.</span></span><span class="sig-name descname"><span class="pre">LocalOptInterfacer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aposmm_localopt_support.LocalOptInterfacer" title="Link to this definition"></a></dt>
+<dd><p>This class defines the APOSMM interface to various local optimization routines.</p>
+<p>Currently supported routines are</p>
+<ul class="simple">
+<li><p>NLopt [<code class="docutils literal notranslate"><span class="pre">'LN_SBPLX'</span></code>, <code class="docutils literal notranslate"><span class="pre">LN_BOBYQA'</span></code>, <code class="docutils literal notranslate"><span class="pre">'LN_COBYLA'</span></code>, <code class="docutils literal notranslate"><span class="pre">'LN_NEWUOA'</span></code>, <code class="docutils literal notranslate"><span class="pre">'LN_NELDERMEAD'</span></code>, <code class="docutils literal notranslate"><span class="pre">'LD_MMA'</span></code>]</p></li>
+<li><p>PETSc/TAO [<code class="docutils literal notranslate"><span class="pre">'pounders'</span></code>, <code class="docutils literal notranslate"><span class="pre">'blmvm'</span></code>, <code class="docutils literal notranslate"><span class="pre">'nm'</span></code>]</p></li>
+<li><p>SciPy [<code class="docutils literal notranslate"><span class="pre">'scipy_Nelder-Mead'</span></code>, <code class="docutils literal notranslate"><span class="pre">'scipy_COBYLA'</span></code>, <code class="docutils literal notranslate"><span class="pre">'scipy_BFGS'</span></code>]</p></li>
+<li><p>DFOLS [<code class="docutils literal notranslate"><span class="pre">'dfols'</span></code>]</p></li>
+<li><p>IBCDFO [<code class="docutils literal notranslate"><span class="pre">'pounders'</span></code>, <code class="docutils literal notranslate"><span class="pre">'manifold_sampling_primal'</span></code>]</p></li>
+<li><p>External local optimizer [<code class="docutils literal notranslate"><span class="pre">'external_localopt'</span></code>] (which use files to pass/receive <code class="docutils literal notranslate"><span class="pre">x/f</span></code> values)</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="aposmm_localopt_support.LocalOptInterfacer.iterate">
+<span class="sig-name descname"><span class="pre">iterate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aposmm_localopt_support.LocalOptInterfacer.iterate" title="Link to this definition"></a></dt>
+<dd><p>Returns an instance of either <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> corresponding to the next
+iterative guess or <code class="docutils literal notranslate"><span class="pre">ConvergedMsg</span></code> when the solver has completed its run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_on_cube</strong> – A numpy array of the point being evaluated (for a handshake)</p></li>
+<li><p><strong>f</strong> – A numpy array of the function evaluation.</p></li>
+<li><p><strong>grad</strong> – A numpy array of the function’s gradient.</p></li>
+<li><p><strong>fvec</strong> – A numpy array of the function’s component values.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aposmm_localopt_support.LocalOptInterfacer.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#aposmm_localopt_support.LocalOptInterfacer.destroy" title="Link to this definition"></a></dt>
+<dd><p>Recursively kill any optimizer processes still running</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aposmm_localopt_support.LocalOptInterfacer.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#aposmm_localopt_support.LocalOptInterfacer.close" title="Link to this definition"></a></dt>
+<dd><p>Join process and close queue</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="persistent_sampling_var_resources.html" class="btn btn-neutral float-left" title="persistent_sampling_var_resources" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="uniform_or_localopt.html" class="btn btn-neutral float-right" title="uniform_or_localopt" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

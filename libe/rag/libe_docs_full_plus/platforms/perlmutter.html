@@ -1,0 +1,386 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perlmutter &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Polaris" href="polaris.html" />
+    <link rel="prev" title="Improv" href="improv.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/platforms/perlmutter.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="platforms_index.html">Running on HPC Systems</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#centralized-running">Centralized Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#distributed-running">Distributed Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#configuring-the-run">Configuring the Run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#mapping-tasks-to-resources">Mapping Tasks to Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#zero-resource-workers">Zero-resource workers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#assigning-gpus">Assigning GPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#varying-resources">Varying resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#overriding-auto-detection">Overriding Auto-Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#systems-with-launch-mom-nodes">Systems with Launch/MOM Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#globus-compute-remote-user-functions">Globus Compute - Remote User Functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="platforms_index.html#instructions-for-specific-platforms">Instructions for Specific Platforms</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aurora.html">Aurora</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bebop.html">Bebop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontier.html">Frontier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="improv.html">Improv</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Perlmutter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-python-and-installation">Configuring Python and Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-libensemble-and-dependencies">Installing libEnsemble and dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#job-submission">Job Submission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-libensemble-with-mpi4py">Running libEnsemble with mpi4py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#perlmutter-faq">Perlmutter FAQ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="polaris.html">Polaris</a></li>
+<li class="toctree-l3"><a class="reference internal" href="summit.html">Summit (Decommissioned)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="srun.html">libEnsemble with SLURM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example_scripts.html">Example Scheduler Submission Scripts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="platforms_index.html">Running on HPC Systems</a></li>
+      <li class="breadcrumb-item active">Perlmutter</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/platforms/perlmutter.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="perlmutter">
+<h1>Perlmutter<a class="headerlink" href="#perlmutter" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://docs.nersc.gov/systems/perlmutter/architecture/">Perlmutter</a> is an HPE Cray “Shasta” system located at <a class="reference external" href="https://www.nersc.gov/">NERSC</a>. Its compute nodes
+are equipped with four A100 NVIDIA GPUs.</p>
+<p>It uses the SLURM scheduler to submit jobs from login nodes to run on the
+compute nodes.</p>
+<section id="configuring-python-and-installation">
+<h2>Configuring Python and Installation<a class="headerlink" href="#configuring-python-and-installation" title="Link to this heading"></a></h2>
+<p>Begin by loading the <code class="docutils literal notranslate"><span class="pre">python</span></code> module. The following modules are recommended:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">python</span>
+</pre></div>
+</div>
+<section id="create-a-conda-environment">
+<h3>Create a conda environment<a class="headerlink" href="#create-a-conda-environment" title="Link to this heading"></a></h3>
+<p>You can create a <a class="reference external" href="https://conda.io/en/latest/">conda</a> environment in which to install libEnsemble and
+all dependencies. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">libe</span><span class="o">-</span><span class="n">pm</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.10</span> <span class="o">-</span><span class="n">y</span>
+</pre></div>
+</div>
+<p>As Perlmutter has a shared HOME filesystem with other clusters, using
+the <code class="docutils literal notranslate"><span class="pre">-pm</span></code> suffix (for Perlmutter) is good practice.</p>
+<p>Activate your virtual environment with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PYTHONNOUSERSITE</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">libe</span><span class="o">-</span><span class="n">pm</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="installing-libensemble-and-dependencies">
+<h2>Installing libEnsemble and dependencies<a class="headerlink" href="#installing-libensemble-and-dependencies" title="Link to this heading"></a></h2>
+<p>Having loaded the Anaconda Python module, libEnsemble can be installed
+by one of the following ways.</p>
+<ol class="arabic simple">
+<li><p>Install via <strong>pip</strong> into the environment.</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install libensemble</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Install via <strong>conda</strong>:</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda config --add channels conda-forge</span>
+<span class="go">conda install -c conda-forge libensemble</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../advanced_installation.html"><span class="doc">advanced installation</span></a> for other installation options.</p>
+</section>
+<section id="job-submission">
+<h2>Job Submission<a class="headerlink" href="#job-submission" title="Link to this heading"></a></h2>
+<p>Perlmutter uses <a class="reference external" href="https://slurm.schedmd.com/">Slurm</a> for job submission and management. The two most common
+commands for initiating jobs are <code class="docutils literal notranslate"><span class="pre">salloc</span></code> and <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> for running
+in interactive and batch modes, respectively. libEnsemble runs on the compute nodes
+on Perlmutter using either <code class="docutils literal notranslate"><span class="pre">multi-processing</span></code> (recommended) or <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>.</p>
+<p>While libEnsemble should detect Perlmutter settings, you can ensure this by setting
+one of the following environment variables in the submission script or interactive
+session for either the CPU or GPU partitions of Perlmutter:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export LIBE_PLATFORM=&quot;perlmutter_c&quot;  # For CPU partition</span>
+<span class="go">export LIBE_PLATFORM=&quot;perlmutter_g&quot;  # For GPU partition</span>
+</pre></div>
+</div>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>To run the <a class="reference internal" href="../tutorials/forces_gpu_tutorial.html"><span class="doc">forces_gpu</span></a> tutorial on Perlmutter.</p>
+<p>To obtain the example you can git clone libEnsemble - although only
+the forces sub-directory is needed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Libensemble</span><span class="o">/</span><span class="n">libensemble</span>
+<span class="n">cd</span> <span class="n">libensemble</span><span class="o">/</span><span class="n">libensemble</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">scaling_tests</span><span class="o">/</span><span class="n">forces</span><span class="o">/</span><span class="n">forces_app</span>
+</pre></div>
+</div>
+<p>To compile forces:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">PrgEnv</span><span class="o">-</span><span class="n">nvidia</span> <span class="n">cudatoolkit</span> <span class="n">craype</span><span class="o">-</span><span class="n">accel</span><span class="o">-</span><span class="n">nvidia80</span>
+<span class="n">cc</span> <span class="o">-</span><span class="n">DGPU</span> <span class="o">-</span><span class="n">O3</span> <span class="o">-</span><span class="n">fopenmp</span> <span class="o">-</span><span class="n">mp</span><span class="o">=</span><span class="n">gpu</span> <span class="o">-</span><span class="n">target</span><span class="o">-</span><span class="n">accel</span><span class="o">=</span><span class="n">nvidia80</span> <span class="o">-</span><span class="n">o</span> <span class="n">forces</span><span class="o">.</span><span class="n">x</span> <span class="n">forces</span><span class="o">.</span><span class="n">c</span>
+</pre></div>
+</div>
+<p>Now go to forces_gpu directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">../</span><span class="n">forces_gpu</span>
+</pre></div>
+</div>
+<p>Now grab an interactive session on one node:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">salloc</span> <span class="o">-</span><span class="n">N</span> <span class="mi">1</span> <span class="o">-</span><span class="n">t</span> <span class="mi">20</span> <span class="o">-</span><span class="n">C</span> <span class="n">gpu</span> <span class="o">-</span><span class="n">q</span> <span class="n">interactive</span> <span class="o">-</span><span class="n">A</span> <span class="o">&lt;</span><span class="n">project_id</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Then in the session run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">LIBE_PLATFORM</span><span class="o">=</span><span class="s2">&quot;perlmutter_g&quot;</span>
+<span class="n">python</span> <span class="n">run_libe_forces</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>This places the generator on the first worker and runs simulations on the
+others (each simulation using one GPU).</p>
+<p>To see GPU usage, ssh into the node you are on in another window and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">watch</span> <span class="o">-</span><span class="n">n</span> <span class="mf">0.1</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span>
+</pre></div>
+</div>
+<section id="running-generator-on-the-manager">
+<h3>Running generator on the manager<a class="headerlink" href="#running-generator-on-the-manager" title="Link to this heading"></a></h3>
+<p>An alternative is to run the generator on a thread on the manager. The
+number of workers can then be set to the number of simulation workers.</p>
+<p>Change the <code class="docutils literal notranslate"><span class="pre">libE_specs</span></code> in <strong>run_libe_forces.py</strong> as follows.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nsim_workers</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">nworkers</span>
+
+<span class="c1"># Persistent gen does not need resources</span>
+<span class="n">ensemble</span><span class="o">.</span><span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span>
+    <span class="n">gen_on_manager</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>and run with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_libe_forces</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">n</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</section>
+<section id="to-watch-video">
+<h3>To watch video<a class="headerlink" href="#to-watch-video" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>There is a <a class="reference external" href="https://www.youtube.com/watch?v=Av8ctYph7-Y">video</a> demonstration of the forces example on Perlmutter.</p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The video uses libEnsemble version 0.9.3, where some adjustments of the
+scripts are needed to run on Perlmutter. These adjustments are no longer
+necessary. libEnsemble now correctly detects MPI runner and GPU setting on
+Perlmutter and the GPU code runs with many more particles than the CPU
+version (forces_simple).</p>
+</div>
+<p>Example submission scripts are also given in the <a class="reference internal" href="example_scripts.html"><span class="doc">examples</span></a>.</p>
+</section>
+</section>
+<section id="running-libensemble-with-mpi4py">
+<h2>Running libEnsemble with mpi4py<a class="headerlink" href="#running-libensemble-with-mpi4py" title="Link to this heading"></a></h2>
+<p>Running libEnsemble with <code class="docutils literal notranslate"><span class="pre">local</span></code> comms is usually sufficient on Perlmutter. However, if you need
+to use <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code>, you should install and run as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">PrgEnv</span><span class="o">-</span><span class="n">gnu</span> <span class="n">cudatoolkit</span>
+<span class="n">MPICC</span><span class="o">=</span><span class="s2">&quot;cc -target-accel=nvidia80 -shared&quot;</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">force</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">binary</span><span class="o">=</span><span class="n">mpi4py</span> <span class="n">mpi4py</span>
+</pre></div>
+</div>
+<p>This line will build <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> on top of a CUDA-aware Cray MPICH.</p>
+<p>To run using 5 workers (one manager):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">SLURM_EXACT</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">srun</span> <span class="o">-</span><span class="n">n</span> <span class="mi">6</span> <span class="n">python</span> <span class="n">my_script</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>More information on using Python and <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> on Perlmutter can be found
+in the <a class="reference external" href="https://docs.nersc.gov/development/languages/python/using-python-perlmutter/">Python on Perlmutter</a> documentation.</p>
+</section>
+<section id="perlmutter-faq">
+<h2>Perlmutter FAQ<a class="headerlink" href="#perlmutter-faq" title="Link to this heading"></a></h2>
+<p>Some FAQs specific to Perlmutter. See more on the <a class="reference internal" href="../FAQ.html"><span class="doc">FAQ</span></a> page.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><strong>srun: Job ****** step creation temporarily disabled, retrying (Requested nodes are busy)</strong></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Having created a dir <code class="docutils literal notranslate"><span class="pre">/ccs/proj/&lt;project_id&gt;/libensemble</span></code>:</p>
+<p class="sd-card-text">You may also see: <code class="docutils literal notranslate"><span class="pre">srun:</span> <span class="pre">Job</span> <span class="pre">******</span> <span class="pre">step</span> <span class="pre">creation</span> <span class="pre">still</span> <span class="pre">disabled,</span> <span class="pre">retrying</span> <span class="pre">(Requested</span> <span class="pre">nodes</span> <span class="pre">are</span> <span class="pre">busy)</span></code></p>
+<p class="sd-card-text">This error has been encountered on Perlmutter. It is recommended to add these lines to submission scripts:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">SLURM_EXACT</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">export</span> <span class="n">SLURM_MEM_PER_NODE</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p class="sd-card-text">and to <strong>avoid</strong> using <code class="docutils literal notranslate"><span class="pre">#SBATCH</span></code> commands that may limit resources to srun job steps such as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --ntasks-per-node=4</span>
+<span class="c1">#SBATCH --gpus-per-task=1</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Instead provide these to sub-tasks via the <code class="docutils literal notranslate"><span class="pre">extra_args</span></code> option to
+the <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPIExecutor</span></a> <code class="docutils literal notranslate"><span class="pre">submit</span></code> function.</p>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><strong>GTL_DEBUG: [0] cudaHostRegister: no CUDA-capable device is detected</strong></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">If using the environment variable <code class="docutils literal notranslate"><span class="pre">MPICH_GPU_SUPPORT_ENABLED</span></code>, then <code class="docutils literal notranslate"><span class="pre">srun</span></code> commands, at
+time of writing, expect an option for allocating GPUs (e.g.~ <code class="docutils literal notranslate"><span class="pre">--gpus-per-task=1</span></code> would
+allocate one GPU to each MPI task of the MPI run). It is recommended that tasks submitted
+via the <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPIExecutor</span></a> specify this in the <code class="docutils literal notranslate"><span class="pre">extra_args</span></code>
+option to the <code class="docutils literal notranslate"><span class="pre">submit</span></code> function (rather than using an <code class="docutils literal notranslate"><span class="pre">#SBATCH</span></code> command). This is needed
+even when using setting <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> or other options.</p>
+<p class="sd-card-text">If running the libEnsemble user calling script with <code class="docutils literal notranslate"><span class="pre">srun</span></code>, then it is recommended that
+<code class="docutils literal notranslate"><span class="pre">MPICH_GPU_SUPPORT_ENABLED</span></code> is set in the user <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> or <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> function where
+GPU runs will be submitted, instead of in the batch script. E.g:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MPICH_GPU_SUPPORT_ENABLED&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><strong>warning: /tmp/pgcudafatYDO6wtSva6K2.o: missing .note.GNU-stack section implies executable stack</strong></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">This warning has been recently encountered when compiling the forces example
+on Perlmutter. This does not affect the run, but can be suppressed by adding
+<code class="docutils literal notranslate"><span class="pre">-Wl,-znoexecstack</span></code> to the build line.</p>
+</div>
+</details></section>
+<section id="additional-information">
+<h2>Additional Information<a class="headerlink" href="#additional-information" title="Link to this heading"></a></h2>
+<p>See the NERSC <a class="reference external" href="https://docs.nersc.gov/systems/perlmutter/architecture/">Perlmutter</a> docs for more information about Perlmutter.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="improv.html" class="btn btn-neutral float-left" title="Improv" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="polaris.html" class="btn btn-neutral float-right" title="Polaris" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

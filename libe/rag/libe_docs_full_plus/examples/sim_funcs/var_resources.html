@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>var_resources &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../_static/libE_logo_circle.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <script src="../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Template for CPU executables" href="forces_simf.html" />
+    <link rel="prev" title="periodic_func" href="periodic_func.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/examples/sim_funcs/var_resources.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sim_funcs.html">Simulation Functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../sim_funcs.html#simple-simulation-functions">Simple simulation functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../sim_funcs.html#functions-that-run-user-applications">Functions that run user applications</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Variable resources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#var_resources.gpu_variable_resources"><code class="docutils literal notranslate"><span class="pre">gpu_variable_resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#var_resources.gpu_variable_resources_from_gen"><code class="docutils literal notranslate"><span class="pre">gpu_variable_resources_from_gen()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#var_resources.gpu_variable_resources_subenv"><code class="docutils literal notranslate"><span class="pre">gpu_variable_resources_subenv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#var_resources.multi_points_with_variable_resources"><code class="docutils literal notranslate"><span class="pre">multi_points_with_variable_resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#var_resources.CUDA_variable_resources"><code class="docutils literal notranslate"><span class="pre">CUDA_variable_resources()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="forces_simf.html">Template for CPU executables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="forces_simf_input_file.html">Template for CPU executables with input file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="forces_simf_gpu.html">Template for GPU executables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="forces_simf_gpu_vary_resources.html">Template for GPU executables with dynamic resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="forces_simf_gpu_multi_app.html">Template with dynamic resources (CPU app and GPU app)</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/simulators.html#module-warpx-simf">WarpX Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sim_funcs.html#special-simulation-functions">Special simulation functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sim_funcs.html">Simulation Functions</a></li>
+      <li class="breadcrumb-item active">var_resources</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/examples/sim_funcs/var_resources.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-var_resources">
+<span id="var-resources"></span><h1>var_resources<a class="headerlink" href="#module-var_resources" title="Link to this heading"></a></h1>
+<p>Simulation functions that use the MPIExecutor with dynamic resource assignment.
+<code class="docutils literal notranslate"><span class="pre">six_hump_camel</span></code> and <code class="docutils literal notranslate"><span class="pre">helloworld</span></code> python scripts are used as example
+applications, but these could be any MPI application.</p>
+<p>Each simulation function uses the resources assigned to this worker to set CPU
+count and, in some functions, specify GPU usage.</p>
+<p>GPUs are not used for the six_hump_camel function, but these tests check the
+assignment is correct. For an example that runs an actual GPU application, see
+the forces_gpu tutorial under libensemble/tests/scaling_tests/forces/forces_gpu.</p>
+<p>See CUDA_variable_resources for an example where the sim function
+interrogates available resources and sets explicitly.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="var_resources.gpu_variable_resources">
+<span class="sig-prename descclassname"><span class="pre">var_resources.</span></span><span class="sig-name descname"><span class="pre">gpu_variable_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#var_resources.gpu_variable_resources" title="Link to this definition"></a></dt>
+<dd><p>Launches an app and automatically assigns GPU resources.</p>
+<p>The six_hump_camel app does not run on the GPU, but this test demonstrates
+how to automatically assign the GPUs given to this worker via the MPIExecutor.</p>
+<p>The method used to assign GPUs will be determined by the MPI runner or
+user-provided configuration (e.g., by setting the <code class="docutils literal notranslate"><span class="pre">platform</span></code> or
+<code class="docutils literal notranslate"><span class="pre">platform_specs</span></code> options or the LIBE_PLATFORM environment variable).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="var_resources.gpu_variable_resources_from_gen">
+<span class="sig-prename descclassname"><span class="pre">var_resources.</span></span><span class="sig-name descname"><span class="pre">gpu_variable_resources_from_gen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#var_resources.gpu_variable_resources_from_gen" title="Link to this definition"></a></dt>
+<dd><p><strong>Input Fields:</strong> <code class="docutils literal notranslate"><span class="pre">['x']</span></code></p>
+<p><strong>Output Datatypes:</strong> <code class="docutils literal notranslate"><span class="pre">[('f',</span> <span class="pre">&lt;class</span> <span class="pre">'float'&gt;)]</span></code></p>
+<p>Launches an app and assigns CPU and GPU resources as defined by the gen.</p>
+<p>Otherwise similar to gpu_variable_resources.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="var_resources.gpu_variable_resources_subenv">
+<span class="sig-prename descclassname"><span class="pre">var_resources.</span></span><span class="sig-name descname"><span class="pre">gpu_variable_resources_subenv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#var_resources.gpu_variable_resources_subenv" title="Link to this definition"></a></dt>
+<dd><p>Launches a chain of apps via bash scripts in different sub-processes.</p>
+<p>Different MPI runners are specified for each submit. To run without dry_run
+these MPI runners need to be present. Dry_run is used by default.</p>
+<p>Otherwise, this test is similar to <code class="docutils literal notranslate"><span class="pre">gpu_variable_resources</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="var_resources.multi_points_with_variable_resources">
+<span class="sig-prename descclassname"><span class="pre">var_resources.</span></span><span class="sig-name descname"><span class="pre">multi_points_with_variable_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#var_resources.multi_points_with_variable_resources" title="Link to this definition"></a></dt>
+<dd><p>Evaluates either helloworld or six hump camel for a collection of points
+given in <code class="docutils literal notranslate"><span class="pre">H[&quot;x&quot;]</span></code> via the MPI executor, supporting variable sized
+simulations/resources, as determined by the generator. The term <cite>rset</cite>
+refers to a resource set (the minimal set of resources that can be assigned
+to each worker). It can be anything from a partition of a node to multiple
+nodes.</p>
+<p>Note that this is also an example that is capable of handling multiple
+points (sim ids) in each call.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://github.com/Libensemble/libensemble/blob/develop/libensemble/tests/functionality_tests/test_uniform_sampling_with_variable_resources.py">test_uniform_sampling_with_variable_resources.py</a></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="var_resources.CUDA_variable_resources">
+<span class="sig-prename descclassname"><span class="pre">var_resources.</span></span><span class="sig-name descname"><span class="pre">CUDA_variable_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#var_resources.CUDA_variable_resources" title="Link to this definition"></a></dt>
+<dd><p>Launches an app setting GPU resources</p>
+<p>The standard test apps do not run on GPU, but demonstrates accessing resource
+information to set <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code>, and typical run configuration.</p>
+<p>For an equivalent function that auto-assigns GPUs using platform detection, see
+GPU_variable_resources.</p>
+</dd></dl>
+
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><span class="underline">var_resources.py</span></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  2</span><span class="sd">Simulation functions that use the MPIExecutor with dynamic resource assignment.</span>
+<span class="linenos">  3</span><span class="sd">``six_hump_camel`` and ``helloworld`` python scripts are used as example</span>
+<span class="linenos">  4</span><span class="sd">applications, but these could be any MPI application.</span>
+<span class="linenos">  5</span>
+<span class="linenos">  6</span><span class="sd">Each simulation function uses the resources assigned to this worker to set CPU</span>
+<span class="linenos">  7</span><span class="sd">count and, in some functions, specify GPU usage.</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="sd">GPUs are not used for the six_hump_camel function, but these tests check the</span>
+<span class="linenos"> 10</span><span class="sd">assignment is correct. For an example that runs an actual GPU application, see</span>
+<span class="linenos"> 11</span><span class="sd">the forces_gpu tutorial under libensemble/tests/scaling_tests/forces/forces_gpu.</span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span><span class="sd">See CUDA_variable_resources for an example where the sim function</span>
+<span class="linenos"> 14</span><span class="sd">interrogates available resources and sets explicitly.</span>
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos"> 19</span>    <span class="s2">&quot;gpu_variable_resources&quot;</span><span class="p">,</span>
+<span class="linenos"> 20</span>    <span class="s2">&quot;gpu_variable_resources_from_gen&quot;</span><span class="p">,</span>
+<span class="linenos"> 21</span>    <span class="s2">&quot;gpu_variable_resources_subenv&quot;</span><span class="p">,</span>
+<span class="linenos"> 22</span>    <span class="s2">&quot;multi_points_with_variable_resources&quot;</span><span class="p">,</span>
+<span class="linenos"> 23</span>    <span class="s2">&quot;CUDA_variable_resources&quot;</span><span class="p">,</span>
+<span class="linenos"> 24</span><span class="p">]</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos"> 27</span>
+<span class="linenos"> 28</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 29</span>
+<span class="linenos"> 30</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.message_numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TASK_FAILED</span><span class="p">,</span> <span class="n">UNSET_TAG</span><span class="p">,</span> <span class="n">WORKER_DONE</span>
+<span class="linenos"> 31</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.resources.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resources</span>
+<span class="linenos"> 32</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.sim_funcs.six_hump_camel</span><span class="w"> </span><span class="kn">import</span> <span class="n">six_hump_camel_func</span>
+<span class="linenos"> 33</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">input_fields</span><span class="p">,</span> <span class="n">output_data</span>
+<span class="linenos"> 34</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools.test_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_gpu_setting</span><span class="p">,</span> <span class="n">check_mpi_runner</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="k">def</span><span class="w"> </span><span class="nf">gpu_variable_resources</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+<span class="linenos"> 38</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Launches an app and automatically assigns GPU resources.</span>
+<span class="linenos"> 39</span>
+<span class="linenos"> 40</span><span class="sd">    The six_hump_camel app does not run on the GPU, but this test demonstrates</span>
+<span class="linenos"> 41</span><span class="sd">    how to automatically assign the GPUs given to this worker via the MPIExecutor.</span>
+<span class="linenos"> 42</span>
+<span class="linenos"> 43</span><span class="sd">    The method used to assign GPUs will be determined by the MPI runner or</span>
+<span class="linenos"> 44</span><span class="sd">    user-provided configuration (e.g., by setting the ``platform`` or</span>
+<span class="linenos"> 45</span><span class="sd">    ``platform_specs`` options or the LIBE_PLATFORM environment variable).</span>
+<span class="linenos"> 46</span>
+<span class="linenos"> 47</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos"> 48</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 49</span>    <span class="n">H_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+<span class="linenos"> 50</span>    <span class="n">dry_run</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dry_run&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># logs run lines instead of running</span>
+<span class="linenos"> 51</span>    <span class="n">inpt</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>  <span class="c1"># Application input</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>
+<span class="linenos"> 54</span>
+<span class="linenos"> 55</span>    <span class="c1"># Launch application via system MPI runner, using assigned resources.</span>
+<span class="linenos"> 56</span>    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+<span class="linenos"> 57</span>        <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;six_hump_camel&quot;</span><span class="p">,</span>
+<span class="linenos"> 58</span>        <span class="n">app_args</span><span class="o">=</span><span class="n">inpt</span><span class="p">,</span>
+<span class="linenos"> 59</span>        <span class="n">auto_assign_gpus</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos"> 60</span>        <span class="n">match_procs_to_gpus</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos"> 61</span>        <span class="n">stdout</span><span class="o">=</span><span class="s2">&quot;out.txt&quot;</span><span class="p">,</span>
+<span class="linenos"> 62</span>        <span class="n">stderr</span><span class="o">=</span><span class="s2">&quot;err.txt&quot;</span><span class="p">,</span>
+<span class="linenos"> 63</span>        <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
+<span class="linenos"> 64</span>    <span class="p">)</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
+<span class="linenos"> 67</span>        <span class="n">task</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># Wait for run to complete</span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span>        <span class="c1"># Access app output</span>
+<span class="linenos"> 70</span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;out.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="linenos"> 71</span>            <span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>  <span class="c1"># Read just first line</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span>    <span class="c1"># Asserts GPU set correctly (for known MPI runners)</span>
+<span class="linenos"> 74</span>    <span class="n">check_gpu_setting</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">print_setting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos"> 75</span>
+<span class="linenos"> 76</span>    <span class="n">calc_status</span> <span class="o">=</span> <span class="n">WORKER_DONE</span> <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;FINISHED&quot;</span> <span class="k">else</span> <span class="s2">&quot;FAILED&quot;</span>
+<span class="linenos"> 77</span>    <span class="k">return</span> <span class="n">H_o</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">calc_status</span>
+<span class="linenos"> 78</span>
+<span class="linenos"> 79</span>
+<span class="linenos"> 80</span><span class="nd">@input_fields</span><span class="p">([</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+<span class="linenos"> 81</span><span class="nd">@output_data</span><span class="p">([(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)])</span>
+<span class="linenos"> 82</span><span class="k">def</span><span class="w"> </span><span class="nf">gpu_variable_resources_from_gen</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+<span class="linenos"> 83</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 84</span><span class="sd">    Launches an app and assigns CPU and GPU resources as defined by the gen.</span>
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span><span class="sd">    Otherwise similar to gpu_variable_resources.</span>
+<span class="linenos"> 87</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos"> 88</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 89</span>    <span class="n">H_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+<span class="linenos"> 90</span>    <span class="n">dry_run</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dry_run&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># logs run lines instead of running</span>
+<span class="linenos"> 91</span>    <span class="n">inpt</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>  <span class="c1"># Application input</span>
+<span class="linenos"> 92</span>
+<span class="linenos"> 93</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>  <span class="c1"># Get Executor</span>
+<span class="linenos"> 94</span>
+<span class="linenos"> 95</span>    <span class="c1"># Launch application via system MPI runner, using assigned resources.</span>
+<span class="linenos"> 96</span>    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+<span class="linenos"> 97</span>        <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;six_hump_camel&quot;</span><span class="p">,</span>
+<span class="linenos"> 98</span>        <span class="n">app_args</span><span class="o">=</span><span class="n">inpt</span><span class="p">,</span>
+<span class="linenos"> 99</span>        <span class="n">stdout</span><span class="o">=</span><span class="s2">&quot;out.txt&quot;</span><span class="p">,</span>
+<span class="linenos">100</span>        <span class="n">stderr</span><span class="o">=</span><span class="s2">&quot;err.txt&quot;</span><span class="p">,</span>
+<span class="linenos">101</span>        <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
+<span class="linenos">102</span>    <span class="p">)</span>
+<span class="linenos">103</span>
+<span class="linenos">104</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
+<span class="linenos">105</span>        <span class="n">task</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># Wait for run to complete</span>
+<span class="linenos">106</span>
+<span class="linenos">107</span>        <span class="c1"># Access app output</span>
+<span class="linenos">108</span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;out.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="linenos">109</span>            <span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>  <span class="c1"># Read just first line</span>
+<span class="linenos">110</span>
+<span class="linenos">111</span>    <span class="c1"># Asserts GPU set correctly (for known MPI runners)</span>
+<span class="linenos">112</span>    <span class="n">check_gpu_setting</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">print_setting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">113</span>
+<span class="linenos">114</span>    <span class="n">calc_status</span> <span class="o">=</span> <span class="n">WORKER_DONE</span> <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;FINISHED&quot;</span> <span class="k">else</span> <span class="s2">&quot;FAILED&quot;</span>
+<span class="linenos">115</span>    <span class="k">return</span> <span class="n">H_o</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">calc_status</span>
+<span class="linenos">116</span>
+<span class="linenos">117</span>
+<span class="linenos">118</span><span class="k">def</span><span class="w"> </span><span class="nf">_launch_with_env_and_mpi</span><span class="p">(</span><span class="n">exctr</span><span class="p">,</span> <span class="n">inpt</span><span class="p">,</span> <span class="n">dry_run</span><span class="p">,</span> <span class="n">env_script_path</span><span class="p">,</span> <span class="n">mpi_runner</span><span class="p">):</span>
+<span class="linenos">119</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Used to launch each application in a chain&quot;&quot;&quot;</span>
+<span class="linenos">120</span>
+<span class="linenos">121</span>    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+<span class="linenos">122</span>        <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;six_hump_camel&quot;</span><span class="p">,</span>
+<span class="linenos">123</span>        <span class="n">app_args</span><span class="o">=</span><span class="n">inpt</span><span class="p">,</span>
+<span class="linenos">124</span>        <span class="n">auto_assign_gpus</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">125</span>        <span class="n">match_procs_to_gpus</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">126</span>        <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
+<span class="linenos">127</span>        <span class="n">env_script</span><span class="o">=</span><span class="n">env_script_path</span><span class="p">,</span>
+<span class="linenos">128</span>        <span class="n">mpi_runner_type</span><span class="o">=</span><span class="n">mpi_runner</span><span class="p">,</span>
+<span class="linenos">129</span>    <span class="p">)</span>
+<span class="linenos">130</span>
+<span class="linenos">131</span>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mpi_runner</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="linenos">132</span>        <span class="n">mpi_runner</span> <span class="o">=</span> <span class="n">mpi_runner</span><span class="p">[</span><span class="s2">&quot;runner_name&quot;</span><span class="p">]</span>
+<span class="linenos">133</span>
+<span class="linenos">134</span>    <span class="n">check_mpi_runner</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">mpi_runner</span><span class="p">,</span> <span class="n">print_setting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">135</span>    <span class="n">check_gpu_setting</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">print_setting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">136</span>
+<span class="linenos">137</span>
+<span class="linenos">138</span><span class="k">def</span><span class="w"> </span><span class="nf">gpu_variable_resources_subenv</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+<span class="linenos">139</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Launches a chain of apps via bash scripts in different sub-processes.</span>
+<span class="linenos">140</span>
+<span class="linenos">141</span><span class="sd">    Different MPI runners are specified for each submit. To run without dry_run</span>
+<span class="linenos">142</span><span class="sd">    these MPI runners need to be present. Dry_run is used by default.</span>
+<span class="linenos">143</span>
+<span class="linenos">144</span><span class="sd">    Otherwise, this test is similar to ``gpu_variable_resources``.</span>
+<span class="linenos">145</span>
+<span class="linenos">146</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">147</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">148</span>    <span class="n">H_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+<span class="linenos">149</span>    <span class="n">dry_run</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dry_run&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># logs run lines instead of running</span>
+<span class="linenos">150</span>    <span class="n">env_script_path</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;env_script&quot;</span><span class="p">]</span>  <span class="c1"># Script to run in subprocess</span>
+<span class="linenos">151</span>    <span class="n">inpt</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>  <span class="c1"># Application input</span>
+<span class="linenos">152</span>
+<span class="linenos">153</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>  <span class="c1"># Get Executor</span>
+<span class="linenos">154</span>
+<span class="linenos">155</span>    <span class="c1"># Launch application via given MPI runner, using assigned resources.</span>
+<span class="linenos">156</span>    <span class="n">_launch_with_env_and_mpi</span><span class="p">(</span><span class="n">exctr</span><span class="p">,</span> <span class="n">inpt</span><span class="p">,</span> <span class="n">dry_run</span><span class="p">,</span> <span class="n">env_script_path</span><span class="p">,</span> <span class="s2">&quot;openmpi&quot;</span><span class="p">)</span>
+<span class="linenos">157</span>    <span class="n">_launch_with_env_and_mpi</span><span class="p">(</span><span class="n">exctr</span><span class="p">,</span> <span class="n">inpt</span><span class="p">,</span> <span class="n">dry_run</span><span class="p">,</span> <span class="n">env_script_path</span><span class="p">,</span> <span class="s2">&quot;srun&quot;</span><span class="p">)</span>
+<span class="linenos">158</span>
+<span class="linenos">159</span>    <span class="n">mpi_runner_type</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;mpi_runner&quot;</span><span class="p">:</span> <span class="s2">&quot;openmpi&quot;</span><span class="p">,</span> <span class="s2">&quot;runner_name&quot;</span><span class="p">:</span> <span class="s2">&quot;special_mpi&quot;</span><span class="p">}</span>
+<span class="linenos">160</span>    <span class="n">_launch_with_env_and_mpi</span><span class="p">(</span><span class="n">exctr</span><span class="p">,</span> <span class="n">inpt</span><span class="p">,</span> <span class="n">dry_run</span><span class="p">,</span> <span class="n">env_script_path</span><span class="p">,</span> <span class="n">mpi_runner_type</span><span class="p">)</span>
+<span class="linenos">161</span>
+<span class="linenos">162</span>    <span class="c1"># Now run in current environment.</span>
+<span class="linenos">163</span>    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+<span class="linenos">164</span>        <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;six_hump_camel&quot;</span><span class="p">,</span>
+<span class="linenos">165</span>        <span class="n">app_args</span><span class="o">=</span><span class="n">inpt</span><span class="p">,</span>
+<span class="linenos">166</span>        <span class="n">auto_assign_gpus</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">167</span>        <span class="n">match_procs_to_gpus</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">168</span>        <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
+<span class="linenos">169</span>    <span class="p">)</span>
+<span class="linenos">170</span>    <span class="n">check_mpi_runner</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="s2">&quot;mpich&quot;</span><span class="p">,</span> <span class="n">print_setting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">171</span>    <span class="n">check_gpu_setting</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">print_setting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">172</span>
+<span class="linenos">173</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
+<span class="linenos">174</span>        <span class="n">task</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># Wait for run to complete</span>
+<span class="linenos">175</span>
+<span class="linenos">176</span>        <span class="c1"># Access app output</span>
+<span class="linenos">177</span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;out.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="linenos">178</span>            <span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>  <span class="c1"># Read just first line</span>
+<span class="linenos">179</span>
+<span class="linenos">180</span>    <span class="c1"># Asserts GPU set correctly (for known MPI runners)</span>
+<span class="linenos">181</span>    <span class="n">check_gpu_setting</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">print_setting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">182</span>
+<span class="linenos">183</span>    <span class="n">calc_status</span> <span class="o">=</span> <span class="n">WORKER_DONE</span> <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;FINISHED&quot;</span> <span class="k">else</span> <span class="s2">&quot;FAILED&quot;</span>
+<span class="linenos">184</span>    <span class="k">return</span> <span class="n">H_o</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">calc_status</span>
+<span class="linenos">185</span>
+<span class="linenos">186</span>
+<span class="linenos">187</span><span class="k">def</span><span class="w"> </span><span class="nf">multi_points_with_variable_resources</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+<span class="linenos">188</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">189</span><span class="sd">    Evaluates either helloworld or six hump camel for a collection of points</span>
+<span class="linenos">190</span><span class="sd">    given in ``H[&quot;x&quot;]`` via the MPI executor, supporting variable sized</span>
+<span class="linenos">191</span><span class="sd">    simulations/resources, as determined by the generator. The term `rset`</span>
+<span class="linenos">192</span><span class="sd">    refers to a resource set (the minimal set of resources that can be assigned</span>
+<span class="linenos">193</span><span class="sd">    to each worker). It can be anything from a partition of a node to multiple</span>
+<span class="linenos">194</span><span class="sd">    nodes.</span>
+<span class="linenos">195</span>
+<span class="linenos">196</span><span class="sd">    Note that this is also an example that is capable of handling multiple</span>
+<span class="linenos">197</span><span class="sd">    points (sim ids) in each call.</span>
+<span class="linenos">198</span>
+<span class="linenos">199</span><span class="sd">    .. seealso::</span>
+<span class="linenos">200</span><span class="sd">        `test_uniform_sampling_with_variable_resources.py &lt;https://github.com/Libensemble/libensemble/blob/develop/libensemble/tests/functionality_tests/test_uniform_sampling_with_variable_resources.py&gt;`_ # noqa</span>
+<span class="linenos">201</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">202</span>
+<span class="linenos">203</span>    <span class="n">batch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+<span class="linenos">204</span>    <span class="n">H_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+<span class="linenos">205</span>    <span class="n">app</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="s2">&quot;helloworld&quot;</span><span class="p">)</span>
+<span class="linenos">206</span>    <span class="n">dry_run</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dry_run&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># dry_run only prints run lines in ensemble.log</span>
+<span class="linenos">207</span>    <span class="n">set_cores_by_rsets</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># If True use rset count to set num procs, else use all available to this worker.</span>
+<span class="linenos">208</span>    <span class="n">core_multiplier</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Only used with set_cores_by_rsets as a multiplier.</span>
+<span class="linenos">209</span>
+<span class="linenos">210</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>  <span class="c1"># Get Executor</span>
+<span class="linenos">211</span>    <span class="n">task_states</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">212</span>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]):</span>
+<span class="linenos">213</span>        <span class="n">nprocs</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Will be as if argument is not present</span>
+<span class="linenos">214</span>        <span class="k">if</span> <span class="n">set_cores_by_rsets</span><span class="p">:</span>
+<span class="linenos">215</span>            <span class="n">resources</span> <span class="o">=</span> <span class="n">Resources</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">worker_resources</span>
+<span class="linenos">216</span>            <span class="n">nprocs</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">num_rsets</span> <span class="o">*</span> <span class="n">core_multiplier</span>
+<span class="linenos">217</span>
+<span class="linenos">218</span>        <span class="n">inpt</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Will be as if argument is not present</span>
+<span class="linenos">219</span>        <span class="k">if</span> <span class="n">app</span> <span class="o">==</span> <span class="s2">&quot;six_hump_camel&quot;</span><span class="p">:</span>
+<span class="linenos">220</span>            <span class="n">inpt</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]))</span>
+<span class="linenos">221</span>
+<span class="linenos">222</span>        <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+<span class="linenos">223</span>            <span class="n">app_name</span><span class="o">=</span><span class="n">app</span><span class="p">,</span>
+<span class="linenos">224</span>            <span class="n">app_args</span><span class="o">=</span><span class="n">inpt</span><span class="p">,</span>
+<span class="linenos">225</span>            <span class="n">num_procs</span><span class="o">=</span><span class="n">nprocs</span><span class="p">,</span>
+<span class="linenos">226</span>            <span class="n">stdout</span><span class="o">=</span><span class="s2">&quot;out.txt&quot;</span><span class="p">,</span>
+<span class="linenos">227</span>            <span class="n">stderr</span><span class="o">=</span><span class="s2">&quot;err.txt&quot;</span><span class="p">,</span>
+<span class="linenos">228</span>            <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
+<span class="linenos">229</span>        <span class="p">)</span>
+<span class="linenos">230</span>
+<span class="linenos">231</span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
+<span class="linenos">232</span>            <span class="n">task</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># Wait for run to complete</span>
+<span class="linenos">233</span>
+<span class="linenos">234</span>            <span class="c1"># while(not task.finished):</span>
+<span class="linenos">235</span>            <span class="c1">#     time.sleep(0.1)</span>
+<span class="linenos">236</span>            <span class="c1">#     task.poll()</span>
+<span class="linenos">237</span>
+<span class="linenos">238</span>        <span class="n">task_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+<span class="linenos">239</span>
+<span class="linenos">240</span>        <span class="k">if</span> <span class="n">app</span> <span class="o">==</span> <span class="s2">&quot;six_hump_camel&quot;</span><span class="p">:</span>
+<span class="linenos">241</span>            <span class="c1"># H_o[&quot;f&quot;][i] = float(task.read_stdout())  # Reads whole file</span>
+<span class="linenos">242</span>            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;out.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="linenos">243</span>                <span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>  <span class="c1"># Read just first line</span>
+<span class="linenos">244</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos">245</span>            <span class="c1"># To return something in test</span>
+<span class="linenos">246</span>            <span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">six_hump_camel_func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="linenos">247</span>
+<span class="linenos">248</span>    <span class="n">calc_status</span> <span class="o">=</span> <span class="n">UNSET_TAG</span>  <span class="c1"># Returns to worker</span>
+<span class="linenos">249</span>    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;FINISHED&quot;</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">task_states</span><span class="p">):</span>
+<span class="linenos">250</span>        <span class="n">calc_status</span> <span class="o">=</span> <span class="n">WORKER_DONE</span>
+<span class="linenos">251</span>    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="s2">&quot;FAILED&quot;</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">task_states</span><span class="p">):</span>
+<span class="linenos">252</span>        <span class="n">calc_status</span> <span class="o">=</span> <span class="n">TASK_FAILED</span>
+<span class="linenos">253</span>
+<span class="linenos">254</span>    <span class="k">return</span> <span class="n">H_o</span><span class="p">,</span> <span class="n">calc_status</span>
+<span class="linenos">255</span>
+<span class="linenos">256</span>
+<span class="linenos">257</span><span class="k">def</span><span class="w"> </span><span class="nf">CUDA_variable_resources</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+<span class="linenos">258</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Launches an app setting GPU resources</span>
+<span class="linenos">259</span>
+<span class="linenos">260</span><span class="sd">    The standard test apps do not run on GPU, but demonstrates accessing resource</span>
+<span class="linenos">261</span><span class="sd">    information to set ``CUDA_VISIBLE_DEVICES``, and typical run configuration.</span>
+<span class="linenos">262</span>
+<span class="linenos">263</span><span class="sd">    For an equivalent function that auto-assigns GPUs using platform detection, see</span>
+<span class="linenos">264</span><span class="sd">    GPU_variable_resources.</span>
+<span class="linenos">265</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">266</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">267</span>    <span class="n">H_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+<span class="linenos">268</span>    <span class="n">dry_run</span> <span class="o">=</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dry_run&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># dry_run only prints run lines in ensemble.log</span>
+<span class="linenos">269</span>
+<span class="linenos">270</span>    <span class="c1"># Interrogate resources available to this worker</span>
+<span class="linenos">271</span>    <span class="n">resources</span> <span class="o">=</span> <span class="n">Resources</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">worker_resources</span>
+<span class="linenos">272</span>    <span class="n">slots</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">slots</span>
+<span class="linenos">273</span>
+<span class="linenos">274</span>    <span class="k">assert</span> <span class="n">resources</span><span class="o">.</span><span class="n">matching_slots</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Error: Cannot set CUDA_VISIBLE_DEVICES when unmatching slots on nodes </span><span class="si">{</span><span class="n">slots</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="linenos">275</span>
+<span class="linenos">276</span>    <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">local_node_count</span>
+<span class="linenos">277</span>
+<span class="linenos">278</span>    <span class="c1"># Set to slots</span>
+<span class="linenos">279</span>    <span class="n">resources</span><span class="o">.</span><span class="n">set_env_to_slots</span><span class="p">(</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">)</span>
+<span class="linenos">280</span>    <span class="n">cores_per_node</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">slot_count</span>
+<span class="linenos">281</span>
+<span class="linenos">282</span>    <span class="c1"># Set to detected GPUs</span>
+<span class="linenos">283</span>    <span class="c1"># gpus_per_slot = resources.gpus_per_rset_per_node</span>
+<span class="linenos">284</span>    <span class="c1"># resources.set_env_to_slots(&quot;CUDA_VISIBLE_DEVICES&quot;, multiplier=gpus_per_slot)</span>
+<span class="linenos">285</span>    <span class="c1"># cores_per_node = resources.slot_count * gpus_per_slot  # One CPU per GPU</span>
+<span class="linenos">286</span>
+<span class="linenos">287</span>    <span class="nb">print</span><span class="p">(</span>
+<span class="linenos">288</span>        <span class="sa">f</span><span class="s2">&quot;Worker </span><span class="si">{</span><span class="n">libE_info</span><span class="p">[</span><span class="s1">&#39;workerID&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: CUDA_VISIBLE_DEVICES=</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;CUDA_VISIBLE_DEVICES&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="linenos">289</span>        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">nodes </span><span class="si">{</span><span class="n">num_nodes</span><span class="si">}</span><span class="s2"> ppn </span><span class="si">{</span><span class="n">cores_per_node</span><span class="si">}</span><span class="s2">  slots </span><span class="si">{</span><span class="n">slots</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="linenos">290</span>    <span class="p">)</span>
+<span class="linenos">291</span>
+<span class="linenos">292</span>    <span class="c1"># Create application input file</span>
+<span class="linenos">293</span>    <span class="n">inpt</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="linenos">294</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>  <span class="c1"># Get Executor</span>
+<span class="linenos">295</span>
+<span class="linenos">296</span>    <span class="c1"># Launch application via system MPI runner, using assigned resources.</span>
+<span class="linenos">297</span>    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+<span class="linenos">298</span>        <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;six_hump_camel&quot;</span><span class="p">,</span>
+<span class="linenos">299</span>        <span class="n">app_args</span><span class="o">=</span><span class="n">inpt</span><span class="p">,</span>
+<span class="linenos">300</span>        <span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span>
+<span class="linenos">301</span>        <span class="n">procs_per_node</span><span class="o">=</span><span class="n">cores_per_node</span><span class="p">,</span>
+<span class="linenos">302</span>        <span class="n">stdout</span><span class="o">=</span><span class="s2">&quot;out.txt&quot;</span><span class="p">,</span>
+<span class="linenos">303</span>        <span class="n">stderr</span><span class="o">=</span><span class="s2">&quot;err.txt&quot;</span><span class="p">,</span>
+<span class="linenos">304</span>        <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span><span class="p">,</span>
+<span class="linenos">305</span>        <span class="c1"># extra_args=&#39;--gpus-per-task=1&#39;</span>
+<span class="linenos">306</span>    <span class="p">)</span>
+<span class="linenos">307</span>
+<span class="linenos">308</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
+<span class="linenos">309</span>        <span class="n">task</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># Wait for run to complete</span>
+<span class="linenos">310</span>
+<span class="linenos">311</span>        <span class="c1"># Access app output</span>
+<span class="linenos">312</span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;out.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="linenos">313</span>            <span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>  <span class="c1"># Read just first line</span>
+<span class="linenos">314</span>
+<span class="linenos">315</span>    <span class="n">calc_status</span> <span class="o">=</span> <span class="n">WORKER_DONE</span> <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;FINISHED&quot;</span> <span class="k">else</span> <span class="s2">&quot;FAILED&quot;</span>
+<span class="linenos">316</span>    <span class="k">return</span> <span class="n">H_o</span><span class="p">,</span> <span class="n">calc_status</span>
+</pre></div>
+</div>
+</div>
+</details></section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="periodic_func.html" class="btn btn-neutral float-left" title="periodic_func" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="forces_simf.html" class="btn btn-neutral float-right" title="Template for CPU executables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

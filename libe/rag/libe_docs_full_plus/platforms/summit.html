@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summit (Decommissioned) &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="libEnsemble with SLURM" href="srun.html" />
+    <link rel="prev" title="Polaris" href="polaris.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/platforms/summit.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="platforms_index.html">Running on HPC Systems</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#centralized-running">Centralized Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#distributed-running">Distributed Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#configuring-the-run">Configuring the Run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#mapping-tasks-to-resources">Mapping Tasks to Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#zero-resource-workers">Zero-resource workers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#assigning-gpus">Assigning GPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#varying-resources">Varying resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#overriding-auto-detection">Overriding Auto-Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#systems-with-launch-mom-nodes">Systems with Launch/MOM Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#globus-compute-remote-user-functions">Globus Compute - Remote User Functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="platforms_index.html#instructions-for-specific-platforms">Instructions for Specific Platforms</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aurora.html">Aurora</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bebop.html">Bebop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontier.html">Frontier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="improv.html">Improv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perlmutter.html">Perlmutter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polaris.html">Polaris</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Summit (Decommissioned)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-python">Configuring Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-libensemble">Installing libEnsemble</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#job-submission">Job Submission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#launching-user-applications-from-libensemble-workers">Launching User Applications from libEnsemble Workers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="srun.html">libEnsemble with SLURM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example_scripts.html">Example Scheduler Submission Scripts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="platforms_index.html">Running on HPC Systems</a></li>
+      <li class="breadcrumb-item active">Summit (Decommissioned)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/platforms/summit.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="summit-decommissioned">
+<h1>Summit (Decommissioned)<a class="headerlink" href="#summit-decommissioned" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://www.olcf.ornl.gov/olcf-resources/compute-systems/summit/">Summit</a> was an IBM AC922 system located at the Oak Ridge Leadership Computing
+Facility (OLCF). Each of the approximately 4,600 compute nodes on Summit contained two
+IBM POWER9 processors and six NVIDIA Volta V100 accelerators.</p>
+<p>Summit featured three tiers of nodes: login, launch, and compute nodes.</p>
+<p>Users on login nodes submit batch runs to the launch nodes.
+Batch scripts and interactive sessions run on the launch nodes. Only the launch
+nodes can submit MPI runs to the compute nodes via <code class="docutils literal notranslate"><span class="pre">jsrun</span></code>.</p>
+<p>These docs are maintained to guide libEnsemble’s usage on three-tier systems and/or
+<cite>jsrun</cite> systems similar to Summit.</p>
+<section id="configuring-python">
+<h2>Configuring Python<a class="headerlink" href="#configuring-python" title="Link to this heading"></a></h2>
+<p>Begin by loading the Python 3 Anaconda module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ module load python
+</pre></div>
+</div>
+<p>You can now create and activate your own custom <a class="reference external" href="https://conda.io/en/latest/">conda</a> environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">myenv</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.10</span>
+<span class="n">export</span> <span class="n">PYTHONNOUSERSITE</span><span class="o">=</span><span class="mi">1</span> <span class="c1"># Make sure get python from conda env</span>
+<span class="o">.</span> <span class="n">activate</span> <span class="n">myenv</span>
+</pre></div>
+</div>
+<p>If you are installing any packages with extensions, ensure that the correct compiler
+module is loaded. If using <a class="reference external" href="https://mpi4py.readthedocs.io/en/stable/">mpi4py</a>, this must be installed from source,
+referencing the compiler. Currently, mpi4py must be built with gcc:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">gcc</span>
+</pre></div>
+</div>
+<p>With your environment activated, run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CC</span><span class="o">=</span><span class="n">mpicc</span> <span class="n">MPICC</span><span class="o">=</span><span class="n">mpicc</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">mpi4py</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">binary</span> <span class="n">mpi4py</span>
+</pre></div>
+</div>
+</section>
+<section id="installing-libensemble">
+<h2>Installing libEnsemble<a class="headerlink" href="#installing-libensemble" title="Link to this heading"></a></h2>
+<p>Obtaining libEnsemble is now as simple as <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">libensemble</span></code>.
+Your prompt should be similar to the following line:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(my_env)</span> <span class="gp">user@login5:~$ </span>pip<span class="w"> </span>install<span class="w"> </span>libensemble
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you encounter pip errors, run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">pip</span></code> first</p>
+</div>
+<p>Or, you can install via <code class="docutils literal notranslate"><span class="pre">conda</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(my_env)</span> <span class="gp">user@login5:~$ </span>conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>conda-forge
+<span class="gp gp-VirtualEnv">(my_env)</span> <span class="gp">user@login5:~$ </span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>libensemble
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../advanced_installation.html"><span class="doc">here</span></a> for more information on advanced options
+for installing libEnsemble.
+Special note on resource sets and Executor submit options</p>
+<hr class="docutils" />
+<p>When using the portable MPI run configuration options (e.g., num_nodes) to the
+<a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPIExecutor</span></a> <code class="docutils literal notranslate"><span class="pre">submit</span></code> function, it is important
+to note that, due to the resource sets used on Summit, the options refer to
+resource sets as follows:</p>
+<ul class="simple">
+<li><p>num_procs (int, optional) – The total number resource sets for this run.</p></li>
+<li><p>num_nodes (int, optional) – The number of nodes on which to submit the run.</p></li>
+<li><p>procs_per_node (int, optional) – The number of resource sets per node.</p></li>
+</ul>
+<p>It is recommended that the user defines a resource set as the minimal configuration
+of CPU cores/processes and GPUs. These can be added to the <code class="docutils literal notranslate"><span class="pre">extra_args</span></code> option
+of the <em>submit</em> function. Alternatively, the portable options can be ignored and
+everything expressed in <code class="docutils literal notranslate"><span class="pre">extra_args</span></code>.</p>
+<p>For example, the following <em>jsrun</em> line would run three resource sets,
+each having one core (with one process), and one GPU, along with some extra options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jsrun</span> <span class="o">-</span><span class="n">n</span> <span class="mi">3</span> <span class="o">-</span><span class="n">a</span> <span class="mi">1</span> <span class="o">-</span><span class="n">g</span> <span class="mi">1</span> <span class="o">-</span><span class="n">c</span> <span class="mi">1</span> <span class="o">--</span><span class="n">bind</span><span class="o">=</span><span class="n">packed</span><span class="p">:</span><span class="mi">1</span> <span class="o">--</span><span class="n">smpiargs</span><span class="o">=</span><span class="s2">&quot;-gpu&quot;</span>
+</pre></div>
+</div>
+<p>To express this line in the <code class="docutils literal notranslate"><span class="pre">submit</span></code> function may look
+something like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">exctr</span> <span class="o">=</span> <span class="n">Executor</span><span class="o">.</span><span class="n">executor</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;mycode&quot;</span><span class="p">,</span>
+                    <span class="n">num_procs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">extra_args</span><span class="o">=</span><span class="s2">&quot;-a 1 -g 1 -c 1 --bind=packed:1 --smpiargs=&quot;</span><span class="o">-</span><span class="n">gpu</span><span class="s2">&quot;&quot;</span>
+                    <span class="n">app_args</span><span class="o">=</span><span class="s2">&quot;-i input&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This would be equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">exctr</span> <span class="o">=</span> <span class="n">Executor</span><span class="o">.</span><span class="n">executor</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;mycode&quot;</span><span class="p">,</span>
+                    <span class="n">extra_args</span><span class="o">=</span><span class="s2">&quot;-n 3 -a 1 -g 1 -c 1 --bind=packed:1 --smpiargs=&quot;</span><span class="o">-</span><span class="n">gpu</span><span class="s2">&quot;&quot;</span>
+                    <span class="n">app_args</span><span class="o">=</span><span class="s2">&quot;-i input&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The libEnsemble resource manager works out the resources available to each worker,
+but unlike some other systems, <code class="docutils literal notranslate"><span class="pre">jsrun</span></code> on Summit dynamically schedules runs to
+available slots across and within nodes. It can also queue tasks. This allows variable
+size runs to easily be handled on Summit. If oversubscription to the <cite>jsrun</cite> system
+is desired, then libEnsemble’s resource manager can be disabled in the
+calling script via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;disable_resource_manager&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>In the above example, the task being submitted used three GPUs, which is half those
+available on a Summit node, and thus two such tasks may be allocated to each node
+(from different workers), if they were running at the same time.</p>
+</section>
+<section id="job-submission">
+<h2>Job Submission<a class="headerlink" href="#job-submission" title="Link to this heading"></a></h2>
+<p>Summit used <a class="reference external" href="https://www.olcf.ornl.gov/wp-content/uploads/2018/12/summit_workshop_fuson.pdf">LSF</a> for job management and submission. For libEnsemble, the most
+important command is <code class="docutils literal notranslate"><span class="pre">bsub</span></code> for submitting batch scripts from the login nodes
+to execute on the launch nodes.</p>
+<p>It is recommended to run libEnsemble on the launch nodes (assuming workers are
+submitting MPI applications) using the <code class="docutils literal notranslate"><span class="pre">local</span></code> communications mode (multiprocessing).</p>
+<section id="interactive-runs">
+<h3>Interactive Runs<a class="headerlink" href="#interactive-runs" title="Link to this heading"></a></h3>
+<p>You can run interactively with <code class="docutils literal notranslate"><span class="pre">bsub</span></code> by specifying the <code class="docutils literal notranslate"><span class="pre">-Is</span></code> flag,
+similarly to the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ bsub -W 30 -P [project] -nnodes 8 -Is
+</pre></div>
+</div>
+<p>This will place you on a launch node.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will need to reactivate your conda virtual environment.</p>
+</div>
+</section>
+<section id="batch-runs">
+<h3>Batch Runs<a class="headerlink" href="#batch-runs" title="Link to this heading"></a></h3>
+<p>Batch scripts specify run settings using <code class="docutils literal notranslate"><span class="pre">#BSUB</span></code> statements. The following
+simple example depicts configuring and launching libEnsemble to a launch node with
+multiprocessing. This script also assumes the user is using the <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code>
+convenience function from libEnsemble’s <a class="reference internal" href="../utilities.html"><span class="doc">tools module</span></a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash -x</span>
+<span class="c1">#BSUB -P &lt;project code&gt;</span>
+<span class="c1">#BSUB -J libe_mproc</span>
+<span class="c1">#BSUB -W 60</span>
+<span class="c1">#BSUB -nnodes 128</span>
+<span class="c1">#BSUB -alloc_flags &quot;smt1&quot;</span>
+
+<span class="c1"># --- Prepare Python ---</span>
+
+<span class="c1"># Load conda module and gcc.</span>
+module<span class="w"> </span>load<span class="w"> </span>python
+module<span class="w"> </span>load<span class="w"> </span>gcc
+
+<span class="c1"># Name of conda environment</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CONDA_ENV_NAME</span><span class="o">=</span>my_env
+
+<span class="c1"># Activate conda environment</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONNOUSERSITE</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span><span class="nv">$CONDA_ENV_NAME</span>
+
+<span class="c1"># --- Prepare libEnsemble ---</span>
+
+<span class="c1"># Name of calling script</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EXE</span><span class="o">=</span>calling_script.py
+
+<span class="c1"># Communication Method</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">COMMS</span><span class="o">=</span><span class="s2">&quot;--comms local&quot;</span>
+
+<span class="c1"># Number of workers.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NWORKERS</span><span class="o">=</span><span class="s2">&quot;--nworkers 128&quot;</span>
+
+<span class="nb">hash</span><span class="w"> </span>-r<span class="w"> </span><span class="c1"># Check no commands hashed (pip/python...)</span>
+
+<span class="c1"># Launch libE</span>
+python<span class="w"> </span><span class="nv">$EXE</span><span class="w"> </span><span class="nv">$COMMS</span><span class="w"> </span><span class="nv">$NWORKERS</span><span class="w"> </span>&gt;<span class="w"> </span>out.txt<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</pre></div>
+</div>
+<p>With this saved as <code class="docutils literal notranslate"><span class="pre">myscript.sh</span></code>, allocating, configuring, and queueing
+libEnsemble on Summit is achieved by running</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ bsub myscript.sh
+</pre></div>
+</div>
+<p>Example submission scripts are also given in the <a class="reference internal" href="example_scripts.html"><span class="doc">examples</span></a>.</p>
+</section>
+</section>
+<section id="launching-user-applications-from-libensemble-workers">
+<h2>Launching User Applications from libEnsemble Workers<a class="headerlink" href="#launching-user-applications-from-libensemble-workers" title="Link to this heading"></a></h2>
+<p>Only the launch nodes can submit MPI runs to the compute nodes via <code class="docutils literal notranslate"><span class="pre">jsrun</span></code>.
+This can be accomplished in user simulator functions directly. However, it is highly
+recommended that the <a class="reference internal" href="../executor/ex_index.html"><span class="doc">Executor</span></a> interface
+be used inside the simulator or generator, because this provides a portable interface
+with many advantages including automatic resource detection, portability,
+launch failure resilience, and ease of use.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="polaris.html" class="btn btn-neutral float-left" title="Polaris" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="srun.html" class="btn btn-neutral float-right" title="libEnsemble with SLURM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

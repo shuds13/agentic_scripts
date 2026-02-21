@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scheduler Module &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Worker Resources Module" href="worker_resources.html" />
+    <link rel="prev" title="Resource Detection" href="resource_detection.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/resource_manager/scheduler_module.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="resources_index.html">Resource Manager</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="zero_resource_workers.html">Zero-resource workers (e.g., Persistent gen does not need resources)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Dynamic Assignment of Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resource_detection.html">Resource Detection</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Scheduler Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#resources.scheduler.ResourceScheduler"><code class="docutils literal notranslate"><span class="pre">ResourceScheduler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="worker_resources.html">Worker Resources Module (query resources for current worker)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+          <li class="breadcrumb-item"><a href="resources_index.html">Resource Manager</a></li>
+      <li class="breadcrumb-item active">Scheduler Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/resource_manager/scheduler_module.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scheduler-module">
+<span id="resources-scheduler"></span><h1>Scheduler Module<a class="headerlink" href="#scheduler-module" title="Link to this heading"></a></h1>
+<p>The scheduler is called within the scope of the allocation function, usually
+via the <code class="docutils literal notranslate"><span class="pre">alloc_support</span></code> module function <code class="docutils literal notranslate"><span class="pre">assign_resources()</span></code> (either
+called directly or via <code class="docutils literal notranslate"><span class="pre">sim_work()</span></code> or <code class="docutils literal notranslate"><span class="pre">gen_work()</span></code>), which
+is a wrapper for the main scheduler function <code class="docutils literal notranslate"><span class="pre">assign_resources()</span></code>.</p>
+<p>The alloc_support module allows users to supply an alternative scheduler
+that fits this interface. This could be achieved, for example, by inheriting
+the built-in scheduler and making modifications.</p>
+<p>Options can also be provided to the scheduler though the
+<code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;scheduler_opts&quot;]</span></code> dictionary.</p>
+<dl class="py class" id="module-resources.scheduler">
+<dt class="sig sig-object py" id="resources.scheduler.ResourceScheduler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">resources.scheduler.</span></span><span class="sig-name descname"><span class="pre">ResourceScheduler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sched_opts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.scheduler.ResourceScheduler" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns resource set ids from a dictionary of resource sets
+by group. The available resource sets are read initially from the resources
+module or from a resources object passed in.</p>
+<p>Resource sets are locally provisioned to work items by a call to the
+<code class="docutils literal notranslate"><span class="pre">assign_resources</span></code> function, and a cache of available resource sets is
+maintained for the life of the object (usually corresponding to one call
+of the allocation function). Note that work item resources are formally
+assigned to workers only when a work item is sent to the worker.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.scheduler.ResourceScheduler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sched_opts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.scheduler.ResourceScheduler.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initiate a ResourceScheduler object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_resources</strong> (<a class="reference internal" href="../dev_guide/dev_API/resources_module.html#resources.resources.Resources" title="resources.resources.Resources"><em>Resources</em></a><em>, </em><em>optional</em>) – A resources object. If present overrides the class variable.</p></li>
+<li><p><strong>sched_opts</strong> (<em>dict</em><em>, </em><em>optional</em>) – A dictionary of scheduler options. Passed via <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;scheduler_opts&quot;]</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>The supported fields for sched_opts are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&quot;split2fit&quot; [Boolean]:
+    Try to split resource sets across more nodes if space is not currently
+    available on the minimum node count required. Allows more efficient
+    scheduling.
+    Default: True
+
+&quot;match_slots&quot; [Boolean]:
+    When splitting resource sets across multiple nodes, slot IDs must match.
+    Useful if setting an environment variable such as ``CUDA_VISIBLE_DEVICES``
+    to specific slots, which should match over multiple nodes.
+    Default: True
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.scheduler.ResourceScheduler.assign_resources">
+<span class="sig-name descname"><span class="pre">assign_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rsets_req</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.scheduler.ResourceScheduler.assign_resources" title="Link to this definition"></a></dt>
+<dd><p>Schedule resource sets to a work item if possible.</p>
+<p>If the resources required are less than one node, they will be
+allocated to the smallest available sufficient slot.</p>
+<p>If the resources required are more than one node, then
+the scheduler will attempt to find an even split. If no even split
+is possible, then enough additional resource sets will be
+assigned to enable an even split.</p>
+<p>Returns a list of resource set IDs or raises an exception (either
+InsufficientResourcesError or InsufficientFreeResources).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="resource_detection.html" class="btn btn-neutral float-left" title="Resource Detection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="worker_resources.html" class="btn btn-neutral float-right" title="Worker Resources Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

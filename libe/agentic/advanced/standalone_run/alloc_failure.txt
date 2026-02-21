@@ -1,0 +1,27 @@
+[0]  2026-02-01 19:52:15,915 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 696, in run
+    self._check_work_order(Work[w], w)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 382, in _check_work_order
+    assert len(work_fields), (
+AssertionError: Allocation function requested rows=[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+ 24 25] be sent to worker=0, but requested no fields to be sent.
+
+[0]  2026-02-01 19:52:15,917 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 19:52:15,917 libensemble.libE (ERROR): Dumping ensemble history with 26 sims evaluated:
+Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/standalone_run/run_example.py", line 89, in <module>
+    H, persis_info, flag = ensemble.run()
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/ensemble.py", line 412, in run
+    self.H, self.persis_info, self.flag = libE(
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/pydantic/_internal/_validate_call.py", line 39, in wrapper_function
+    return wrapper(*args, **kwargs)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/pydantic/_internal/_validate_call.py", line 136, in __call__
+    res = self.__pydantic_validator__.validate_python(pydantic_core.ArgsKwargs(args, kwargs))
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/libE.py", line 261, in libE
+    return libE_funcs[libE_specs.get("comms", "mpi")](
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/libE.py", line 508, in libE_local
+    return manager(
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/libE.py", line 309, in manager
+    raise LoggedException(*e.args, "See error details above and in ensemble.log") from None
+libensemble.manager.LoggedException: (('Allocation function requested rows=[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23\n 24 25] be sent to worker=0, but requested no fields to be sent.',), 'See error details above and in ensemble.log')
+

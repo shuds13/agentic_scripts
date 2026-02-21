@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Understanding libEnsemble &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="_static/libE_logo_circle.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Constructing Workflows" href="programming_libE.html" />
+    <link rel="prev" title="Advanced Installation" href="advanced_installation.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/overview_usecases.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Understanding libEnsemble</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#manager-workers-and-user-functions">Manager, Workers, and User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-use-cases">Example Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#glossary">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Understanding libEnsemble</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/overview_usecases.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="understanding-libensemble">
+<h1>Understanding libEnsemble<a class="headerlink" href="#understanding-libensemble" title="Link to this heading"></a></h1>
+<section id="manager-workers-and-user-functions">
+<h2>Manager, Workers, and User Functions<a class="headerlink" href="#manager-workers-and-user-functions" title="Link to this heading"></a></h2>
+<p>libEnsemble’s <strong>manager</strong> allocates work to <strong>workers</strong>,
+which perform computations via <strong>user functions</strong>:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="function_guides/sim_gen_alloc_api.html#api-gen-f"><span class="std std-ref">generator</span></a>: Generates inputs to the <em>simulator</em> (<code class="docutils literal notranslate"><span class="pre">sim_f</span></code>)</p></li>
+<li><p><a class="reference internal" href="function_guides/sim_gen_alloc_api.html#api-sim-f"><span class="std std-ref">simulator</span></a>: Performs an evaluation based on parameters from the <em>generator</em> (<code class="docutils literal notranslate"><span class="pre">gen_f</span></code>)</p></li>
+<li><p><a class="reference internal" href="function_guides/sim_gen_alloc_api.html#api-alloc-f"><span class="std std-ref">allocator</span></a>: Decides whether a simulator or generator should be
+called (and with what inputs/resources) as workers become available</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/adaptiveloop.png"><img alt="Adaptive loops" src="_images/adaptiveloop.png" style="width: 315.90000000000003px; height: 173.70000000000002px;" />
+</a>
+</figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The default allocator (<code class="docutils literal notranslate"><span class="pre">alloc_f</span></code>) instructs workers to run the simulator on the
+highest priority work from the generator. If a worker is idle and there is
+no work, that worker is instructed to call the generator.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/diagram_with_persis.png"><img alt="libE component diagram" src="_images/diagram_with_persis.png" style="width: 396.40000000000003px; height: 298.0px;" />
+</a>
+</figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>An <a class="reference internal" href="executor/overview.html"><span class="doc">executor</span></a> interface is available so user functions
+can execute and monitor external applications.</p>
+<p>libEnsemble uses a NumPy structured array known as the <a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">history array</span></a>
+to keep a record of all simulations. The global history array is stored on the
+manager, while selected rows and fields of this array are passed to and from user functions.</p>
+</section>
+<section id="example-use-cases">
+<h2>Example Use Cases<a class="headerlink" href="#example-use-cases" title="Link to this heading"></a></h2>
+<p>Below are some expected libEnsemble use cases that we support (or are working
+to support):</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><strong>Click Here for Use-Cases</strong></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text">A user wants to optimize a simulation calculation. The simulation may
+already be using parallel resources but not a large fraction of some
+computer. libEnsemble can coordinate the concurrent evaluation of the
+simulation <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> at various parameter values based on candidate parameter
+values from <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> (possibly after each <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> output).</p></li>
+<li><p class="sd-card-text">A user has a <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> that produces meshes for a
+<code class="docutils literal notranslate"><span class="pre">sim_f</span></code>. Given the <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> output, the <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> can refine a mesh or
+produce a new mesh. libEnsemble can ensure that the calculated meshes can be
+used by multiple simulations without requiring moving data.</p></li>
+<li><p class="sd-card-text">A user wants to evaluate a simulation <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> with different sets of
+parameters, each drawn from a set of possible values. Some parameter values
+are known to cause the simulation to fail. libEnsemble can stop
+unresponsive evaluations and recover computational resources for future
+evaluations. The <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> can possibly update the sampling after discovering
+regions where evaluations of <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> fail.</p></li>
+<li><p class="sd-card-text">A user has a simulation <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> that requires calculating multiple
+expensive quantities, some of which depend on other quantities. The <code class="docutils literal notranslate"><span class="pre">sim_f</span></code>
+can observe intermediate quantities to stop related calculations and
+preempt future calculations associated with poor parameter values.</p></li>
+<li><p class="sd-card-text">A user has a <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> with multiple fidelities, with the higher-fidelity
+evaluations requiring more computational resources, and a
+<code class="docutils literal notranslate"><span class="pre">gen_f</span></code>/<code class="docutils literal notranslate"><span class="pre">alloc_f</span></code> that decides which parameters should be evaluated and
+at what fidelity level. libEnsemble can coordinate these evaluations without
+requiring the user to know parallel programming.</p></li>
+<li><p class="sd-card-text">A user wishes to identify multiple local optima for a <code class="docutils literal notranslate"><span class="pre">sim_f</span></code>. Furthermore,
+sensitivity analysis is desired at each identified optimum. libEnsemble can
+use the points from the APOSMM <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> to identify optima; and after a
+point is ruled to be an optimum, a different <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> can produce a
+collection of parameters necessary for sensitivity analysis of <code class="docutils literal notranslate"><span class="pre">sim_f</span></code>.</p></li>
+</ul>
+<p class="sd-card-text">Combinations of these use cases are supported as well. An example of
+such a combination is using libEnsemble to solve an optimization problem that
+relies on simulations that fail frequently.</p>
+</div>
+</details></section>
+<section id="glossary">
+<h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading"></a></h2>
+<p>Here we define some terms used throughout libEnsemble’s code and documentation.
+Although many of these terms seem straightforward, defining such terms assists
+with keeping confusion to a minimum when communicating about libEnsemble and
+its capabilities.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text"><strong>Click Here for Glossary</strong></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text"><strong>Manager</strong>: Single libEnsemble process facilitating communication between
+other processes. Within libEnsemble, the <em>Manager</em> process configures and
+passes work to and from the workers.</p></li>
+<li><p class="sd-card-text"><strong>Worker</strong>: libEnsemble processes responsible for performing units of work,
+which may include submitting or executing tasks. <em>Worker</em> processes run
+generation and simulation routines, submit additional tasks for execution,
+and return results to the manager.</p></li>
+<li><p class="sd-card-text"><strong>Calling Script</strong>: libEnsemble is typically imported, parameterized, and
+initiated in a single Python file referred to as a <em>calling script</em>. <code class="docutils literal notranslate"><span class="pre">sim_f</span></code>
+and <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> functions are also commonly configured and parameterized here.</p></li>
+<li><p class="sd-card-text"><strong>User function</strong>: A generator, simulator, or allocation function. These
+are Python functions that govern the libEnsemble workflow. They
+must conform to the libEnsemble API for each respective user function, but otherwise can
+be created or modified by the user. libEnsemble comes with many examples of
+each type of user function.</p></li>
+<li><p class="sd-card-text"><strong>Executor</strong>: The executor can be used within user functions to provide a
+simple, portable interface for running and managing user tasks (applications).
+There are multiple executors including the base <code class="docutils literal notranslate"><span class="pre">Executor</span></code> and <code class="docutils literal notranslate"><span class="pre">MPIExecutor</span></code>.</p></li>
+<li><p class="sd-card-text"><strong>Submit</strong>: Enqueue or indicate that one or more jobs or tasks need to be
+launched. When using the libEnsemble Executor, a <em>submitted</em> task is executed
+immediately or queued for execution.</p></li>
+<li><p class="sd-card-text"><strong>Tasks</strong>: Sub-processes or independent units of work. Workers perform
+<em>tasks</em> as directed by the manager; tasks may include submitting external
+programs for execution using the Executor.</p></li>
+<li><p class="sd-card-text"><strong>Persistent</strong>: Typically, a worker communicates with the manager
+before and after initiating a user <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> or <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> calculation. However, user
+functions may also be constructed to communicate directly with the manager,
+for example, to efficiently maintain and update data structures instead of
+communicating them between manager and worker. These calculations
+and the workers assigned to them are referred to as <em>persistent</em>.</p></li>
+<li><p class="sd-card-text"><strong>Resource Manager</strong> libEnsemble has a built-in resource manager that can detect
+(or be provided with) a set of resources (e.g., a node-list). Resources are
+divided up among workers (using <em>resource sets</em>) and can be dynamically
+reassigned.</p></li>
+<li><p class="sd-card-text"><strong>Resource Set</strong>: The smallest unit of resources that can be assigned (and
+dynamically reassigned) to workers. By default it is the provisioned resources
+divided by the number of workers (excluding any workers given in the
+<code class="docutils literal notranslate"><span class="pre">zero_resource_workers</span></code> libE_specs option). However, it can also be set
+directly by the <code class="docutils literal notranslate"><span class="pre">num_resource_sets</span></code> libE_specs option.</p></li>
+<li><p class="sd-card-text"><strong>Slot</strong>: The <code class="docutils literal notranslate"><span class="pre">resource</span> <span class="pre">sets</span></code> enumerated on a node (starting with zero). If
+a resource set has more than one node, then each node is considered to have slot
+zero.</p></li>
+</ul>
+</div>
+</details></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advanced_installation.html" class="btn btn-neutral float-left" title="Advanced Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="programming_libE.html" class="btn btn-neutral float-right" title="Constructing Workflows" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

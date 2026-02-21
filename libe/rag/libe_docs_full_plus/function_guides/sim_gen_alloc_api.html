@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Function API &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="calc_status" href="calc_status.html" />
+    <link rel="prev" title="Allocation Functions" href="allocator.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/function_guides/sim_gen_alloc_api.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="function_guide_index.html">Writing User Functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="generator.html">Generator Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html">Simulator Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allocator.html">Allocation Functions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">User Function API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sim-f-api">sim_f API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gen-f-api">gen_f API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc-f-api">alloc_f API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="calc_status.html">calc_status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="work_dict.html">Work Dictionary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_array.html">Worker Array</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+          <li class="breadcrumb-item"><a href="function_guide_index.html">Writing User Functions</a></li>
+      <li class="breadcrumb-item active">User Function API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/function_guides/sim_gen_alloc_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="user-function-api">
+<h1>User Function API<a class="headerlink" href="#user-function-api" title="Link to this heading"></a></h1>
+<p id="user-api">libEnsemble requires functions for generation, simulation, and allocation.</p>
+<p>While libEnsemble provides a default allocation function, the simulator and generator functions
+must be specified. The required API and example arguments are given here.
+<a class="reference internal" href="../examples/examples_index.html"><span class="doc">Example sim and gen functions</span></a> are provided in the
+libEnsemble package.</p>
+<p><a class="reference internal" href="function_guide_index.html"><span class="doc">See here for more in-depth guides to writing user functions</span></a></p>
+<p>As of v0.10.0, valid simulator and generator functions
+can <em>accept and return a smaller subset of the listed parameters and return values</em>. For instance,
+a <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">my_simulation(one_Input)</span> <span class="pre">-&gt;</span> <span class="pre">one_Output</span></code> function is now accepted,
+as is <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">my_generator(Input,</span> <span class="pre">persis_info)</span> <span class="pre">-&gt;</span> <span class="pre">Output,</span> <span class="pre">persis_info</span></code>.</p>
+<section id="sim-f-api">
+<h2>sim_f API<a class="headerlink" href="#sim-f-api" title="Link to this heading"></a></h2>
+<p id="api-sim-f">The simulator function will be called by libEnsemble’s workers with <em>up to</em> the following arguments and returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Out</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">calc_status</span> <span class="o">=</span> <span class="n">sim_f</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;in&quot;</span><span class="p">]][</span><span class="n">sim_ids_from_allocf</span><span class="p">],</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="parameters">
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p><strong>H</strong>: <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">structured</span> <span class="pre">array</span></code>
+<a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p>
+<p><strong>persis_info</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">(example)</span></a></p>
+<p><strong>sim_specs</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/sim_specs.html#datastruct-sim-specs"><span class="std std-ref">(example)</span></a></p>
+<p><strong>libE_info</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="work_dict.html#funcguides-workdict"><span class="std std-ref">(example)</span></a></p>
+</div></blockquote>
+</section>
+<section id="returns">
+<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p><strong>H</strong>: <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">structured</span> <span class="pre">array</span></code>
+with keys/value-sizes matching those in sim_specs[“out”]
+<a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p>
+<p><strong>persis_info</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">(example)</span></a></p>
+<p><strong>calc_status</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional
+Provides a task status to the manager and the libE_stats.txt file
+<a class="reference internal" href="calc_status.html#funcguides-calcstatus"><span class="std std-ref">(example)</span></a></p>
+</div></blockquote>
+</section>
+</section>
+<section id="gen-f-api">
+<h2>gen_f API<a class="headerlink" href="#gen-f-api" title="Link to this heading"></a></h2>
+<p id="api-gen-f">The generator function will be called by libEnsemble’s workers with <em>up to</em> the following arguments and returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Out</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">calc_status</span> <span class="o">=</span> <span class="n">gen_f</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;in&quot;</span><span class="p">]][</span><span class="n">sim_ids_from_allocf</span><span class="p">],</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="id1">
+<h3>Parameters:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p><strong>H</strong>: <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">structured</span> <span class="pre">array</span></code>
+<a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p>
+<p><strong>persis_info</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">(example)</span></a></p>
+<p><strong>gen_specs</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/gen_specs.html#datastruct-gen-specs"><span class="std std-ref">(example)</span></a></p>
+<p><strong>libE_info</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="work_dict.html#funcguides-workdict"><span class="std std-ref">(example)</span></a></p>
+</div></blockquote>
+</section>
+<section id="id2">
+<h3>Returns:<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p><strong>H</strong>: <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">structured</span> <span class="pre">array</span></code>
+with keys/value-sizes matching those in gen_specs[“out”]
+<a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p>
+<p><strong>persis_info</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">(example)</span></a></p>
+<p><strong>calc_status</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional
+Provides a task status to the manager and the libE_stats.txt file
+<a class="reference internal" href="calc_status.html#funcguides-calcstatus"><span class="std std-ref">(example)</span></a></p>
+</div></blockquote>
+</section>
+</section>
+<section id="alloc-f-api">
+<h2>alloc_f API<a class="headerlink" href="#alloc-f-api" title="Link to this heading"></a></h2>
+<p id="api-alloc-f">The allocation function will be called by libEnsemble’s manager with the following API:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Work</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">stop_flag</span> <span class="o">=</span> <span class="n">alloc_f</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">alloc_specs</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="id3">
+<h3>Parameters:<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p><strong>W</strong>: <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">structured</span> <span class="pre">array</span></code>
+<a class="reference internal" href="worker_array.html"><span class="doc">(example)</span></a></p>
+<p><strong>H</strong>: <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">structured</span> <span class="pre">array</span></code>
+<a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p>
+<p><strong>sim_specs</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/sim_specs.html#datastruct-sim-specs"><span class="std std-ref">(example)</span></a></p>
+<p><strong>gen_specs</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/gen_specs.html#datastruct-gen-specs"><span class="std std-ref">(example)</span></a></p>
+<p><strong>alloc_specs</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/alloc_specs.html#datastruct-alloc-specs"><span class="std std-ref">(example)</span></a></p>
+<p><strong>persis_info</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">(example)</span></a></p>
+<p><strong>libE_info</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+Various statistics useful to the allocation function for determining how much
+work has been evaluated, or if the routine should prepare to complete. See
+the <a class="reference internal" href="allocator.html"><span class="doc">allocation function guide</span></a> for more
+information.</p>
+</div></blockquote>
+</section>
+<section id="id4">
+<h3>Returns:<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p><strong>Work</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+Dictionary with integer keys <code class="docutils literal notranslate"><span class="pre">i</span></code> for work to be sent to worker <code class="docutils literal notranslate"><span class="pre">i</span></code>.
+<a class="reference internal" href="work_dict.html#funcguides-workdict"><span class="std std-ref">(example)</span></a></p>
+<p><strong>persis_info</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>
+<a class="reference internal" href="../data_structures/persis_info.html"><span class="doc">(example)</span></a></p>
+<p><strong>stop_flag</strong>: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional
+Set to 1 to request libEnsemble manager to stop giving additional work after
+receiving existing work</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="allocator.html" class="btn btn-neutral float-left" title="Allocation Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="calc_status.html" class="btn btn-neutral float-right" title="calc_status" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

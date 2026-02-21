@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>uniform_or_localopt &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="persistent_ax_multitask" href="ax_multitask.html" />
+    <link rel="prev" title="APOSMM" href="aposmm.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/examples/uniform_or_localopt.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="gen_funcs.html">Generator Functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="gen_funcs.html#sampling">Sampling</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="gen_funcs.html#optimization">Optimization</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aposmm.html">APOSMM</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">uniform_or_localopt</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#uniform_or_localopt.uniform_or_localopt"><code class="docutils literal notranslate"><span class="pre">uniform_or_localopt()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ax_multitask.html">ax_multitask</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/generators.html#module-vtmop">VTMOP</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/generators.html#module-ytopt_heffte.ytopt_asktell">ytopt</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/generators.html#gens.persistent_independent_optimize">consensus</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://libensemble.readthedocs.io/projects/libe-community-examples/en/latest/generators.html#persistent-deap-nsga2">DEAP-NSGA-II</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gen_funcs.html#modeling-and-approximation">Modeling and Approximation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="gen_funcs.html">Generator Functions</a></li>
+      <li class="breadcrumb-item active">uniform_or_localopt</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/uniform_or_localopt.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="uniform-or-localopt">
+<h1>uniform_or_localopt<a class="headerlink" href="#uniform-or-localopt" title="Link to this heading"></a></h1>
+<p>Required: <a class="reference external" href="https://nlopt.readthedocs.io/en/latest/">nlopt</a></p>
+<p id="module-uniform_or_localopt">This module is a persistent generation function that performs a uniform
+random sample when <code class="docutils literal notranslate"><span class="pre">libE_info[&quot;persistent&quot;]</span></code> isn’t <code class="docutils literal notranslate"><span class="pre">True</span></code>, or performs a
+single persistent nlopt local optimization run.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="uniform_or_localopt.uniform_or_localopt">
+<span class="sig-prename descclassname"><span class="pre">uniform_or_localopt.</span></span><span class="sig-name descname"><span class="pre">uniform_or_localopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#uniform_or_localopt.uniform_or_localopt" title="Link to this definition"></a></dt>
+<dd><p>This generation function returns <code class="docutils literal notranslate"><span class="pre">gen_specs[&quot;user&quot;][&quot;gen_batch_size&quot;]</span></code> uniformly
+sampled points when called in nonpersistent mode (i.e., when
+<code class="docutils literal notranslate"><span class="pre">libE_info[&quot;persistent&quot;]</span></code> isn’t <code class="docutils literal notranslate"><span class="pre">True</span></code>).  Otherwise, the generation
+function starts a persistent nlopt local optimization run.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://github.com/Libensemble/libensemble/blob/develop/libensemble/tests/functionality_tests/test_uniform_sampling_then_persistent_localopt_runs.py">test_uniform_sampling_then_persistent_localopt_runs.py</a></p>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aposmm.html" class="btn btn-neutral float-left" title="APOSMM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ax_multitask.html" class="btn btn-neutral float-right" title="persistent_ax_multitask" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

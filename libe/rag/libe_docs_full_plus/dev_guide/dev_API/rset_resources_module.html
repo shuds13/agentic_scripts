@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RSET Resources Module &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../_static/libE_logo_circle.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <script src="../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Worker Resources Module" href="worker_resources_module.html" />
+    <link rel="prev" title="Resources Module" href="resources_module.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/dev_guide/dev_API/rset_resources_module.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="developer_API.html">Internal Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="manager_module.html">Manager Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worker_module.html">Worker Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history_module.html">History Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources_module.html">Resources Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RSET Resources Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rset_resources.RSetResources"><code class="docutils literal notranslate"><span class="pre">RSetResources</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rset_resources.RSetResources.__init__"><code class="docutils literal notranslate"><span class="pre">RSetResources.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rset_resources.RSetResources.get_group_list"><code class="docutils literal notranslate"><span class="pre">RSetResources.get_group_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rset_resources.RSetResources.best_split"><code class="docutils literal notranslate"><span class="pre">RSetResources.best_split()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rset_resources.RSetResources.get_rsets_on_a_node"><code class="docutils literal notranslate"><span class="pre">RSetResources.get_rsets_on_a_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rset_resources.RSetResources.get_workers2assign2"><code class="docutils literal notranslate"><span class="pre">RSetResources.get_workers2assign2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rset_resources.RSetResources.even_assignment"><code class="docutils literal notranslate"><span class="pre">RSetResources.even_assignment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rset_resources.RSetResources.expand_list"><code class="docutils literal notranslate"><span class="pre">RSetResources.expand_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rset_resources.RSetResources.get_split_list"><code class="docutils literal notranslate"><span class="pre">RSetResources.get_split_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rset_resources.RSetResources.get_partitioned_nodelist"><code class="docutils literal notranslate"><span class="pre">RSetResources.get_partitioned_nodelist()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="worker_resources_module.html">Worker Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="env_resources_module.html">Environment Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_resources_module.html">Node Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpi_resources_module.html">MPI Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler_module.html">Scheduler Module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="developer_API.html">Internal Modules</a></li>
+      <li class="breadcrumb-item active">RSET Resources Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/dev_guide/dev_API/rset_resources_module.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-rset_resources">
+<span id="rset-resources-module"></span><h1>RSET Resources Module<a class="headerlink" href="#module-rset_resources" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rset_resources.RSetResources">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rset_resources.</span></span><span class="sig-name descname"><span class="pre">RSetResources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_workers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources" title="Link to this definition"></a></dt>
+<dd><p>A class that creates a fixed mapping of resource sets to the available resources.</p>
+<p><strong>Object Attributes:</strong></p>
+<p>These are set on initialization and include inherited.
+<code class="docutils literal notranslate"><span class="pre">rsets</span></code> below is used to abbreviate <code class="docutils literal notranslate"><span class="pre">resource</span> <span class="pre">sets</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_workers</strong> (<em>int</em>) – Total number of workers</p></li>
+<li><p><strong>num_workers_2assign2</strong> (<em>int</em>) – The number of workers that will be assigned resource sets.</p></li>
+<li><p><strong>total_num_rsets</strong> (<em>int</em>) – The total number of resource sets.</p></li>
+<li><p><strong>split_list</strong> (<em>list</em>) – A list of lists, where each element is the list of nodes for a given rset.</p></li>
+<li><p><strong>local_rsets_list</strong> (<em>list</em>) – A list over rsets, where each element is the number of rsets that share the node.</p></li>
+<li><p><strong>rsets_per_node</strong> (<em>int</em>) – The number of rsets per node (if an rset &gt; 1 node, this will be 1)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>num_workers</strong> (<em>int</em>)</p></li>
+<li><p><strong>resources</strong> (<a class="reference internal" href="resources_module.html#resources.resources.Resources" title="resources.resources.Resources"><em>Resources</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rset_resources.RSetResources.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_workers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes a new RSetResources instance</p>
+<p>Determines the compute resources available for each resource set.</p>
+<p>Unless resource sets is set explicitly, the number of resource sets is the number of workers,
+excluding any workers defined as zero resource workers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_workers</strong> (<em>int</em>) – The total number of workers</p></li>
+<li><p><strong>resources</strong> (<a class="reference internal" href="resources_module.html#resources.resources.Resources" title="resources.resources.Resources"><em>Resources</em></a>) – A Resources object containing global nodelist and intranode information</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rset_resources.RSetResources.get_group_list">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_group_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpus_per_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpus_per_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources.get_group_list" title="Link to this definition"></a></dt>
+<dd><p>Return lists of group ids and slot IDs by resource set</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rset_resources.RSetResources.best_split">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources.best_split" title="Link to this definition"></a></dt>
+<dd><p>Creates the most even split of list a into n parts and return list of lists</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rset_resources.RSetResources.get_rsets_on_a_node">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_rsets_on_a_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_rsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources.get_rsets_on_a_node" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of resource sets that can be placed on each node</p>
+<p>If there are more nodes than resource sets, returns 1.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rset_resources.RSetResources.get_workers2assign2">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_workers2assign2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_workers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources.get_workers2assign2" title="Link to this definition"></a></dt>
+<dd><p>Returns workers to assign resources to</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rset_resources.RSetResources.even_assignment">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">even_assignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nnodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nworkers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources.even_assignment" title="Link to this definition"></a></dt>
+<dd><p>Returns True if workers are evenly distributed to nodes, else False</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rset_resources.RSetResources.expand_list">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">expand_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nnodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nworkers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources.expand_list" title="Link to this definition"></a></dt>
+<dd><p>Duplicates each element of <code class="docutils literal notranslate"><span class="pre">nodelist</span></code> to best map workers to nodes.</p>
+<p>Returns node list with duplicates, and a list of local (on-node) worker
+counts, both indexed by worker.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rset_resources.RSetResources.get_split_list">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_split_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_rsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources.get_split_list" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of lists for each worker</p>
+<p>Assumes that self.global_nodelist has been calculated (in __init__).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rset_resources.RSetResources.get_partitioned_nodelist">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_partitioned_nodelist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_rsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rset_resources.RSetResources.get_partitioned_nodelist" title="Link to this definition"></a></dt>
+<dd><p>Returns lists of nodes available to all resource sets</p>
+<p>Assumes that self.global_nodelist has been calculated (in __init__).
+Also self.global_nodelist will have already removed non-application nodes</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="resources_module.html" class="btn btn-neutral float-left" title="Resources Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="worker_resources_module.html" class="btn btn-neutral float-right" title="Worker Resources Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

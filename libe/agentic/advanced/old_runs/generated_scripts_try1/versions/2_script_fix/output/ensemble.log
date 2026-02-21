@@ -1,0 +1,40 @@
+[0]  2026-02-01 17:38:18,543 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 17:38:18,543 libensemble.libE (INFO): libE version v1.5.0
+[0]  2026-02-01 17:38:18,546 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 17:38:19,940 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 17:38:19,940 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 17:38:19,986 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 17:38:19,988 libensemble.libE (INFO): Manager total time: 1.443
+[0]  2026-02-01 17:39:04,783 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 17:39:04,783 libensemble.libE (INFO): libE version v1.5.0
+[0]  2026-02-01 17:39:04,785 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 17:39:04,890 libensemble.manager (ERROR): ---- Received error message from worker 0 ----
+[0]  2026-02-01 17:39:04,890 libensemble.manager (ERROR): Message: libensemble.gen_funcs.aposmm_localopt_support.APOSMMException: No module named 'nlopt'
+[0]  2026-02-01 17:39:04,890 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/worker.py", line 408, in run
+    response = self._handle(Work)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/worker.py", line 351, in _handle
+    calc_out, persis_info, calc_status = self._handle_calc(Work, calc_in)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/worker.py", line 271, in _handle_calc
+    out = calc(calc_in, Work)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/utils/runners.py", line 42, in run
+    return self._result(calc_in, Work["persis_info"], Work["libE_info"])
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/utils/runners.py", line 34, in _result
+    return self.f(*args)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/gen_funcs/persistent_aposmm.py", line 241, in aposmm
+    local_opter = LocalOptInterfacer(
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/gen_funcs/aposmm_localopt_support.py", line 142, in __init__
+    raise APOSMMException(x_new.x)
+libensemble.gen_funcs.aposmm_localopt_support.APOSMMException: No module named 'nlopt'
+
+[0]  2026-02-01 17:39:04,891 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 17:39:04,891 libensemble.libE (ERROR): Dumping ensemble history with 100 sims evaluated:

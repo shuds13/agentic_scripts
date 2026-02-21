@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convenience Tools and Functions &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="_static/libE_logo_circle.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Running libEnsemble" href="running_libE.html" />
+    <link rel="prev" title="MPI Executor - MPI apps" href="executor/mpi_executor.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/utilities.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Convenience Tools and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tools.add_unique_random_streams"><code class="docutils literal notranslate"><span class="pre">add_unique_random_streams()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.check_npy_file_exists"><code class="docutils literal notranslate"><span class="pre">check_npy_file_exists()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.eprint"><code class="docutils literal notranslate"><span class="pre">eprint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.ForkablePdb"><code class="docutils literal notranslate"><span class="pre">ForkablePdb</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.parse_args"><code class="docutils literal notranslate"><span class="pre">parse_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.save_libE_output"><code class="docutils literal notranslate"><span class="pre">save_libE_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#persistent_support.PersistentSupport"><code class="docutils literal notranslate"><span class="pre">PersistentSupport</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#persistent_support.PersistentSupport.send"><code class="docutils literal notranslate"><span class="pre">PersistentSupport.send()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#persistent_support.PersistentSupport.recv"><code class="docutils literal notranslate"><span class="pre">PersistentSupport.recv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#persistent_support.PersistentSupport.send_recv"><code class="docutils literal notranslate"><span class="pre">PersistentSupport.send_recv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#persistent_support.PersistentSupport.request_cancel_sim_ids"><code class="docutils literal notranslate"><span class="pre">PersistentSupport.request_cancel_sim_ids()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#alloc_support.AllocException"><code class="docutils literal notranslate"><span class="pre">AllocException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#alloc_support.AllocSupport"><code class="docutils literal notranslate"><span class="pre">AllocSupport</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.assign_resources"><code class="docutils literal notranslate"><span class="pre">AllocSupport.assign_resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.avail_worker_ids"><code class="docutils literal notranslate"><span class="pre">AllocSupport.avail_worker_ids()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.count_gens"><code class="docutils literal notranslate"><span class="pre">AllocSupport.count_gens()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.test_any_gen"><code class="docutils literal notranslate"><span class="pre">AllocSupport.test_any_gen()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.count_persis_gens"><code class="docutils literal notranslate"><span class="pre">AllocSupport.count_persis_gens()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.sim_work"><code class="docutils literal notranslate"><span class="pre">AllocSupport.sim_work()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.gen_work"><code class="docutils literal notranslate"><span class="pre">AllocSupport.gen_work()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.all_sim_started"><code class="docutils literal notranslate"><span class="pre">AllocSupport.all_sim_started()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.all_sim_ended"><code class="docutils literal notranslate"><span class="pre">AllocSupport.all_sim_ended()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.all_gen_informed"><code class="docutils literal notranslate"><span class="pre">AllocSupport.all_gen_informed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.points_by_priority"><code class="docutils literal notranslate"><span class="pre">AllocSupport.points_by_priority()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alloc_support.AllocSupport.skip_canceled_points"><code class="docutils literal notranslate"><span class="pre">AllocSupport.skip_canceled_points()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="programming_libE.html">Constructing Workflows</a></li>
+      <li class="breadcrumb-item active">Convenience Tools and Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/utilities.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="convenience-tools-and-functions">
+<h1>Convenience Tools and Functions<a class="headerlink" href="#convenience-tools-and-functions" title="Link to this heading"></a></h1>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Setup Helpers</label><div class="sd-tab-content docutils">
+<dl class="py function" id="module-tools">
+<dt class="sig sig-object py" id="tools.add_unique_random_streams">
+<span class="sig-prename descclassname"><span class="pre">tools.</span></span><span class="sig-name descname"><span class="pre">add_unique_random_streams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nstreams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tools.add_unique_random_streams" title="Link to this definition"></a></dt>
+<dd><p>Creates nstreams random number streams for the libE manager and workers
+when nstreams is num_workers + 1. Stream i is initialized with seed i by default.
+Otherwise the streams can be initialized with a provided seed.</p>
+<p>The entries are appended to the provided persis_info dictionary.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">persis_info</span> <span class="o">=</span> <span class="n">add_unique_random_streams</span><span class="p">(</span><span class="n">old_persis_info</span><span class="p">,</span> <span class="n">nworkers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>persis_info</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Persistent information dictionary.
+<a class="reference internal" href="data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">(example)</span></a></p></li>
+<li><p><strong>nstreams</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – Number of independent random number streams to produce.</p></li>
+<li><p><strong>seed</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – (Optional) Seed for identical random number streams for each worker. If
+explicitly set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, random number streams are unique and seed
+via other pseudorandom mechanisms.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tools.check_npy_file_exists">
+<span class="sig-prename descclassname"><span class="pre">tools.</span></span><span class="sig-name descname"><span class="pre">check_npy_file_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tools.check_npy_file_exists" title="Link to this definition"></a></dt>
+<dd><p>Checks a file is created in a parallel environment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<cite>str</cite>) – Name of file.</p></li>
+<li><p><strong>basename</strong> (<cite>bool</cite>) – Whether name provided is a basename for save_libE_output.</p></li>
+<li><p><strong>max_wait</strong> (<cite>int</cite>) – The maximum number of seconds to wait for the file to exist.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tools.eprint">
+<span class="sig-prename descclassname"><span class="pre">tools.</span></span><span class="sig-name descname"><span class="pre">eprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tools.eprint" title="Link to this definition"></a></dt>
+<dd><p>Prints a user message to standard error</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tools.ForkablePdb">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tools.</span></span><span class="sig-name descname"><span class="pre">ForkablePdb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">completekey</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tab'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nosigint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readrc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tools.ForkablePdb" title="Link to this definition"></a></dt>
+<dd><p>A Pdb subclass that may be used
+from a forked multiprocessing child</p>
+<p>Usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ForkablePdb</span>
+
+<span class="n">ForkablePdb</span><span class="p">()</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tools.parse_args">
+<span class="sig-prename descclassname"><span class="pre">tools.</span></span><span class="sig-name descname"><span class="pre">parse_args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tools.parse_args" title="Link to this definition"></a></dt>
+<dd><p>Parses command-line arguments. Use in calling script.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_args</span>
+
+<span class="n">nworkers</span><span class="p">,</span> <span class="n">is_manager</span><span class="p">,</span> <span class="n">libE_specs</span><span class="p">,</span> <span class="n">misc_args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Or for object interface, when creating the ensemble object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+
+<span class="n">ensemble</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">(</span><span class="n">parse_args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From the shell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python calling_script --comms local --nworkers 4
+</pre></div>
+</div>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: test_... [-h] [--comms [{local, tcp, ssh, client, mpi}]]
+                [--nworkers [NWORKERS]] [--workers WORKERS [WORKERS ...]]
+                [--nsim_workers [NSIM_WORKERS]]
+                [--nresource_sets [NRESOURCE_SETS]]
+                [--workerID [WORKERID]] [--server SERVER SERVER SERVER]
+                [--pwd [PWD]] [--worker_pwd [WORKER_PWD]]
+                [--worker_python [WORKER_PYTHON]]
+                [--tester_args [TESTER_ARGS [TESTER_ARGS ...]]]
+
+Note that running via an MPI runner uses the default &#39;mpi&#39; comms, and &#39;--nworkers&#39;
+will be ignored. The number of processes are supplied via the MPI run line. One being
+the manager, and the rest are workers.
+
+--comms,          Communications medium for manager and workers.
+                  Default is &#39;local&#39; if --nworkers is provided, otherwise  &#39;mpi&#39;.
+--nworkers/-n,    (For &#39;local&#39; or &#39;tcp&#39; comms) Set number of workers.
+--nresource_sets, Explicitly set the number of resource sets. This sets
+                  libE_specs[&quot;num_resource_sets&quot;]. By default, resources will be
+                  divided by workers (excluding zero_resource_workers).
+--nsim_workers,   (For &#39;local&quot; or &#39;mpi&#39; comms) A convenience option for cases with
+                  persistent generators - sets the number of simulation workers.
+                  If used with no other criteria, one additional worker for running a
+                  generator will be added, and the number of resource sets will be assigned
+                  the given value. If &#39;--nworkers&#39; has also been specified, will generate
+                  enough additional workers to match the other criteria. If &#39;--nresource_sets&#39;
+                  is also specified, will not override resource sets.
+
+Example command lines:
+
+Run with &#39;local&#39; comms and 4 workers (the following are equivalent).
+$ python calling_script --comms local --nworkers 4
+$ python calling_script --nworkers 4
+$ python calling_script -n 4
+
+Run with &#39;local&#39; comms and 5 workers - one gen worker (no resources), and 4 sim workers.
+$ python calling_script --comms local --nsim_workers 4
+
+Run with &#39;local&#39; comms with 4 workers and 8 resource sets. The extra resource sets will
+be used for larger simulations (using variable resource assignment).
+$ python calling_script --comms local --nresource_sets 8
+
+Previous example with &#39;mpi&#39; comms.
+$ mpirun -np 5 python calling_script --nresource_sets 8
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>nworkers</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – Number of workers libEnsemble will initiate</p></li>
+<li><p><strong>is_manager</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Indicates whether the current process is the manager process</p></li>
+<li><p><strong>libE_specs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Settings and specifications for libEnsemble
+<a class="reference internal" href="data_structures/libE_specs.html"><span class="doc">(example)</span></a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tools.save_libE_output">
+<span class="sig-prename descclassname"><span class="pre">tools.</span></span><span class="sig-name descname"><span class="pre">save_libE_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nworkers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Run</span> <span class="pre">completed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tools.save_libE_output" title="Link to this definition"></a></dt>
+<dd><p>Writes out history array and persis_info to files.</p>
+<p>Format: &lt;basename&gt;_results_History_length=&lt;length&gt;_evals=&lt;Completed evals&gt;_ranks=&lt;nworkers&gt;</p>
+<p>To use just basename, set append_attrs=False</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">save_libE_output</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="vm">__file__</span><span class="p">,</span> <span class="n">nworkers</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>H</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.rec.html">NumPy structured array</a>) – History array storing rows for each point.
+<a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p></li>
+<li><p><strong>persis_info</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Persistent information dictionary.
+<a class="reference internal" href="data_structures/persis_info.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>basename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Name of user-calling script (or user chosen name) to prefix output files.
+The convention is to send __file__ from user calling script.</p></li>
+<li><p><strong>nworkers</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – The number of workers in this ensemble. Added to output file names.</p></li>
+<li><p><strong>dest_path</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The path to save the file to.</p></li>
+<li><p><strong>mess</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – A message to print/log when saving the file.</p></li>
+<li><p><strong>append_attrs</strong> (<cite>bool</cite>) – Append run attributes to the base filename.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Persistent Helpers</label><div class="sd-tab-content docutils">
+<p id="p-gen-routines">These routines are commonly used within persistent generator functions
+such as <code class="docutils literal notranslate"><span class="pre">persistent_aposmm</span></code> in <code class="docutils literal notranslate"><span class="pre">libensemble/gen_funcs/</span></code> for intermediate
+communication with the manager. Persistent simulator functions are also supported.</p>
+<dl class="py class" id="module-persistent_support">
+<dt class="sig sig-object py" id="persistent_support.PersistentSupport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">persistent_support.</span></span><span class="sig-name descname"><span class="pre">PersistentSupport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">libE_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#persistent_support.PersistentSupport" title="Link to this definition"></a></dt>
+<dd><p>A helper class to assist with writing persistent user functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>libE_info</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>dict</em><em>]</em>)</p></li>
+<li><p><strong>calc_type</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="persistent_support.PersistentSupport.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#persistent_support.PersistentSupport.send" title="Link to this definition"></a></dt>
+<dd><p>Send message from worker to manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>...</em><em>]</em><em>, </em><em>dtype</em><em>[</em><em>_ScalarType_co</em><em>]</em><em>]</em>) – Output array to be sent to manager.</p></li>
+<li><p><strong>calc_status</strong> (<em>int</em>) – (Optional) Provides a task status.</p></li>
+<li><p><strong>keep_state</strong> – (Optional) If True the manager will not modify its
+record of the workers state (usually the manager changes the
+worker’s state to inactive, indicating the worker is ready to receive
+more work, unless using active receive mode).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="persistent_support.PersistentSupport.recv">
+<span class="sig-name descname"><span class="pre">recv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blocking</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#persistent_support.PersistentSupport.recv" title="Link to this definition"></a></dt>
+<dd><p>Receive message to worker from manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>blocking</strong> (<em>bool</em>) – (Optional) If True (default), will block until a message is received.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>message tag, Work dictionary, calc_in array</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(&lt;class ‘int’&gt;, &lt;class ‘dict’&gt;, numpy.ndarray[tuple[int, …], numpy.dtype[+_ScalarType_co]])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="persistent_support.PersistentSupport.send_recv">
+<span class="sig-name descname"><span class="pre">send_recv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#persistent_support.PersistentSupport.send_recv" title="Link to this definition"></a></dt>
+<dd><p>Send message from worker to manager and receive response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>...</em><em>]</em><em>, </em><em>dtype</em><em>[</em><em>_ScalarType_co</em><em>]</em><em>]</em>) – Output array to be sent to manager.</p></li>
+<li><p><strong>calc_status</strong> (<em>int</em>) – (Optional) Provides a task status.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>message tag, Work dictionary, calc_in array</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(&lt;class ‘int’&gt;, &lt;class ‘dict’&gt;, numpy.ndarray[tuple[int, …], numpy.dtype[+_ScalarType_co]])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="persistent_support.PersistentSupport.request_cancel_sim_ids">
+<span class="sig-name descname"><span class="pre">request_cancel_sim_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim_ids</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#persistent_support.PersistentSupport.request_cancel_sim_ids" title="Link to this definition"></a></dt>
+<dd><p>Request cancellation of sim_ids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim_ids</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – A list of sim_ids to cancel.</p>
+</dd>
+</dl>
+<p>A message is sent to the manager to mark requested sim_ids as cancel_requested.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Allocation Helpers</label><div class="sd-tab-content docutils">
+<p>These routines are used within custom allocation functions to help prepare <code class="docutils literal notranslate"><span class="pre">Work</span></code>
+structures for workers. See the routines within <code class="docutils literal notranslate"><span class="pre">libensemble/alloc_funcs/</span></code> for
+examples.</p>
+<dl class="py exception" id="module-alloc_support">
+<dt class="sig sig-object py" id="alloc_support.AllocException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">alloc_support.</span></span><span class="sig-name descname"><span class="pre">AllocException</span></span><a class="headerlink" href="#alloc_support.AllocException" title="Link to this definition"></a></dt>
+<dd><p>Raised for any exception in the alloc support</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">alloc_support.</span></span><span class="sig-name descname"><span class="pre">AllocSupport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manage_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_scheduler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport" title="Link to this definition"></a></dt>
+<dd><p>A helper class to assist with writing allocation functions.</p>
+<p>This class contains methods for common operations like populating work
+units, determining which workers are available, evaluating what values
+need to be distributed to workers, and others.</p>
+<p>Note that since the <code class="docutils literal notranslate"><span class="pre">alloc_f</span></code> is called periodically by the Manager, this
+class instance (if used) will be recreated/destroyed on each loop.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.assign_resources">
+<span class="sig-name descname"><span class="pre">assign_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rsets_req</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.assign_resources" title="Link to this definition"></a></dt>
+<dd><p>Schedule resource sets to a work record if possible.</p>
+<p>For default scheduler, if more than one group (node) is required,
+will try to find even split, otherwise allocates whole nodes.</p>
+<p>Raises <code class="docutils literal notranslate"><span class="pre">InsufficientFreeResources</span></code> if the required resources are not
+currently available, or <code class="docutils literal notranslate"><span class="pre">InsufficientResourcesError</span></code> if the required
+resources do not exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rsets_req</strong> – Int. Number of resource sets to request.</p></li>
+<li><p><strong>use_gpus</strong> – Bool. Whether to use GPU resource sets.</p></li>
+<li><p><strong>user_params</strong> – List of Integers. User parameters num_procs, num_gpus.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Integers. Resource set indices assigned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.avail_worker_ids">
+<span class="sig-name descname"><span class="pre">avail_worker_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_recv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_resource_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.avail_worker_ids" title="Link to this definition"></a></dt>
+<dd><p>Returns available workers as a list of IDs, filtered by the given options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>persistent</strong> – (Optional) Int. Only return workers with given <code class="docutils literal notranslate"><span class="pre">persis_state</span></code> (1=sim, 2=gen).</p></li>
+<li><p><strong>active_recv</strong> – (Optional) Boolean. Only return workers with given active_recv state.</p></li>
+<li><p><strong>zero_resource_workers</strong> – (Optional) Boolean. Only return workers that require no resources.</p></li>
+<li><p><strong>gen_workers</strong> – (Optional) Boolean. If True, return gen-only workers. If False, return all other workers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of worker IDs.</p>
+</dd>
+</dl>
+<p>If there are no zero resource workers defined, then the <code class="docutils literal notranslate"><span class="pre">zero_resource_workers</span></code> argument will
+be ignored.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.count_gens">
+<span class="sig-name descname"><span class="pre">count_gens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.count_gens" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of active generators.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.test_any_gen">
+<span class="sig-name descname"><span class="pre">test_any_gen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.test_any_gen" title="Link to this definition"></a></dt>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if a generator worker is active.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.count_persis_gens">
+<span class="sig-name descname"><span class="pre">count_persis_gens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.count_persis_gens" title="Link to this definition"></a></dt>
+<dd><p>Return the number of active persistent generators.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.sim_work">
+<span class="sig-name descname"><span class="pre">sim_work</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_rows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.sim_work" title="Link to this definition"></a></dt>
+<dd><p>Add sim work record to given <code class="docutils literal notranslate"><span class="pre">Work</span></code> dictionary.</p>
+<blockquote>
+<div><p>Includes evaluation of required resources if the worker is not in a
+persistent state.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wid</strong> – Int. Worker ID.</p></li>
+<li><p><strong>H</strong> – <a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">History array</span></a>. For parsing out requested resource sets.</p></li>
+<li><p><strong>H_fields</strong> – Which fields from <a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">H</span></a> to send.</p></li>
+<li><p><strong>H_rows</strong> – Which rows of <code class="docutils literal notranslate"><span class="pre">H</span></code> to send.</p></li>
+<li><p><strong>persis_info</strong> – Worker specific <a class="reference internal" href="data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">persis_info</span></a> dictionary.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a Work entry.</p>
+</dd>
+</dl>
+<p>Additional passed parameters are inserted into <code class="docutils literal notranslate"><span class="pre">libE_info</span></code> in the resulting work record.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">rset_team</span></code> is passed as an additional parameter, it will be honored, assuming that
+any resource checking has already been done.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.gen_work">
+<span class="sig-name descname"><span class="pre">gen_work</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_rows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.gen_work" title="Link to this definition"></a></dt>
+<dd><p>Add gen work record to given <code class="docutils literal notranslate"><span class="pre">Work</span></code> dictionary.</p>
+<blockquote>
+<div><p>Includes evaluation of required resources if the worker is not in a
+persistent state.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Work</strong> – <a class="reference internal" href="function_guides/work_dict.html#funcguides-workdict"><span class="std std-ref">Work dictionary</span></a>.</p></li>
+<li><p><strong>wid</strong> – Worker ID.</p></li>
+<li><p><strong>H_fields</strong> – Which fields from <a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">H</span></a> to send.</p></li>
+<li><p><strong>H_rows</strong> – Which rows of <code class="docutils literal notranslate"><span class="pre">H</span></code> to send.</p></li>
+<li><p><strong>persis_info</strong> – Worker specific <a class="reference internal" href="data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">persis_info</span></a> dictionary.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Work entry.</p>
+</dd>
+</dl>
+<p>Additional passed parameters are inserted into <code class="docutils literal notranslate"><span class="pre">libE_info</span></code> in the resulting work record.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">rset_team</span></code> is passed as an additional parameter, it will be honored, and assume that
+any resource checking has already been done. For example, passing <code class="docutils literal notranslate"><span class="pre">rset_team=[]</span></code>, would
+ensure that no resources are assigned.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.all_sim_started">
+<span class="sig-name descname"><span class="pre">all_sim_started</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.all_sim_started" title="Link to this definition"></a></dt>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if all expected points have started their sim.</p>
+<p>Excludes cancelled points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt_filter</strong> – (Optional) Boolean array filtering expected returned points in <code class="docutils literal notranslate"><span class="pre">H</span></code>.</p></li>
+<li><p><strong>low_bound</strong> – (Optional) Lower bound for testing all returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if all expected points have started their sim.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.all_sim_ended">
+<span class="sig-name descname"><span class="pre">all_sim_ended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.all_sim_ended" title="Link to this definition"></a></dt>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if all expected points have had their sim_end.</p>
+<p>Excludes cancelled points that were not already sim_started.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt_filter</strong> – (Optional) Boolean array filtering expected returned points in <code class="docutils literal notranslate"><span class="pre">H</span></code>.</p></li>
+<li><p><strong>low_bound</strong> – (Optional) Lower bound for testing all returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if all expected points have had their sim_end.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.all_gen_informed">
+<span class="sig-name descname"><span class="pre">all_gen_informed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.all_gen_informed" title="Link to this definition"></a></dt>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if gen has been informed of all expected points.</p>
+<p>Excludes cancelled points that were not already given out.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pt_filter</strong> – (Optional) Boolean array filtering expected sim_end points in <code class="docutils literal notranslate"><span class="pre">H</span></code>.</p></li>
+<li><p><strong>low_bound</strong> – (Optional) Lower bound for testing all returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if gen have been informed of all expected points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.points_by_priority">
+<span class="sig-name descname"><span class="pre">points_by_priority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points_avail</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.points_by_priority" title="Link to this definition"></a></dt>
+<dd><p>Returns indices of points to give by priority.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points_avail</strong> – Indices of points that are available to give.</p></li>
+<li><p><strong>batch</strong> – (Optional) Boolean. Should batches of points with the same priority be given simultaneously.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An array of point indices to give.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="alloc_support.AllocSupport.skip_canceled_points">
+<span class="sig-name descname"><span class="pre">skip_canceled_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#alloc_support.AllocSupport.skip_canceled_points" title="Link to this definition"></a></dt>
+<dd><p>Increments the “next_to_give” field in persis_info to skip any cancelled points</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+Live Data</label><div class="sd-tab-content docutils">
+<p>These classes provide a means to capture and display data during a workflow run.
+Users may provide an initialized object via <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;live_data&quot;]</span></code>. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools.live_data.plot2n</span><span class="w"> </span><span class="kn">import</span> <span class="n">Plot2N</span>
+<span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;live_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Plot2N</span><span class="p">(</span><span class="n">plot_type</span><span class="o">=</span><span class="s1">&#39;2d&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="executor/mpi_executor.html" class="btn btn-neutral float-left" title="MPI Executor - MPI apps" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="running_libE.html" class="btn btn-neutral float-right" title="Running libEnsemble" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

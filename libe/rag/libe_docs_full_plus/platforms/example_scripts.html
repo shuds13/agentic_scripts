@@ -1,0 +1,552 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example Scheduler Submission Scripts &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Simple Introduction" href="../tutorials/local_sine_tutorial.html" />
+    <link rel="prev" title="libEnsemble with SLURM" href="srun.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/platforms/example_scripts.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="platforms_index.html">Running on HPC Systems</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#centralized-running">Centralized Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#distributed-running">Distributed Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#configuring-the-run">Configuring the Run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#mapping-tasks-to-resources">Mapping Tasks to Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#zero-resource-workers">Zero-resource workers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#assigning-gpus">Assigning GPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#varying-resources">Varying resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#overriding-auto-detection">Overriding Auto-Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#systems-with-launch-mom-nodes">Systems with Launch/MOM Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platforms_index.html#globus-compute-remote-user-functions">Globus Compute - Remote User Functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="platforms_index.html#instructions-for-specific-platforms">Instructions for Specific Platforms</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="aurora.html">Aurora</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bebop.html">Bebop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontier.html">Frontier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="improv.html">Improv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perlmutter.html">Perlmutter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polaris.html">Polaris</a></li>
+<li class="toctree-l3"><a class="reference internal" href="summit.html">Summit (Decommissioned)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="srun.html">libEnsemble with SLURM</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Example Scheduler Submission Scripts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general-examples">General examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#system-examples">System Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="platforms_index.html">Running on HPC Systems</a></li>
+      <li class="breadcrumb-item active">Example Scheduler Submission Scripts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/platforms/example_scripts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-scheduler-submission-scripts">
+<h1>Example Scheduler Submission Scripts<a class="headerlink" href="#example-scheduler-submission-scripts" title="Link to this heading"></a></h1>
+<p>Below are example submission scripts used to configure and launch libEnsemble
+on a variety of high-powered systems. See <a class="reference internal" href="platforms_index.html#platform-index"><span class="std std-ref">Running on HPC Systems</span></a>
+for more information about the respective systems and configuration.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is <strong>highly recommended</strong> that the directive lines (e.g., #SBATCH) in batch
+submission scripts do <strong>NOT</strong> specify processor, task, or GPU configuration
+information—these lines should only specify the number of nodes required.</p>
+<p>For example, do not specify <code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--gpus-per-node=4</span></code> in order to use four
+GPUs on the node, when each worker may use less than this, as this may assign
+all of the GPUs to a single MPI invocation. Instead, the configuration should
+be supplied either
+<a class="reference internal" href="../examples/sim_funcs/forces_simf_gpu.html"><span class="doc">in the simulation function</span></a>
+or, if using dynamic resources,
+<a class="reference internal" href="../examples/sim_funcs/forces_simf_gpu_vary_resources.html"><span class="doc">in the generator</span></a>.</p>
+</div>
+<section id="general-examples">
+<h2>General examples<a class="headerlink" href="#general-examples" title="Link to this heading"></a></h2>
+<section id="slurm-basic">
+<h3>Slurm - Basic<a class="headerlink" href="#slurm-basic" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/submit_slurm_simple.sh</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J libE_simple</span>
+<span class="c1">#SBATCH -A &lt;myproject&gt;</span>
+<span class="c1">#SBATCH -p &lt;partition_name&gt;</span>
+<span class="c1">#SBATCH -C &lt;constraint_name&gt;</span>
+<span class="c1">#SBATCH --time 10</span>
+<span class="c1">#SBATCH --nodes 2</span>
+
+<span class="c1"># Usually either -p or -C above is used.</span>
+
+<span class="c1"># On some SLURM configurations, these ensure runs can share nodes</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SLURM_EXACT</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SLURM_MEM_PER_NODE</span><span class="o">=</span><span class="m">0</span>
+
+python<span class="w"> </span>libe_calling_script.py<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="pbs-basic">
+<h3>PBS - Basic<a class="headerlink" href="#pbs-basic" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/submit_pbs_simple.sh</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash -l</span>
+<span class="c1">#PBS -l select=2</span>
+<span class="c1">#PBS -l walltime=00:15:00</span>
+<span class="c1">#PBS -q &lt;queue_name&gt;</span>
+<span class="c1">#PBS -A &lt;myproject&gt;</span>
+
+<span class="c1"># We selected 2 nodes - now running with 8 workers.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_GPU_SUPPORT_ENABLED</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$PBS_O_WORKDIR</span>
+python<span class="w"> </span>libE_calling_script.py<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="lsf-basic">
+<h3>LSF - Basic<a class="headerlink" href="#lsf-basic" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/submit_lsf_simple.sh</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash -l</span>
+<span class="c1">#BSUB -P &lt;project code&gt;</span>
+<span class="c1">#BSUB -J libe_mproc</span>
+<span class="c1">#BSUB -W 15</span>
+<span class="c1">#BSUB -nnodes 2</span>
+
+python<span class="w"> </span>run_libe_forces.py<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="system-examples">
+<h2>System Examples<a class="headerlink" href="#system-examples" title="Link to this heading"></a></h2>
+<section id="aurora">
+<h3>Aurora<a class="headerlink" href="#aurora" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/submit_pbs_aurora.sh</span><a class="headerlink" href="#id4" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash -l</span>
+<span class="c1">#PBS -l select=2</span>
+<span class="c1">#PBS -l walltime=00:30:00</span>
+<span class="c1">#PBS -q &lt;myqueue&gt;</span>
+<span class="c1">#PBS -A &lt;myproject&gt;</span>
+
+module<span class="w"> </span>load<span class="w"> </span>frameworks
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_GPU_SUPPORT_ENABLED</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$PBS_O_WORKDIR</span>
+
+<span class="c1"># 2 nodes - 12 sim workers (6 GPUs per node)</span>
+python<span class="w"> </span>libE_calling_script.py<span class="w"> </span>-n<span class="w"> </span><span class="m">13</span>
+
+<span class="c1"># if using libE_specs[&quot;use_tiles_as_gpus&quot;] = True</span>
+<span class="c1"># 2 nodes 24 sim workers  (12 GPU tiles per node) libE_specs[&quot;use_tiles_as_gpus&quot;] = True</span>
+<span class="c1"># python libE_calling_script.py -n 25</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="frontier-large-warpx-ensemble">
+<h3>Frontier (Large WarpX Ensemble)<a class="headerlink" href="#frontier-large-warpx-ensemble" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/submit_frontier_large.sh</span><a class="headerlink" href="#id5" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J libE_warpX_full_sim_32x40</span>
+<span class="c1">#SBATCH -A &lt;myproject&gt;</span>
+<span class="c1">#SBATCH -p batch</span>
+<span class="c1">#SBATCH --time 6:00:00</span>
+<span class="c1">#SBATCH --nodes 240</span>
+
+module<span class="w"> </span>load<span class="w"> </span>cray-python
+
+<span class="c1"># Run one gen and 40 sim workers (6 nodes = 48 GPUs each)</span>
+python<span class="w"> </span>run_gpcam_warpx.py<span class="w"> </span>-n<span class="w"> </span><span class="m">41</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="perlmutter">
+<h3>Perlmutter<a class="headerlink" href="#perlmutter" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/submit_perlmutter.sh</span><a class="headerlink" href="#id6" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J libE_small_test</span>
+<span class="c1">#SBATCH -A &lt;myproject&gt;</span>
+<span class="c1">#SBATCH -C gpu</span>
+<span class="c1">#SBATCH --time 10</span>
+<span class="c1">#SBATCH --nodes 1</span>
+
+<span class="c1"># This script is using GPU partition</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_GPU_SUPPORT_ENABLED</span><span class="o">=</span><span class="m">1</span>
+
+<span class="c1"># One worker for generator and 4 for sims (one GPU each)</span>
+python<span class="w"> </span>libe_calling_script.py<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
+
+<span class="c1"># Or if libE_specs option gen_on_manager=True</span>
+<span class="c1"># python libe_calling_script.py -n 4</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="polaris">
+<h3>Polaris<a class="headerlink" href="#polaris" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/submit_pbs_polaris.sh</span><a class="headerlink" href="#id7" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash -l</span>
+<span class="c1">#PBS -l select=1:system=polaris</span>
+<span class="c1">#PBS -l walltime=00:15:00</span>
+<span class="c1">#PBS -l filesystems=home:grand</span>
+<span class="c1">#PBS -q debug</span>
+<span class="c1">#PBS -A &lt;myproject&gt;</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_GPU_SUPPORT_ENABLED</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$PBS_O_WORKDIR</span>
+python<span class="w"> </span>libE_calling_script.py<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="bebop">
+<h3>Bebop<a class="headerlink" href="#bebop" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/bebop_submit_pbs_central.sh</span><a class="headerlink" href="#id8" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash -l</span>
+<span class="c1">#PBS -l select=4</span>
+<span class="c1">#PBS -l walltime=00:15:00</span>
+<span class="c1">#PBS -q bdwall</span>
+<span class="c1">#PBS -A [project]</span>
+<span class="c1">#PBS -N libE_example</span>
+
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$PBS_O_WORKDIR</span>
+<span class="c1"># Choose MPI backend. Note that the built mpi4py in your environment should match.</span>
+module<span class="w"> </span>load<span class="w"> </span>oneapi/mpi
+<span class="c1"># module load openmpi</span>
+
+python<span class="w"> </span>run_libe_example.py<span class="w"> </span>-n<span class="w"> </span><span class="m">16</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="bridges-mpi-central-mode">
+<h3>Bridges - MPI / Central Mode<a class="headerlink" href="#bridges-mpi-central-mode" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/bridges_submit_slurm_central.sh</span><a class="headerlink" href="#id9" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J libE_test_central</span>
+<span class="c1">#SBATCH -N 5</span>
+<span class="c1">#SBATCH -p RM</span>
+<span class="c1">#SBATCH -A &lt;my_project&gt;</span>
+<span class="c1">#SBATCH -o tlib.%j.%N.out</span>
+<span class="c1">#SBATCH -e tlib.%j.%N.error</span>
+<span class="c1">#SBATCH -t 00:30:00</span>
+
+<span class="c1"># Launch script for running in central mode with mpi4py.</span>
+<span class="c1">#   libEnsemble will run on a dedicated node (or nodes).</span>
+<span class="c1">#   The remaining nodes in the allocation will be dedicated to worker launched apps.</span>
+<span class="c1">#   Initialize Executor with auto-resources=True and central_mode=True.</span>
+
+<span class="c1"># User to edit these variables</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EXE</span><span class="o">=</span>libE_calling_script.py
+<span class="nb">export</span><span class="w"> </span><span class="nv">NUM_WORKERS</span><span class="o">=</span><span class="m">4</span>
+
+mpirun<span class="w"> </span>-np<span class="w"> </span><span class="k">$((</span><span class="nv">$NUM_WORKERS</span><span class="o">+</span><span class="m">1</span><span class="k">))</span><span class="w"> </span>-ppn<span class="w"> </span><span class="k">$((</span><span class="nv">$NUM_WORKERS</span><span class="o">+</span><span class="m">1</span><span class="k">))</span><span class="w"> </span>python<span class="w"> </span><span class="nv">$EXE</span>
+
+<span class="c1"># To use local mode instead of mpi4py (with parse_args())</span>
+<span class="c1"># python $EXE -n $NUM_WORKERS</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="slurm-mpi-distributed-mode-co-locate-workers-mpi-applications">
+<span id="slurm-mpi-distributed"></span><h3>SLURM - MPI / Distributed Mode (co-locate workers &amp; MPI applications)<a class="headerlink" href="#slurm-mpi-distributed-mode-co-locate-workers-mpi-applications" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/submit_distrib_mpi4py.sh</span><a class="headerlink" href="#id10" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J libE_test</span>
+<span class="c1">#SBATCH -N 4</span>
+<span class="c1">#SBATCH -p [queue]</span>
+<span class="c1">#SBATCH -A &lt;my_project&gt;</span>
+<span class="c1">#SBATCH -o tlib.%j.%N.out</span>
+<span class="c1">#SBATCH -e tlib.%j.%N.error</span>
+<span class="c1">#SBATCH -t 01:00:00</span>
+
+<span class="c1"># Launch script that runs in distributed mode with mpi4py.</span>
+<span class="c1">#   Workers are evenly spread over nodes and manager added to the first node.</span>
+<span class="c1">#   Requires even distribution - either multiple workers per node or nodes per worker</span>
+<span class="c1">#   Option for manager to have a dedicated node.</span>
+<span class="c1">#   Use of MPI Executor will ensure workers co-locate tasks with workers</span>
+<span class="c1">#   If node_list file is kept, this informs libe of resources. Else, libe auto-detects.</span>
+
+<span class="c1"># User to edit these variables</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EXE</span><span class="o">=</span>libE_calling_script.py
+<span class="nb">export</span><span class="w"> </span><span class="nv">NUM_WORKERS</span><span class="o">=</span><span class="m">4</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MANAGER_NODE</span><span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="c1"># true = Manager has a dedicated node (assign one extra)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">USE_NODE_LIST</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="c1"># If false, allow libE to determine node_list from environment.</span>
+
+<span class="c1"># Sometimes may be necessary</span>
+<span class="c1"># As libE shares nodes with user applications allow fallback if contexts overrun.</span>
+<span class="c1"># unset I_MPI_FABRICS</span>
+<span class="c1"># export I_MPI_FABRICS_LIST=tmi,tcp</span>
+<span class="c1"># export I_MPI_FALLBACK=1</span>
+
+<span class="c1"># If using in calling script (After N mins manager kills workers and exits cleanly)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LIBE_WALLCLOCK</span><span class="o">=</span><span class="m">55</span>
+
+<span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="c1"># Work out distribution</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$MANAGER_NODE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nv">WORKER_NODES</span><span class="o">=</span><span class="k">$((</span><span class="nv">$SLURM_NNODES</span><span class="o">-</span><span class="m">1</span><span class="k">))</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="nv">WORKER_NODES</span><span class="o">=</span><span class="nv">$SLURM_NNODES</span>
+<span class="k">fi</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$NUM_WORKERS</span><span class="w"> </span>-ge<span class="w"> </span><span class="nv">$WORKER_NODES</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nv">SUB_NODE_WORKERS</span><span class="o">=</span><span class="nb">true</span>
+<span class="w">  </span><span class="nv">WORKERS_PER_NODE</span><span class="o">=</span><span class="k">$((</span><span class="nv">$NUM_WORKERS</span><span class="o">/</span><span class="nv">$WORKER_NODES</span><span class="k">))</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="nv">SUB_NODE_WORKERS</span><span class="o">=</span><span class="nb">false</span>
+<span class="w">  </span><span class="nv">NODES_PER_WORKER</span><span class="o">=</span><span class="k">$((</span><span class="nv">$WORKER_NODES</span><span class="o">/</span><span class="nv">$NUM_WORKERS</span><span class="k">))</span>
+<span class="k">fi</span><span class="p">;</span>
+<span class="c1">#-----------------------------------------------------------------------------</span>
+
+<span class="c1"># A little useful information</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;Manager process running on: </span><span class="nv">$HOSTNAME</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;Directory is:  </span><span class="nv">$PWD</span><span class="s2">&quot;</span>
+
+<span class="c1"># Generate a node list with 1 node per line:</span>
+srun<span class="w"> </span>hostname<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span>node_list
+
+<span class="c1"># Add manager node to machinefile</span>
+head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>node_list<span class="w"> </span>&gt;<span class="w"> </span>machinefile.<span class="nv">$SLURM_JOBID</span>
+
+<span class="c1"># Add worker nodes to machinefile</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$SUB_NODE_WORKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span>awk<span class="w"> </span>-v<span class="w"> </span><span class="nv">repeat</span><span class="o">=</span><span class="nv">$WORKERS_PER_NODE</span><span class="w"> </span><span class="s1">&#39;{for(i=0; i&lt;repeat; i++)print}&#39;</span><span class="w"> </span>node_list<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&gt;&gt;machinefile.<span class="nv">$SLURM_JOBID</span>
+<span class="k">else</span>
+<span class="w">  </span>awk<span class="w"> </span>-v<span class="w"> </span><span class="nv">patt</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$NODES_PER_WORKER</span><span class="s2">&quot;</span><span class="w"> </span><span class="s1">&#39;NR % patt == 1&#39;</span><span class="w"> </span>node_list<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&gt;&gt;<span class="w"> </span>machinefile.<span class="nv">$SLURM_JOBID</span>
+<span class="k">fi</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$USE_NODE_LIST</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;false&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span>rm<span class="w"> </span>node_list
+<span class="w">  </span><span class="nb">wait</span>
+<span class="k">fi</span><span class="p">;</span>
+
+<span class="c1"># Put in a timestamp</span>
+<span class="nb">echo</span><span class="w"> </span>Starting<span class="w"> </span>execution<span class="w"> </span>at:<span class="w"> </span><span class="sb">`</span>date<span class="sb">`</span>
+
+<span class="c1"># To use srun</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SLURM_HOSTFILE</span><span class="o">=</span>machinefile.<span class="nv">$SLURM_JOBID</span>
+
+<span class="c1"># The &quot;arbitrary&quot; flag should ensure SLURM_HOSTFILE is picked up</span>
+<span class="c1"># cmd=&quot;srun --ntasks $(($NUM_WORKERS+1)) -m arbitrary python $EXE&quot;</span>
+<span class="nv">cmd</span><span class="o">=</span><span class="s2">&quot;srun --ntasks </span><span class="k">$((</span><span class="nv">$NUM_WORKERS</span><span class="o">+</span><span class="m">1</span><span class="k">))</span><span class="s2"> -m arbitrary python </span><span class="nv">$EXE</span><span class="s2"> </span><span class="nv">$LIBE_WALLCLOCK</span><span class="s2">&quot;</span>
+
+<span class="nb">echo</span><span class="w"> </span>The<span class="w"> </span><span class="nb">command</span><span class="w"> </span>is:<span class="w"> </span><span class="nv">$cmd</span>
+<span class="nb">echo</span><span class="w"> </span>End<span class="w"> </span>PBS<span class="w"> </span>script<span class="w"> </span>information.
+<span class="nb">echo</span><span class="w"> </span>All<span class="w"> </span>further<span class="w"> </span>output<span class="w"> </span>is<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>process<span class="w"> </span>being<span class="w"> </span>run<span class="w"> </span>and<span class="w"> </span>not<span class="w"> </span>the<span class="w"> </span>script.<span class="se">\n\n</span><span class="w"> </span><span class="nv">$cmd</span>
+
+<span class="nv">$cmd</span>
+
+<span class="c1"># Print the date again -- when finished</span>
+<span class="nb">echo</span><span class="w"> </span>Finished<span class="w"> </span>at:<span class="w"> </span><span class="sb">`</span>date<span class="sb">`</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="summit-decommissioned-on-launch-nodes-with-multiprocessing">
+<h3>Summit (Decommissioned) - On Launch Nodes with Multiprocessing<a class="headerlink" href="#summit-decommissioned-on-launch-nodes-with-multiprocessing" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text">/examples/libE_submission_scripts/summit_submit_mproc.sh</span><a class="headerlink" href="#id11" title="Link to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash -x</span>
+<span class="c1">#BSUB -P &lt;project code&gt;</span>
+<span class="c1">#BSUB -J libe_mproc</span>
+<span class="c1">#BSUB -W 30</span>
+<span class="c1">#BSUB -nnodes 4</span>
+<span class="c1">#BSUB -alloc_flags &quot;smt1&quot;</span>
+
+<span class="c1"># Script to run libEnsemble using multiprocessing on launch nodes.</span>
+<span class="c1"># Assumes Conda environment is set up.</span>
+
+<span class="c1"># To be run with central job management</span>
+<span class="c1"># - Manager and workers run on launch node.</span>
+<span class="c1"># - Workers submit tasks to the compute nodes in the allocation.</span>
+
+<span class="c1"># Name of calling script-</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EXE</span><span class="o">=</span>libE_calling_script.py
+
+<span class="c1"># Communication Method</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">COMMS</span><span class="o">=</span><span class="s2">&quot;--comms local&quot;</span>
+
+<span class="c1"># Number of workers.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NWORKERS</span><span class="o">=</span><span class="s2">&quot;--nworkers 4&quot;</span>
+
+<span class="c1"># Wallclock for libE.  (allow clean shutdown)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LIBE_WALLCLOCK</span><span class="o">=</span><span class="m">25</span><span class="w"> </span><span class="c1"># Optional if pass to script</span>
+
+<span class="c1"># Name of Conda environment</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CONDA_ENV_NAME</span><span class="o">=</span>&lt;conda_env_name&gt;
+
+<span class="c1"># Need these if not already loaded</span>
+<span class="c1"># module load python</span>
+<span class="c1"># module load gcc/4.8.5</span>
+
+<span class="c1"># Activate conda environment</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONNOUSERSITE</span><span class="o">=</span><span class="m">1</span>
+.<span class="w"> </span>activate<span class="w"> </span><span class="nv">$CONDA_ENV_NAME</span>
+
+<span class="c1"># hash -d python # Check pick up python in conda env</span>
+<span class="nb">hash</span><span class="w"> </span>-r<span class="w"> </span><span class="c1"># Check no commands hashed (pip/python...)</span>
+
+<span class="c1"># Launch libE</span>
+<span class="c1"># python $EXE $NUM_WORKERS &gt; out.txt 2&gt;&amp;1  # No args. All defined in calling script</span>
+<span class="c1"># python $EXE $COMMS $NWORKERS &gt; out.txt 2&gt;&amp;1  # If calling script is using parse_args()</span>
+python<span class="w"> </span><span class="nv">$EXE</span><span class="w"> </span><span class="nv">$LIBE_WALLCLOCK</span><span class="w"> </span><span class="nv">$COMMS</span><span class="w"> </span><span class="nv">$NWORKERS</span><span class="w"> </span>&gt;<span class="w"> </span>out.txt<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="c1"># If calling script takes wall-clock as positional arg.</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="srun.html" class="btn btn-neutral float-left" title="libEnsemble with SLURM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorials/local_sine_tutorial.html" class="btn btn-neutral float-right" title="Simple Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

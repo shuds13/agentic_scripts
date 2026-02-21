@@ -1,0 +1,33 @@
+[0]  2026-02-01 20:34:11,545 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:34:11,545 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:34:11,550 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 20:34:12,866 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:34:12,867 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:34:12,901 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:34:12,902 libensemble.libE (INFO): Manager total time: 1.354
+[0]  2026-02-01 20:34:18,309 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:34:18,309 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:34:18,312 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 20:34:18,316 libensemble.history (MANAGER_WARNING): Giving entries in H0 back to gen. Marking entries in H0 as 'gen_informed' if 'sim_ended'.
+[0]  2026-02-01 20:34:21,897 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:34:21,898 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:34:21,914 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:34:21,915 libensemble.libE (INFO): Manager total time: 3.605

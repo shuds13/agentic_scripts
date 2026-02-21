@@ -1,0 +1,216 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuring libEnsemble &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="LibE Specs" href="libE_specs.html" />
+    <link rel="prev" title="Running an Ensemble" href="../libe_module.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/data_structures/data_structures.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Configuring libEnsemble</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libE_specs.html">LibE Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gen_specs.html">Generator Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sim_specs.html">Simulation Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="alloc_specs.html">Allocation Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="platform_specs.html">Platform Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="persis_info.html">persis_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exit_criteria.html">Exit Criteria</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+      <li class="breadcrumb-item active">Configuring libEnsemble</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/data_structures/data_structures.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuring-libensemble">
+<h1>Configuring libEnsemble<a class="headerlink" href="#configuring-libensemble" title="Link to this heading"></a></h1>
+<p>libEnsemble workflows are configured via the following data structures.
+See <a class="reference internal" href="../libe_module.html#libe-module"><span class="std std-ref">here</span></a> for instruction on constructing a complete workflow.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">libEnsemble Specifications:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libE_specs.html">LibE Specs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libE_specs.html#libensemble.specs.LibeSpecs"><code class="docutils literal notranslate"><span class="pre">LibeSpecs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="libE_specs.html#scheduler-options">Scheduler Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libE_specs.html#overriding-resource-auto-detection">Overriding Resource Auto-Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libE_specs.html#formatting-options-for-libe-stats-file">Formatting Options for libE_stats File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gen_specs.html">Generator Specs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gen_specs.html#libensemble.specs.GenSpecs"><code class="docutils literal notranslate"><span class="pre">GenSpecs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sim_specs.html">Simulation Specs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sim_specs.html#libensemble.specs.SimSpecs"><code class="docutils literal notranslate"><span class="pre">SimSpecs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="alloc_specs.html">Allocation Specs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="alloc_specs.html#libensemble.specs.AllocSpecs"><code class="docutils literal notranslate"><span class="pre">AllocSpecs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="platform_specs.html">Platform Specs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="platform_specs.html#id1">platform_specs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform_specs.html#platform">platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform_specs.html#known-platforms-list">Known Platforms List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="persis_info.html">persis_info</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exit_criteria.html">Exit Criteria</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exit_criteria.html#libensemble.specs.ExitCriteria"><code class="docutils literal notranslate"><span class="pre">ExitCriteria</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../libe_module.html" class="btn btn-neutral float-left" title="Running an Ensemble" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="libE_specs.html" class="btn btn-neutral float-right" title="LibE Specs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

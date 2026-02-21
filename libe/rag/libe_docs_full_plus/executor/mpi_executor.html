@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPI Executor - MPI apps &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Convenience Tools and Functions" href="../utilities.html" />
+    <link rel="prev" title="Base Executor - Local apps" href="executor.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/executor/mpi_executor.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ex_index.html">Executors</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Executor Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="executor.html">Base Executor - Local apps</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">MPI Executor - MPI apps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.executors.mpi_executor.MPIExecutor"><code class="docutils literal notranslate"><span class="pre">MPIExecutor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class-specific-attributes">Class-specific Attributes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+          <li class="breadcrumb-item"><a href="ex_index.html">Executors</a></li>
+      <li class="breadcrumb-item active">MPI Executor - MPI apps</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/executor/mpi_executor.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-mpi_executor">
+<span id="mpi-executor-mpi-apps"></span><h1>MPI Executor - MPI apps<a class="headerlink" href="#module-mpi_executor" title="Link to this heading"></a></h1>
+<p>This module launches and controls the running of MPI applications.</p>
+<p>In order to create an MPI executor, the calling script should contain:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">exctr</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The MPIExecutor will use system resource information supplied by the libEnsemble
+resource manager when submitting tasks.</p>
+<p>See this <a class="reference internal" href="overview.html"><span class="doc">example</span></a> for usage.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="libensemble.executors.mpi_executor.MPIExecutor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libensemble.executors.mpi_executor.</span></span><span class="sig-name descname"><span class="pre">MPIExecutor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.executors.mpi_executor.MPIExecutor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="executor.html#libensemble.executors.executor.Executor" title="libensemble.executors.executor.Executor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Executor</span></code></a></p>
+<p>The MPI executor can create, poll and kill runnable MPI tasks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>custom_info</strong> (<em>dict</em><em>, </em><em>Optional</em>) – Provide custom overrides to selected variables that are usually
+auto-detected. See below.</p>
+</dd>
+</dl>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">custom_info usage</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">The MPIExecutor automatically detects MPI runners and launch
+mechanisms. However it is possible to override the detected
+information using the <code class="docutils literal notranslate"><span class="pre">custom_info</span></code> argument. This takes
+a dictionary of values.</p>
+<p class="sd-card-text">The allowable fields are:</p>
+<pre class="literal-block"><strong>'mpi_runner'</strong> [string]:
+    Select runner: <cite>'mpich'</cite>, <cite>'openmpi'</cite>, <cite>'aprun'</cite>, <cite>'srun'</cite>, <cite>'jsrun'</cite>, <cite>'custom'</cite>
+    All except <cite>'custom'</cite> relate to runner classes in libEnsemble.
+    Custom allows user to define their own run-lines but without parsing
+    arguments or making use of auto-resources.
+<strong>'runner_name'</strong> [string]:
+    The literal string that appears at the front of the run command.
+    This is typically 'mpirun', 'srun', etc., and can be a full path.
+    Defaults exist for all runners except 'custom'.
+<strong>'subgroup_launch'</strong> [bool]:
+    Whether MPI runs should be initiated in a new process group. This needs
+    to be correct for kills to work correctly. Use the standalone test at
+    <cite>libensemble/tests/standalone_tests/kill_test</cite> to determine correct value
+    for a system.</pre>
+</div>
+</details><p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">customizer</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mpi_runner&#39;</span><span class="p">:</span> <span class="s1">&#39;mpich&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;runner_name&#39;</span><span class="p">:</span> <span class="s1">&#39;wrapper -x mpich&#39;</span><span class="p">}</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.executors.mpi_executor</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPIExecutor</span>
+<span class="n">exctr</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">(</span><span class="n">custom_info</span><span class="o">=</span><span class="n">customizer</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.executors.mpi_executor.MPIExecutor.submit">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calc_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_procs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procs_per_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_gpus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">machinefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_inout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_on_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_assign_gpus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match_procs_to_gpus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_script</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpi_runner_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.executors.mpi_executor.MPIExecutor.submit" title="Link to this definition"></a></dt>
+<dd><p>Creates a new task, and either executes or schedules execution.</p>
+<p>The created <a class="reference internal" href="executor.html#libensemble.executors.executor.Task" title="libensemble.executors.executor.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">task</span></code></a> object is returned.</p>
+<p>The user must supply either the app_name or calc_type arguments (app_name
+is recommended). All other arguments are optional.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calc_type</strong> (<em>str</em><em>, </em><em>Optional</em>) – The calculation type: ‘sim’ or ‘gen’
+Only used if app_name is not supplied. Uses default sim or gen application.</p></li>
+<li><p><strong>app_name</strong> (<em>str</em><em>, </em><em>Optional</em>) – The application name. Must be supplied if calc_type is not.</p></li>
+<li><p><strong>num_procs</strong> (<em>int</em><em>, </em><em>Optional</em>) – The total number of processes (MPI ranks)</p></li>
+<li><p><strong>num_nodes</strong> (<em>int</em><em>, </em><em>Optional</em>) – The number of nodes</p></li>
+<li><p><strong>procs_per_node</strong> (<em>int</em><em>, </em><em>Optional</em>) – The processes per node</p></li>
+<li><p><strong>num_gpus</strong> (<em>int</em><em>, </em><em>Optional</em>) – The total number of GPUs</p></li>
+<li><p><strong>machinefile</strong> (<em>str</em><em>, </em><em>Optional</em>) – Name of a machinefile</p></li>
+<li><p><strong>app_args</strong> (<em>str</em><em>, </em><em>Optional</em>) – A string of the application arguments to be added to task
+submit command line</p></li>
+<li><p><strong>stdout</strong> (<em>str</em><em>, </em><em>Optional</em>) – A standard output filename</p></li>
+<li><p><strong>stderr</strong> (<em>str</em><em>, </em><em>Optional</em>) – A standard error filename</p></li>
+<li><p><strong>stage_inout</strong> (<em>str</em><em>, </em><em>Optional</em>) – A directory to copy files from; default will take from
+current directory</p></li>
+<li><p><strong>hyperthreads</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Whether to submit MPI tasks to hyperthreads</p></li>
+<li><p><strong>dry_run</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Whether this is a dry_run - no task will be launched; instead
+runline is printed to logger (at INFO level)</p></li>
+<li><p><strong>wait_on_start</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Whether to wait for task to be polled as RUNNING (or other
+active/end state) before continuing.</p></li>
+<li><p><strong>extra_args</strong> (<em>str</em><em>, </em><em>Optional</em>) – Additional command line arguments to supply to MPI runner. If
+arguments are recognized as MPI resource configuration
+(num_procs, num_nodes, procs_per_node) they will be used in
+resources determination unless also supplied in the direct
+options.</p></li>
+<li><p><strong>auto_assign_gpus</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Auto-assign GPUs available to this worker using either the method
+supplied in configuration or determined by detected environment.
+Default: False</p></li>
+<li><p><strong>match_procs_to_gpus</strong> (<em>bool</em><em>, </em><em>Optional</em>) – For use with auto_assign_gpus. Auto-assigns MPI processors to match
+the assigned GPUs. Default: False unless auto_assign_gpus is True and
+no other CPU configuration is supplied.</p></li>
+<li><p><strong>env_script</strong> (<em>str</em><em>, </em><em>Optional</em>) – The full path of a shell script to set up the environment for the
+launched task. This will be run in the subprocess, and not affect
+the worker environment. The script should start with a shebang.</p></li>
+<li><p><strong>mpi_runner_type</strong> (<em>(</em><em>str</em><em>|</em><em>dict</em><em>)</em><em>, </em><em>Optional</em>) – An MPI runner to be used for this submit only. Supply either a string
+for the MPI runner type or a dictionary for detailed configuration
+(see custom_info on MPIExecutor constructor). This will not change
+the default MPI runner for the executor.
+Example string inputs are “mpich”, “openmpi”, “srun”, “jsrun”, “aprun”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>task</strong> – The launched task object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="executor.html#libensemble.executors.executor.Task" title="libensemble.executors.executor.Task">Task</a></p>
+</dd>
+</dl>
+<p>Note that if some combination of num_procs, num_nodes, and
+procs_per_node is provided, these will be honored if
+possible. If resource detection is on and these are omitted,
+then the available resources will be divided among workers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.executors.mpi_executor.MPIExecutor.manager_kill_received">
+<span class="sig-name descname"><span class="pre">manager_kill_received</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.executors.mpi_executor.MPIExecutor.manager_kill_received" title="Link to this definition"></a></dt>
+<dd><p>Return True if received kill signal from the manager</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.executors.mpi_executor.MPIExecutor.manager_poll">
+<span class="sig-name descname"><span class="pre">manager_poll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.executors.mpi_executor.MPIExecutor.manager_poll" title="Link to this definition"></a></dt>
+<dd><p id="manager-poll-label">Polls for a manager signal</p>
+<p>The executor manager_signal attribute will be updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.executors.mpi_executor.MPIExecutor.polling_loop">
+<span class="sig-name descname"><span class="pre">polling_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_manager</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.executors.mpi_executor.MPIExecutor.polling_loop" title="Link to this definition"></a></dt>
+<dd><p>Optional, blocking, generic task status polling loop. Operates until the task
+finishes, times out, or is optionally killed via a manager signal. On completion, returns a
+presumptive <a class="reference internal" href="../function_guides/calc_status.html#funcguides-calcstatus"><span class="std std-ref">calc_status</span></a> integer. Useful
+for running an application via the Executor until it stops without monitoring
+its intermediate output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task</strong> (<em>object</em>) – a Task object returned by the executor on submission</p></li>
+<li><p><strong>timeout</strong> (<em>int</em><em>, </em><em>Optional</em>) – Maximum number of seconds for the polling loop to run. Tasks that run
+longer than this limit are killed. Default: No timeout</p></li>
+<li><p><strong>delay</strong> (<em>int</em><em>, </em><em>Optional</em>) – Sleep duration between polling loop iterations. Default: 0.1 seconds</p></li>
+<li><p><strong>poll_manager</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Whether to also poll the manager for ‘finish’ or ‘kill’ signals.
+If detected, the task is killed. Default: False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>calc_status</strong> – presumptive integer attribute describing the final status of a launched task</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.executors.mpi_executor.MPIExecutor.register_app">
+<span class="sig-name descname"><span class="pre">register_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precedent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.executors.mpi_executor.MPIExecutor.register_app" title="Link to this definition"></a></dt>
+<dd><p>Registers a user application to libEnsemble.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">full_path</span></code> of the application must be supplied. Either
+<code class="docutils literal notranslate"><span class="pre">app_name</span></code> or <code class="docutils literal notranslate"><span class="pre">calc_type</span></code> can be used to identify the
+application in user scripts (in the <strong>submit</strong> function).
+<code class="docutils literal notranslate"><span class="pre">app_name</span></code> is recommended.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>full_path</strong> (<em>str</em>) – The full path of the user application to be registered</p></li>
+<li><p><strong>app_name</strong> (<em>str</em><em>, </em><em>Optional</em>) – Name to identify this application.</p></li>
+<li><p><strong>calc_type</strong> (<em>str</em><em>, </em><em>Optional</em>) – Calculation type: Set this application as the default ‘sim’
+or ‘gen’ function.</p></li>
+<li><p><strong>desc</strong> (<em>str</em><em>, </em><em>Optional</em>) – Description of this application</p></li>
+<li><p><strong>precedent</strong> (<em>str</em><em>, </em><em>Optional</em>) – Any str that should directly precede the application full path.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="class-specific-attributes">
+<h2>Class-specific Attributes<a class="headerlink" href="#class-specific-attributes" title="Link to this heading"></a></h2>
+<p>Class-specific attributes can be set directly to alter the behavior of the MPI
+Executor. However, they should be used with caution, because they may not
+be implemented in other executors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">max_submit_attempts<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int) Maximum number of launch attempts for a given
+task. <em>Default: 5</em>.</p>
+</dd>
+<dt class="field-even">fail_time<span class="colon">:</span></dt>
+<dd class="field-even"><p>(int or float) <em>Only if wait_on_start is set.</em> Maximum run time to failure in
+seconds that results in relaunch. <em>Default: 2</em>.</p>
+</dd>
+<dt class="field-odd">retry_delay_incr<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(int or float) Delay increment between launch attempts in seconds.
+<em>Default: 5</em>. (i.e., First retry after 5 seconds, then 10 seconds, then 15, etc…)</p>
+</dd>
+</dl>
+<p>Example. To increase resilience against submission failures:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">taskctrl</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">()</span>
+<span class="n">taskctrl</span><span class="o">.</span><span class="n">max_launch_attempts</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">taskctrl</span><span class="o">.</span><span class="n">fail_time</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">taskctrl</span><span class="o">.</span><span class="n">retry_delay_incr</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<span class="target" id="customizer"></span></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="executor.html" class="btn btn-neutral float-left" title="Base Executor - Local apps" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../utilities.html" class="btn btn-neutral float-right" title="Convenience Tools and Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

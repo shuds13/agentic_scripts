@@ -1,0 +1,187 @@
+{
+  "aposmm_options": {
+    "lb": {
+      "type": "array[number]",
+      "description": "Lower bounds of the search domain.",
+      "required": true
+    },
+    "ub": {
+      "type": "array[number]",
+      "description": "Upper bounds of the search domain.",
+      "required": true
+    },
+    "localopt_method": {
+      "type": "string",
+      "description": "Name of local optimization routine (NLopt, PETSc/TAO, SciPy, DFOLS, IBCDFO, or external). Determines additional required fields.",
+      "required": true
+    },
+    "initial_sample_size": {
+      "type": "integer",
+      "description": "Number of uniformly drawn points to evaluate before any local optimization runs.",
+      "required": true
+    },
+
+    "max_active_runs": {
+      "type": "integer",
+      "default": 1,
+      "description": "Max number of local optimization runs APOSMM may advance simultaneously."
+    },
+    "sample_points": {
+      "type": "array[array[number]]",
+      "description": "User-specified initial sample points. If exhausted, APOSMM samples uniformly."
+    },
+    "components": {
+      "type": "integer",
+      "description": "Number of objective components. Required when using least-squares (fvec)."
+    },
+    "dist_to_bound_multiple": {
+      "type": "number",
+      "description": "Fraction (0,1] of distance to nearest boundary used for initial localopt step size."
+    },
+    "lhs_divisions": {
+      "type": "integer",
+      "description": "Number of Latin-hypercube divisions. 0 or 1 gives uniform sampling."
+    },
+    "mu": {
+      "type": "number",
+      "description": "Minimum distance from domain boundaries for all localopt starts."
+    },
+    "nu": {
+      "type": "number",
+      "description": "Minimum distance from identified minima for all localopt starts."
+    },
+    "rk_const": {
+      "type": "number",
+      "description": "Multiplier applied to the r_k value for launching new runs."
+    },
+    "stop_after_k_minima": {
+      "type": "integer",
+      "description": "Terminate APOSMM after this many local minima have been found."
+    },
+    "stop_after_k_runs": {
+      "type": "integer",
+      "description": "Terminate after this many local optimizations have ended."
+    },
+
+    "method_specific_tolerances": {
+      "type": "object",
+      "description": "Tolerances required by the chosen optimizer. NLopt uses ftol_abs/ftol_rel/xtol_abs, PETSc/TAO uses gatol/grtol/etc., SciPy requires opt_return_codes."
+    }
+  },
+
+  "local_optimizers": {
+    "NLopt": {
+      "LN_SBPLX": {
+        "description": "Derivative-free subplex method. Good for noisy or nonsmooth objectives.",
+        "requires_f": true,
+        "requires_grad": false,
+        "requires_fvec": false
+      },
+      "LN_BOBYQA": {
+        "description": "Bound-constrained quadratic model method. Good for smooth problems.",
+        "requires_f": true,
+        "requires_grad": false,
+        "requires_fvec": false
+      },
+      "LN_COBYLA": {
+        "description": "Derivative-free constrained optimization using linear approximations.",
+        "requires_f": true,
+        "requires_grad": false,
+        "requires_fvec": false
+      },
+      "LN_NEWUOA": {
+        "description": "Unconstrained quadratic model method for smooth problems.",
+        "requires_f": true,
+        "requires_grad": false,
+        "requires_fvec": false
+      },
+      "LN_NELDERMEAD": {
+        "description": "Classic simplex search. Robust but slower; good for noisy objectives.",
+        "requires_f": true,
+        "requires_grad": false,
+        "requires_fvec": false
+      },
+      "LD_MMA": {
+        "description": "Gradient-based Method of Moving Asymptotes.",
+        "requires_f": true,
+        "requires_grad": true,
+        "requires_fvec": false
+      }
+    },
+
+    "PETSc_TAO": {
+      "pounders": {
+        "description": "Least-squares trust-region method for fvec problems.",
+        "requires_f": false,
+        "requires_grad": false,
+        "requires_fvec": true
+      },
+      "blmvm": {
+        "description": "Bounded limited-memory variable metric method (gradient-based).",
+        "requires_f": true,
+        "requires_grad": true,
+        "requires_fvec": false
+      },
+      "nm": {
+        "description": "Nelder-Mead variant in TAO.",
+        "requires_f": true,
+        "requires_grad": false,
+        "requires_fvec": false
+      }
+    },
+
+    "SciPy": {
+      "scipy_Nelder-Mead": {
+        "description": "Nelder-Mead via SciPy.",
+        "requires_f": true,
+        "requires_grad": false,
+        "requires_fvec": false
+      },
+      "scipy_COBYLA": {
+        "description": "COBYLA via SciPy; derivative-free constrained optimization.",
+        "requires_f": true,
+        "requires_grad": false,
+        "requires_fvec": false
+      },
+      "scipy_BFGS": {
+        "description": "Gradient-based quasi-Newton method.",
+        "requires_f": true,
+        "requires_grad": true,
+        "requires_fvec": false
+      }
+    },
+
+    "DFOLS": {
+      "dfols": {
+        "description": "Derivative-free least-squares method for vector-valued objectives.",
+        "requires_f": false,
+        "requires_grad": false,
+        "requires_fvec": true
+      }
+    },
+
+    "IBCDFO": {
+      "pounders": {
+        "description": "IBCDFO variant of least-squares trust-region method.",
+        "requires_f": false,
+        "requires_grad": false,
+        "requires_fvec": true
+      },
+      "manifold_sampling_primal": {
+        "description": "Nonsmooth derivative-free solver for vector-valued objectives.",
+        "requires_f": false,
+        "requires_grad": false,
+        "requires_fvec": true
+      }
+    },
+
+    "external_localopt": {
+      "external_localopt": {
+        "description": "Optimization controlled via external file-based interface.",
+        "requires_f": true,
+        "requires_grad": false,
+        "requires_fvec": false
+      }
+    }
+  }
+}

@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Output Management &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="_static/libE_logo_circle.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="History Array" href="function_guides/history_array.html" />
+    <link rel="prev" title="Exit Criteria" href="data_structures/exit_criteria.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/history_output_logging.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Output Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#default-log-files">Default Log Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logger-configuration">Logger Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#logger.set_level"><code class="docutils literal notranslate"><span class="pre">set_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logger.get_level"><code class="docutils literal notranslate"><span class="pre">get_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logger.set_filename"><code class="docutils literal notranslate"><span class="pre">set_filename()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logger.set_directory"><code class="docutils literal notranslate"><span class="pre">set_directory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logger.set_stderr_level"><code class="docutils literal notranslate"><span class="pre">set_stderr_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logger.get_stderr_level"><code class="docutils literal notranslate"><span class="pre">get_stderr_level()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis-utilities">Analysis Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="programming_libE.html">Constructing Workflows</a></li>
+      <li class="breadcrumb-item active">Output Management</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/history_output_logging.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="output-management">
+<h1>Output Management<a class="headerlink" href="#output-management" title="Link to this heading"></a></h1>
+<section id="default-log-files">
+<h2>Default Log Files<a class="headerlink" href="#default-log-files" title="Link to this heading"></a></h2>
+<p>The history array <a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">H</span></a> and
+<a class="reference internal" href="data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">persis_info</span></a> dictionary are returned to the user
+by libEnsemble.  If libEnsemble aborts on an exception, these structures are
+dumped automatically to these files:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">libE_history_at_abort_&lt;sim_count&gt;.npy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libE_persis_info_at_abort_&lt;sim_count&gt;.pickle</span></code></p></li>
+</ul>
+<p>Two other libEnsemble files produced by default:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">libE_stats.txt</span></code>: One-line summaries for each user calculation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ensemble.log</span></code>: Logging output. Multiple runs will append output if this file isn’t removed. See below for config info.</p></li>
+</ul>
+<p><strong>Global options:</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;disable_log_files&quot;]</span> <span class="pre">=</span> <span class="pre">True</span></code>: Disable output files</p>
+<p><code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;use_workflow_dir&quot;]</span> <span class="pre">=</span> <span class="pre">True</span></code>: Place output files in workflow-instance directories</p>
+<p><code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;save_H_and_persis_on_abort&quot;]</span> <span class="pre">=</span> <span class="pre">False</span></code>: Disable dumping the History array and <code class="docutils literal notranslate"><span class="pre">persis_info</span></code> to files</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">LibeSpecs</span>
+
+<span class="n">specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span><span class="n">disable_log_files</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_H_and_persis_on_abort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="logger-configuration">
+<span id="logger-config"></span><h2>Logger Configuration<a class="headerlink" href="#logger-configuration" title="Link to this heading"></a></h2>
+<p>The libEnsemble logger uses the following logging levels
+(<code class="docutils literal notranslate"><span class="pre">VDEBUG</span></code>, <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code>, <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>, <code class="docutils literal notranslate"><span class="pre">MANAGER_WARNING</span></code>, <code class="docutils literal notranslate"><span class="pre">ERROR</span></code>, <code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code>)</p>
+<p>The default level is <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, which includes information about how tasks are submitted
+and when tasks are killed. To gain additional diagnostics, including communication
+tracking, set the logging level to <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code>. In rare cases, the <code class="docutils literal notranslate"><span class="pre">VDEBUG</span></code> level may
+be useful, which also tracks log messages.</p>
+<p>libEnsemble writes to <code class="docutils literal notranslate"><span class="pre">ensemble.log</span></code> by default. A log file name can also be supplied.</p>
+<p>To change the logging level to <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Logger messages of <code class="docutils literal notranslate"><span class="pre">MANAGER_WARNING</span></code> level or higher are also displayed through stderr by default.
+This boundary can be adjusted:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+
+<span class="c1"># Only display messages with level &gt;= ERROR</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">set_stderr_level</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>stderr displaying can be effectively disabled by setting the stderr level to <code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code>.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Logger Module</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<dl class="py function" id="module-logger">
+<dt class="sig sig-object py" id="logger.set_level">
+<span class="sig-prename descclassname"><span class="pre">logger.</span></span><span class="sig-name descname"><span class="pre">set_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logger.set_level" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Sets libEnsemble logging level</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p class="sd-card-text"><strong>level</strong> (<em>int</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="logger.get_level">
+<span class="sig-prename descclassname"><span class="pre">logger.</span></span><span class="sig-name descname"><span class="pre">get_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logger.get_level" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Returns libEnsemble logging level</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p class="sd-card-text">int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="logger.set_filename">
+<span class="sig-prename descclassname"><span class="pre">logger.</span></span><span class="sig-name descname"><span class="pre">set_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logger.set_filename" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Sets logger filename if loggers not yet created, else None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p class="sd-card-text"><strong>filename</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="logger.set_directory">
+<span class="sig-prename descclassname"><span class="pre">logger.</span></span><span class="sig-name descname"><span class="pre">set_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logger.set_directory" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Sets target directory to contain logfiles if loggers not yet created</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p class="sd-card-text"><strong>dirname</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="logger.set_stderr_level">
+<span class="sig-prename descclassname"><span class="pre">logger.</span></span><span class="sig-name descname"><span class="pre">set_stderr_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logger.set_stderr_level" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Sets logger to mirror certain messages to stderr</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p class="sd-card-text"><strong>level</strong> (<em>int</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="logger.get_stderr_level">
+<span class="sig-prename descclassname"><span class="pre">logger.</span></span><span class="sig-name descname"><span class="pre">get_stderr_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logger.get_stderr_level" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Returns libEnsemble stderr logging level</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p class="sd-card-text">int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</details><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">scripts</span></code> directory, in the libEnsemble project root directory,
+contains scripts to compare outputs and create plots based on the ensemble output.</p>
+</div>
+</section>
+<section id="analysis-utilities">
+<h2>Analysis Utilities<a class="headerlink" href="#analysis-utilities" title="Link to this heading"></a></h2>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Analysis Utilities</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text"><strong>Timing analysis scripts</strong></p>
+<p class="sd-card-text">Note that all plotting scripts produce a file rather than opening a plot
+interactively.</p>
+<p class="sd-card-text">The following scripts must be run in the directory with the <code class="docutils literal notranslate"><span class="pre">libE_stats.txt</span></code>
+file. They extract and plot information from that file.</p>
+<ul class="simple">
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">plot_libe_calcs_util_v_time.py</span></code>: Extracts worker utilization vs. time plot
+(with one-second sampling). Shows the number of workers running user sim or
+gen functions over time.</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">plot_libe_tasks_util_v_time.py</span></code>: Extracts launched task utilization v time
+plot (with one-second sampling). Shows the number of workers with active
+tasks, launched via the executor, over time.</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">plot_libe_histogram.py</span></code>: Creates histogram showing the number of
+completed/killed/failed user calculations binned by run time.</p></li>
+</ul>
+<p class="sd-card-text"><strong>Results analysis scripts</strong></p>
+<ul>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">print_npy.py</span></code>: Prints to screen from a given <code class="docutils literal notranslate"><span class="pre">*.npy</span></code> file containing a
+NumPy structured array. Use <code class="docutils literal notranslate"><span class="pre">done</span></code> to print only the lines containing
+<code class="docutils literal notranslate"><span class="pre">&quot;sim_ended&quot;</span></code> points. Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">print_npy</span><span class="o">.</span><span class="n">py</span> <span class="n">run_libe_forces_results_History_length</span><span class="o">=</span><span class="mi">1000</span><span class="n">_evals</span><span class="o">=</span><span class="mf">8.</span><span class="n">npy</span> <span class="n">done</span>
+</pre></div>
+</div>
+</li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">print_fields.py</span></code>: Prints to screen from a given <code class="docutils literal notranslate"><span class="pre">*.npy</span></code> file containing
+a NumPy structured array. This is a more versatile version of <code class="docutils literal notranslate"><span class="pre">print_npy.py</span></code>
+that allows the user to select fields to print and boolean conditions determining
+which rows are printed (see <code class="docutils literal notranslate"><span class="pre">./print_fields.py</span> <span class="pre">-h</span></code> for usage).</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">compare_npy.py</span></code>: Compares either two provided <code class="docutils literal notranslate"><span class="pre">*.npy</span></code> files or one
+provided <code class="docutils literal notranslate"><span class="pre">*.npy</span></code> file with an expected results file (by default located at
+../expected.npy). A tolerance is given on floating-point results, and NANs are
+compared as equal. Variable fields (such as those containing a time) are
+ignored. These fields may need to be modified depending on the user’s history
+array.</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">plot_pareto_2d.py</span></code>: Loop through objective points in f and extract the Pareto
+front. Arguments are an <code class="docutils literal notranslate"><span class="pre">*.npy</span></code> file and a budget.</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">plot_pareto_3d.py</span></code>: Loop through objective points in f and extract the Pareto
+front. Arguments are an <code class="docutils literal notranslate"><span class="pre">*.npy</span></code> file and a budget.</p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">print_pickle.py</span></code>: Prints to screen from a given <code class="docutils literal notranslate"><span class="pre">*.pickle</span></code> file. Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">print_pickle</span><span class="o">.</span><span class="n">py</span> <span class="n">persis_info_length</span><span class="o">=</span><span class="mi">1000</span><span class="n">_evals</span><span class="o">=</span><span class="mi">1000</span><span class="n">_workers</span><span class="o">=</span><span class="mf">2.</span><span class="n">pickle</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</details></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="data_structures/exit_criteria.html" class="btn btn-neutral float-left" title="Exit Criteria" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="function_guides/history_array.html" class="btn btn-neutral float-right" title="History Array" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

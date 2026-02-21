@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A workflow for updating libEnsemble on Spack &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/libE_logo_circle.png"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <script src="../../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Internal Modules" href="../../dev_API/developer_API.html" />
+    <link rel="prev" title="Conda release" href="rel_conda.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/dev_guide/release_management/release_platforms/rel_spack.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../release_index.html">Release Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../release_process.html">Release Process</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Release Platforms</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="rel_github.html">GitHub release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rel_pypi.html">PyPI release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rel_conda.html">Conda release</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Spack release</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#updating-the-develop-branch">Updating (the develop branch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#making-changes">Making changes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quick-example-to-update-libensemble">Quick example to update libEnsemble</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#express-summary-make-fork-identical-to-upstream">Express Summary: Make Fork Identical to Upstream</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../release_index.html">Release Management</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Release Platforms</a></li>
+      <li class="breadcrumb-item active">A workflow for updating libEnsemble on Spack</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/dev_guide/release_management/release_platforms/rel_spack.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="a-workflow-for-updating-libensemble-on-spack">
+<span id="rel-spack"></span><h1>A workflow for updating libEnsemble on Spack<a class="headerlink" href="#a-workflow-for-updating-libensemble-on-spack" title="Link to this heading"></a></h1>
+<p>This assumes you have already:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>made a PyPI package for the new libEnsemble version and</p></li>
+<li><p>made a GitHub fork of Spack and cloned it to your local system.</p></li>
+</ul>
+</div></blockquote>
+<p>Details on how to create forks can be found at <a class="reference external" href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</p>
+<p>You now have a configuration like that shown at <a class="reference external" href="https://stackoverflow.com/a/6286877/6346040">https://stackoverflow.com/a/6286877/6346040</a>.</p>
+<p>Upstream, in this case, is the official Spack repository on GitHub. Origin is
+your fork on GitHub, and Local Machine is your local clone (from your fork).</p>
+<p>Make sure <code class="docutils literal notranslate"><span class="pre">SPACK_ROOT</span></code> is set and Spack binary is in your path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export SPACK_ROOT=&lt;PATH/TO/LOCAL/SPACK/REPO&gt;
+export PATH=$SPACK_ROOT/bin:$PATH
+</pre></div>
+</div>
+<p>Do ONCE in your local checkout:</p>
+<p>To set upstream repo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">upstream</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">spack</span><span class="o">/</span><span class="n">spack</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="o">-</span><span class="n">v</span> <span class="c1"># check added</span>
+</pre></div>
+</div>
+<p>(Optional) To prevent accidental pushes to upstream:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">remote</span> <span class="nb">set</span><span class="o">-</span><span class="n">url</span> <span class="o">--</span><span class="n">push</span> <span class="n">upstream</span> <span class="n">no_push</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="o">-</span><span class="n">v</span> <span class="c1"># Check for line: `upstream no_push (push)`</span>
+</pre></div>
+</div>
+<section id="updating-the-develop-branch">
+<h2>Updating (the develop branch)<a class="headerlink" href="#updating-the-develop-branch" title="Link to this heading"></a></h2>
+<p>You will now update your local machine from the upstream repo (if in doubt,
+make a copy of the local repo in your file system before doing the following).</p>
+<p>Check that the upstream remote is present:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">remote</span> <span class="o">-</span><span class="n">v</span>
+</pre></div>
+</div>
+<p>Ensure that you are on the develop branch:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="n">develop</span>
+</pre></div>
+</div>
+<p>Fetch from the upstream repo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
+</pre></div>
+</div>
+<p>To update your local machine, you may wish to rebase or overwrite your local files.
+Select from the following:</p>
+<p>Now make your local machine identical to the upstream repo (<strong>WARNING:</strong> Any local changes will be lost!):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span> <span class="n">upstream</span><span class="o">/</span><span class="n">develop</span>
+</pre></div>
+</div>
+<p>Alternatively, if you have existing local changes to go “on top” of the latest
+code (usually we will make our release updates after this):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">rebase</span> <span class="n">upstream</span><span class="o">/</span><span class="n">develop</span>
+</pre></div>
+</div>
+<p>(Optional) You may want to update your forked (origin) repo on GitHub at this point.
+This may require a forced push:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">develop</span> <span class="o">--</span><span class="n">force</span>
+</pre></div>
+</div>
+</section>
+<section id="making-changes">
+<h2>Making changes<a class="headerlink" href="#making-changes" title="Link to this heading"></a></h2>
+<p>The instructions below assume you make changes on the default develop branch.
+You can optionally create a branch to make changes on. Doing so may be a good
+idea, especially if you have multiple packages, to make separate branches for
+each package.</p>
+<p>See the Spack <a class="reference external" href="https://spack.readthedocs.io/en/latest/packaging_guide.html">packaging</a> and <a class="reference external" href="https://spack.readthedocs.io/en/latest/contribution_guide.html">contribution</a> guides for more info.</p>
+</section>
+<section id="quick-example-to-update-libensemble">
+<h2>Quick example to update libEnsemble<a class="headerlink" href="#quick-example-to-update-libensemble" title="Link to this heading"></a></h2>
+<p>This will open the libEnsemble <code class="docutils literal notranslate"><span class="pre">package.py</span></code> file in your editor (given by
+environment variable <code class="docutils literal notranslate"><span class="pre">EDITOR</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spack</span> <span class="n">edit</span> <span class="n">py</span><span class="o">-</span><span class="n">libensemble</span>  <span class="c1"># SPACK_ROOT must be set (see above) (Python packages use &quot;py-&quot; prefix)</span>
+</pre></div>
+</div>
+<p>Or just open it manually: <code class="docutils literal notranslate"><span class="pre">var/spack/repos/builtin/packages/py-libensemble/package.py</span></code>.</p>
+<p>Now get the checksum for new lines:</p>
+<p>Get the tarball (see PyPI instructions), for the new release and use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sha256sum</span> <span class="n">libensemble</span><span class="o">-*.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+<p>Update the <code class="docutils literal notranslate"><span class="pre">package.py</span></code> file by pasting in the new checksum lines (and make
+sure the URL line points to the latest version). Also update any dependencies
+for the new version.</p>
+<p>Check package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spack</span> <span class="n">style</span>
+</pre></div>
+</div>
+<p>This will install a few Python Spack packages and run style checks on just
+your changes. Make adjustments if needed, until this passes.</p>
+<p>If okay - add, commit, and push to origin (forked repo). For example, if your version
+number is 1.2.2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">am</span> <span class="s2">&quot;libEnsemble: add v1.2.2&quot;</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">develop</span> <span class="o">--</span><span class="n">force</span>
+</pre></div>
+</div>
+<p>Once the branch is pushed to the forked repo, go to GitHub and do a pull request from this
+branch on the fork to the develop branch on the upstream.</p>
+</section>
+<section id="express-summary-make-fork-identical-to-upstream">
+<h2>Express Summary: Make Fork Identical to Upstream<a class="headerlink" href="#express-summary-make-fork-identical-to-upstream" title="Link to this heading"></a></h2>
+<p>Quick summary for bringing the develop branch on a forked repo up to speed with upstream
+(YOU WILL LOSE ANY CHANGES):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">upstream</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">spack</span><span class="o">/</span><span class="n">spack</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
+<span class="n">git</span> <span class="n">checkout</span> <span class="n">develop</span>
+<span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span> <span class="n">upstream</span><span class="o">/</span><span class="n">develop</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">develop</span> <span class="o">--</span><span class="n">force</span>
+</pre></div>
+</div>
+<p>Reference: &lt;<a class="reference external" href="https://stackoverflow.com/questions/9646167/clean-up-a-fork-and-restart-it-from-the-upstream/39628366">https://stackoverflow.com/questions/9646167/clean-up-a-fork-and-restart-it-from-the-upstream/39628366</a>&gt;</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rel_conda.html" class="btn btn-neutral float-left" title="Conda release" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../dev_API/developer_API.html" class="btn btn-neutral float-right" title="Internal Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

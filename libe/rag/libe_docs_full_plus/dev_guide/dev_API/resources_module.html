@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources Module &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../_static/libE_logo_circle.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <script src="../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="RSET Resources Module" href="rset_resources_module.html" />
+    <link rel="prev" title="History Module" href="history_module.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/dev_guide/dev_API/resources_module.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="developer_API.html">Internal Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="manager_module.html">Manager Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worker_module.html">Worker Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history_module.html">History Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Resources Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#resources.resources.Resources"><code class="docutils literal notranslate"><span class="pre">Resources</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.Resources.__init__"><code class="docutils literal notranslate"><span class="pre">Resources.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.Resources.init_resources"><code class="docutils literal notranslate"><span class="pre">Resources.init_resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.Resources.set_worker_resources"><code class="docutils literal notranslate"><span class="pre">Resources.set_worker_resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.Resources.set_resource_manager"><code class="docutils literal notranslate"><span class="pre">Resources.set_resource_manager()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.Resources.add_comm_info"><code class="docutils literal notranslate"><span class="pre">Resources.add_comm_info()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#resources.resources.GlobalResources"><code class="docutils literal notranslate"><span class="pre">GlobalResources</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.GlobalResources.__init__"><code class="docutils literal notranslate"><span class="pre">GlobalResources.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.GlobalResources.add_comm_info"><code class="docutils literal notranslate"><span class="pre">GlobalResources.add_comm_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.GlobalResources.update_scheduler_opts"><code class="docutils literal notranslate"><span class="pre">GlobalResources.update_scheduler_opts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.GlobalResources.is_nodelist_shortnames"><code class="docutils literal notranslate"><span class="pre">GlobalResources.is_nodelist_shortnames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.GlobalResources.remove_nodes"><code class="docutils literal notranslate"><span class="pre">GlobalResources.remove_nodes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources.resources.GlobalResources.get_global_nodelist"><code class="docutils literal notranslate"><span class="pre">GlobalResources.get_global_nodelist()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rset_resources_module.html">RSET Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worker_resources_module.html">Worker Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="env_resources_module.html">Environment Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_resources_module.html">Node Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpi_resources_module.html">MPI Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler_module.html">Scheduler Module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="developer_API.html">Internal Modules</a></li>
+      <li class="breadcrumb-item active">Resources Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/dev_guide/dev_API/resources_module.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-resources.resources">
+<span id="resources-module"></span><h1>Resources Module<a class="headerlink" href="#module-resources.resources" title="Link to this heading"></a></h1>
+<p>This module detects and returns system resources</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="resources.resources.Resources">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">resources.resources.</span></span><span class="sig-name descname"><span class="pre">Resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">libE_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_level_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.Resources" title="Link to this definition"></a></dt>
+<dd><p>Provides system resources to libEnsemble and executor.</p>
+<p>A resources instance is always initialized unless <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;disable_resource_manager&quot;]</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p><strong>Class Attributes:</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Resources</strong> – resources: The resources object is stored here and can be retrieved in user functions.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>libE_specs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>platform_info</strong> (<em>dict</em>)</p></li>
+<li><p><strong>top_level_dir</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Object Attributes:</strong></p>
+<p>These are set on initialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>top_level_dir</strong> (<em>string</em>) – Directory where searches for node_list file.</p></li>
+<li><p><strong>glob_resources</strong> (<a class="reference internal" href="#resources.resources.GlobalResources" title="resources.resources.GlobalResources"><em>GlobalResources</em></a>) – Maintains resources available to libEnsemble.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>libE_specs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>platform_info</strong> (<em>dict</em>)</p></li>
+<li><p><strong>top_level_dir</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p>The following are set up after manager/worker fork.</p>
+<p>The resource manager is set up only on the manager, while the worker resources object is set
+up on workers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource_manager</strong> (<a class="reference internal" href="worker_resources_module.html#resources.worker_resources.ResourceManager" title="resources.worker_resources.ResourceManager"><em>ResourceManager</em></a>) – An object that manages resource set assignment to workers.</p></li>
+<li><p><strong>worker_resources</strong> (<a class="reference internal" href="worker_resources_module.html#resources.worker_resources.WorkerResources" title="resources.worker_resources.WorkerResources"><em>WorkerResources</em></a>) – An object that contains worker-specific resources.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>libE_specs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>platform_info</strong> (<em>dict</em>)</p></li>
+<li><p><strong>top_level_dir</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.Resources.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">libE_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_level_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.Resources.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initiate a new resources object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>libE_specs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>platform_info</strong> (<em>dict</em>)</p></li>
+<li><p><strong>top_level_dir</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.Resources.init_resources">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">libE_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.Resources.init_resources" title="Link to this definition"></a></dt>
+<dd><p>Initiate resource management</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>libE_specs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>platform_info</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.Resources.set_worker_resources">
+<span class="sig-name descname"><span class="pre">set_worker_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_workers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workerid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.Resources.set_worker_resources" title="Link to this definition"></a></dt>
+<dd><p>Initiate the worker resources component of resources</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_workers</strong> (<em>int</em>)</p></li>
+<li><p><strong>workerid</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.Resources.set_resource_manager">
+<span class="sig-name descname"><span class="pre">set_resource_manager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_workers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.Resources.set_resource_manager" title="Link to this definition"></a></dt>
+<dd><p>Initiate the resource manager component of resources</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_workers</strong> (<em>int</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.Resources.add_comm_info">
+<span class="sig-name descname"><span class="pre">add_comm_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">libE_nodes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.Resources.add_comm_info" title="Link to this definition"></a></dt>
+<dd><p>Adds comms-specific information to resources</p>
+<p>Removes libEnsemble nodes from nodelist if in dedicated_mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="resources.resources.GlobalResources">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">resources.resources.</span></span><span class="sig-name descname"><span class="pre">GlobalResources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">libE_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_level_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.GlobalResources" title="Link to this definition"></a></dt>
+<dd><p><strong>Object Attributes:</strong></p>
+<p>These are set on initialization.
+:ivar str top_level_dir: Directory where searches for node_list file
+:ivar EnvResources env_resources: Object storing environment variables used by resources
+:ivar list global_nodelist: list of all nodes available for running user applications
+:ivar int logical_cores_avail_per_node: Logical cores (including SMT threads) available on a node
+:ivar int physical_cores_avail_per_node: Physical cores available on a node
+:ivar list zero_resource_workers: List of workerIDs to have no resources.
+:ivar bool dedicated_mode: Whether to remove libE nodes from global nodelist.
+:ivar int num_resource_sets: Number of resource sets, if supplied by the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>libE_specs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>platform_info</strong> (<em>dict</em>)</p></li>
+<li><p><strong>top_level_dir</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.GlobalResources.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">libE_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_level_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.GlobalResources.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes a new Resources instance</p>
+<p>Determines the compute resources available for current allocation, including
+node list and cores/hardware threads available within nodes.</p>
+<p>The following parameters may be extracted from <code class="docutils literal notranslate"><span class="pre">libE_specs</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>top_level_dir</strong> (<em>str</em><em>, </em><em>Optional</em>) – Directory libEnsemble runs in (default is current working directory)</p></li>
+<li><p><strong>dedicated_mode</strong> (<em>bool</em><em>, </em><em>Optional</em>) – If true, then dedicate nodes to running libEnsemble.
+Dedicated mode means that any nodes running libE processes (manager and workers),
+will not be available to worker-launched tasks (user applications). They will
+be removed from the nodelist (if present), before dividing into resource sets.</p></li>
+<li><p><strong>zero_resource_workers</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>Optional</em>) – List of workers that require no resources.</p></li>
+<li><p><strong>num_resource_sets</strong> (<em>int</em><em>, </em><em>Optional</em>) – The total number of resource sets. Resources will be divided into this number.
+Default: None. If None, resources will be divided by workers (excluding zero_resource_workers).</p></li>
+<li><p><strong>cores_on_node</strong> (<em>tuple</em><em> (</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>Optional</em>) – If supplied gives (physical cores, logical cores) for the nodes. If not supplied,
+this will be auto-detected.</p></li>
+<li><p><strong>gpus_on_node</strong> (<em>int</em><em>, </em><em>Optional</em>) – If supplied gives number of GPUs for the nodes. If not supplied,
+this will be auto-detected.</p></li>
+<li><p><strong>enforce_worker_core_bounds</strong> (<em>bool</em><em>, </em><em>Optional</em>) – If True, then libEnsemble’s executor will raise an exception if it detects that
+a worker has been instructed to launch tasks with the number of requested processes
+being excessive to the number of cores allocated to that worker, or not enough
+processes were requested to satisfy allocated cores.</p></li>
+<li><p><strong>node_file</strong> (<em>str</em><em>, </em><em>Optional</em>) – If supplied, give the name of a file in the run directory to use as a node-list
+for use by libEnsemble. Defaults to a file named “node_list”. If the file does
+not exist, then the node-list will be auto-detected.</p></li>
+<li><p><strong>nodelist_env_slurm</strong> (<em>str</em><em>, </em><em>Optional</em>) – The environment variable giving a node list in Slurm format (Default: uses SLURM_NODELIST).
+Note: This is queried only if a node_list file is not provided.</p></li>
+<li><p><strong>nodelist_env_cobalt</strong> (<em>str</em><em>, </em><em>Optional</em>) – The environment variable giving a node list in Cobalt format (Default: uses COBALT_PARTNAME).
+Note: This is queried only if a node_list file is not provided.</p></li>
+<li><p><strong>nodelist_env_lsf</strong> (<em>str</em><em>, </em><em>Optional</em>) – The environment variable giving a node list in LSF format (Default: uses LSB_HOSTS).
+Note: This is queried only if a node_list file is not provided.</p></li>
+<li><p><strong>nodelist_env_lsf_shortform</strong> (<em>str</em><em>, </em><em>Optional</em>) – The environment variable giving a node list in LSF short-form format (Default: uses LSB_MCPU_HOSTS)
+Note: This is only queried if a node_list file is not provided.</p></li>
+<li><p><strong>libE_specs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>platform_info</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.GlobalResources.add_comm_info">
+<span class="sig-name descname"><span class="pre">add_comm_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">libE_nodes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.GlobalResources.add_comm_info" title="Link to this definition"></a></dt>
+<dd><p>Adds comms-specific information to resources</p>
+<p>Removes libEnsemble nodes from nodelist if in dedicated_mode.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.GlobalResources.update_scheduler_opts">
+<span class="sig-name descname"><span class="pre">update_scheduler_opts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scheduler_opts</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.GlobalResources.update_scheduler_opts" title="Link to this definition"></a></dt>
+<dd><p>Add scheduler options from platform_info, if not present</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.GlobalResources.is_nodelist_shortnames">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_nodelist_shortnames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodelist</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.GlobalResources.is_nodelist_shortnames" title="Link to this definition"></a></dt>
+<dd><p>Returns False if any entry contains a ‘.’, else True</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.GlobalResources.remove_nodes">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">global_nodelist_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.GlobalResources.remove_nodes" title="Link to this definition"></a></dt>
+<dd><p>Removes any nodes in remove_list from the global nodelist</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="resources.resources.GlobalResources.get_global_nodelist">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_global_nodelist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'node_list'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rundir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#resources.resources.GlobalResources.get_global_nodelist" title="Link to this definition"></a></dt>
+<dd><p>Returns the list of nodes available to all libEnsemble workers.</p>
+<p>If a node_file exists this is used, otherwise the environment
+is interrogated for a node list. If a dedicated manager node is used,
+then a node_file is recommended.</p>
+<p>In dedicated mode, any node with a libE worker is removed from the list.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="history_module.html" class="btn btn-neutral float-left" title="History Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rset_resources_module.html" class="btn btn-neutral float-right" title="RSET Resources Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

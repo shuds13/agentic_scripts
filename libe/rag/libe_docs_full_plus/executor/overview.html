@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Executor Overview &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Base Executor - Local apps" href="executor.html" />
+    <link rel="prev" title="Executors" href="ex_index.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/executor/overview.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ex_index.html">Executors</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Executor Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#basic-usage">Basic usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-features">Advanced Features</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="executor.html">Base Executor - Local apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mpi_executor.html">MPI Executor - MPI apps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+          <li class="breadcrumb-item"><a href="ex_index.html">Executors</a></li>
+      <li class="breadcrumb-item active">Executor Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/executor/overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="executor-overview">
+<h1>Executor Overview<a class="headerlink" href="#executor-overview" title="Link to this heading"></a></h1>
+<p>Most computationally expensive libEnsemble workflows involve launching applications
+from a <a class="reference internal" href="../function_guides/sim_gen_alloc_api.html#api-sim-f"><span class="std std-ref">sim_f</span></a> or <a class="reference internal" href="../function_guides/sim_gen_alloc_api.html#api-gen-f"><span class="std std-ref">gen_f</span></a> running on a worker to the
+compute nodes of a supercomputer, cluster, or other compute resource.</p>
+<p>The <strong>Executor</strong> provides a portable interface for running applications on any system.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Detailed description</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">An <strong>Executor</strong> interface is provided by libEnsemble to remove the burden
+of system interaction from the user and improve workflow portability. Users
+first register their applications to Executor instances, which then return
+corresponding <code class="docutils literal notranslate"><span class="pre">Task</span></code> objects upon submission within user functions.</p>
+<p class="sd-card-text"><strong>Task</strong> attributes and retrieval functions can be queried to determine
+the status of running application instances. Functions are also provided
+to access and interrogate files in the task’s working directory.</p>
+<p class="sd-card-text">libEnsemble’s Executors and Tasks contain many familiar features and methods
+to Python’s native <a class="reference external" href="https://docs.python.org/library/concurrent.futures.html">concurrent futures</a> interface. Executors feature the
+<code class="docutils literal notranslate"><span class="pre">submit()</span></code> function for launching apps (detailed below),  but currently do
+not support <code class="docutils literal notranslate"><span class="pre">map()</span></code> or <code class="docutils literal notranslate"><span class="pre">shutdown()</span></code>. Tasks are much like <code class="docutils literal notranslate"><span class="pre">futures</span></code>.
+They feature the <code class="docutils literal notranslate"><span class="pre">cancel()</span></code>, <code class="docutils literal notranslate"><span class="pre">cancelled()</span></code>, <code class="docutils literal notranslate"><span class="pre">running()</span></code>, <code class="docutils literal notranslate"><span class="pre">done()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">result()</span></code>, and <code class="docutils literal notranslate"><span class="pre">exception()</span></code> functions from the standard.</p>
+<p class="sd-card-text">The main <code class="docutils literal notranslate"><span class="pre">Executor</span></code> class can subprocess serial applications in place,
+while the <code class="docutils literal notranslate"><span class="pre">MPIExecutor</span></code> is used for running MPI applications.</p>
+<p class="sd-card-text">Typically, users choose and parameterize their <code class="docutils literal notranslate"><span class="pre">Executor</span></code> objects in their
+calling scripts, where each executable generator or simulation application is
+registered to it. Once in the user-side worker code (sim/gen func), the Executor
+can be retrieved without any need to specify the type.</p>
+<p class="sd-card-text">Once the Executor is retrieved, tasks can be submitted by specifying the
+<code class="docutils literal notranslate"><span class="pre">app_name</span></code> from registration in the calling script alongside other optional
+parameters described in the API.</p>
+</div>
+</details><section id="basic-usage">
+<h2>Basic usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h2>
+<p><strong>In calling script</strong></p>
+<p>To set up an MPI executor, register an MPI application, and add
+to the ensemble object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPIExecutor</span>
+
+<span class="n">exctr</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">()</span>
+<span class="n">exctr</span><span class="o">.</span><span class="n">register_app</span><span class="p">(</span><span class="n">full_path</span><span class="o">=</span><span class="s2">&quot;/path/to/my/exe&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;sim1&quot;</span><span class="p">)</span>
+<span class="n">ensemble</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">exctr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If using the <code class="docutils literal notranslate"><span class="pre">libE()</span></code> call, the Executor in the calling script does <strong>not</strong>
+have to be passed to the <code class="docutils literal notranslate"><span class="pre">libE()</span></code> function. It is transferred via the
+<code class="docutils literal notranslate"><span class="pre">Executor.executor</span></code> class variable.</p>
+<p><strong>In user simulation function</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sim_func</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+
+    <span class="n">input_param</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>
+
+    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+        <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;sim1&quot;</span><span class="p">,</span>
+        <span class="n">num_procs</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">app_args</span><span class="o">=</span><span class="n">input_param</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="s2">&quot;out.txt&quot;</span><span class="p">,</span>
+        <span class="n">stderr</span><span class="o">=</span><span class="s2">&quot;err.txt&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Wait for task to complete</span>
+    <span class="n">task</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Example use-cases:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../tutorials/executor_forces_tutorial.html"><span class="doc">Electrostatic Forces example</span></a>: Launches the <code class="docutils literal notranslate"><span class="pre">forces.x</span></code> MPI application.</p></li>
+<li><p><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html"><span class="doc">Forces example with GPUs</span></a>: Auto-assigns GPUs via executor.</p></li>
+</ul>
+<p>See the <a class="reference internal" href="executor.html"><span class="doc">Executor</span></a> or <a class="reference internal" href="mpi_executor.html"><span class="doc">MPIExecutor</span></a> interface
+for the complete API.</p>
+<p>See <a class="reference internal" href="../platforms/platforms_index.html"><span class="doc">Running on HPC Systems</span></a> for illustrations
+of how common options such as <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;dedicated_mode&quot;]</span></code> affect the
+run configuration on clusters and supercomputers.</p>
+</section>
+<section id="advanced-features">
+<h2>Advanced Features<a class="headerlink" href="#advanced-features" title="Link to this heading"></a></h2>
+<p><strong>Example of polling output and killing application:</strong></p>
+<p>In simulation function (sim_f).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sim_func</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+    <span class="n">input_param</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>
+
+    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+        <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;sim1&quot;</span><span class="p">,</span>
+        <span class="n">num_procs</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">app_args</span><span class="o">=</span><span class="n">input_param</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="s2">&quot;out.txt&quot;</span><span class="p">,</span>
+        <span class="n">stderr</span><span class="o">=</span><span class="s2">&quot;err.txt&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">timeout_sec</span> <span class="o">=</span> <span class="mi">600</span>
+    <span class="n">poll_delay_sec</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">task</span><span class="o">.</span><span class="n">finished</span><span class="p">:</span>
+        <span class="c1"># Has manager sent a finish signal</span>
+        <span class="k">if</span> <span class="n">exctr</span><span class="o">.</span><span class="n">manager_kill_received</span><span class="p">():</span>
+            <span class="n">task</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+            <span class="n">my_cleanup</span><span class="p">()</span>
+
+        <span class="c1"># Check output file for error and kill task</span>
+        <span class="k">elif</span> <span class="n">task</span><span class="o">.</span><span class="n">stdout_exists</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">&quot;Error&quot;</span> <span class="ow">in</span> <span class="n">task</span><span class="o">.</span><span class="n">read_stdout</span><span class="p">():</span>
+                <span class="n">task</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">task</span><span class="o">.</span><span class="n">runtime</span> <span class="o">&gt;</span> <span class="n">timeout_sec</span><span class="p">:</span>
+            <span class="n">task</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>  <span class="c1"># Timeout</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">poll_delay_sec</span><span class="p">)</span>
+            <span class="n">task</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>  <span class="c1"># state may be finished/failed/killed</span>
+</pre></div>
+</div>
+<p>Users who wish to poll only for manager kill signals and timeouts don’t necessarily
+need to construct a polling loop like above, but can instead use the <code class="docutils literal notranslate"><span class="pre">Executor</span></code>
+built-in <code class="docutils literal notranslate"><span class="pre">polling_loop()</span></code> method. An alternative to the above simulation function
+may resemble:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sim_func</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+    <span class="n">input_param</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">exctr</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span>
+
+    <span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+        <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;sim1&quot;</span><span class="p">,</span>
+        <span class="n">num_procs</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">app_args</span><span class="o">=</span><span class="n">input_param</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="s2">&quot;out.txt&quot;</span><span class="p">,</span>
+        <span class="n">stderr</span><span class="o">=</span><span class="s2">&quot;err.txt&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">timeout_sec</span> <span class="o">=</span> <span class="mi">600</span>
+    <span class="n">poll_delay_sec</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">exctr</span><span class="o">.</span><span class="n">polling_loop</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout_sec</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">poll_delay_sec</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>  <span class="c1"># state may be finished/failed/killed</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">MPIExecutor</span></code> autodetects system criteria such as the appropriate MPI launcher
+and mechanisms to poll and kill tasks. It also has access to the resource manager,
+which partitions resources among workers, ensuring that runs utilize different
+resources (e.g., nodes). Furthermore, the <code class="docutils literal notranslate"><span class="pre">MPIExecutor</span></code> offers resilience via the
+feature of re-launching tasks that fail to start because of system factors.</p>
+<p>Various back-end mechanisms may be used by the Executor to best interact
+with each system, including proxy launchers or task management systems.
+Currently, these Executors launch at the application level within
+an existing resource pool. However, submissions to a batch scheduler may be
+supported in future Executors.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ex_index.html" class="btn btn-neutral float-left" title="Executors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="executor.html" class="btn btn-neutral float-right" title="Base Executor - Local apps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

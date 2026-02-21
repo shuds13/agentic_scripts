@@ -1,0 +1,207 @@
+[0]  2026-02-01 19:41:52,545 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 19:41:52,545 libensemble.libE (INFO): libE version v1.5.0
+[0]  2026-02-01 19:41:52,547 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 19:41:52,549 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/manager.py", line 696, in run
+    self._check_work_order(Work[w], w)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/manager.py", line 382, in _check_work_order
+    assert len(work_fields), (
+AssertionError: Allocation function requested rows=[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+ 24 25] be sent to worker=0, but requested no fields to be sent.
+
+[0]  2026-02-01 19:41:52,550 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 19:41:52,550 libensemble.libE (ERROR): Dumping ensemble history with 26 sims evaluated:
+[0]  2026-02-01 19:43:36,839 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 19:43:36,839 libensemble.libE (INFO): libE version v1.5.0
+[0]  2026-02-01 19:43:36,843 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 19:43:36,845 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/manager.py", line 696, in run
+    self._check_work_order(Work[w], w)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/manager.py", line 382, in _check_work_order
+    assert len(work_fields), (
+AssertionError: Allocation function requested rows=[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+ 24 25] be sent to worker=0, but requested no fields to be sent.
+
+[0]  2026-02-01 19:43:36,846 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 19:43:36,847 libensemble.libE (ERROR): Dumping ensemble history with 26 sims evaluated:
+[0]  2026-02-01 19:52:15,910 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 19:52:15,910 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 19:52:15,913 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 19:52:15,915 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 696, in run
+    self._check_work_order(Work[w], w)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 382, in _check_work_order
+    assert len(work_fields), (
+AssertionError: Allocation function requested rows=[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+ 24 25] be sent to worker=0, but requested no fields to be sent.
+
+[0]  2026-02-01 19:52:15,917 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 19:52:15,917 libensemble.libE (ERROR): Dumping ensemble history with 26 sims evaluated:
+[0]  2026-02-01 19:56:02,776 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 19:56:02,776 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 19:56:02,780 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 19:56:02,782 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 696, in run
+    self._check_work_order(Work[w], w)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 382, in _check_work_order
+    assert len(work_fields), (
+AssertionError: Allocation function requested rows=[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+ 24 25] be sent to worker=0, but requested no fields to be sent.
+
+[0]  2026-02-01 19:56:02,783 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 19:56:02,783 libensemble.libE (ERROR): Dumping ensemble history with 26 sims evaluated:
+[0]  2026-02-01 19:57:30,511 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 19:57:30,511 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 19:57:30,515 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 19:57:30,518 libensemble.history (MANAGER_WARNING): Giving entries in H0 back to gen. Marking entries in H0 as 'gen_informed' if 'sim_ended'.
+[0]  2026-02-01 19:57:30,523 libensemble.manager (ERROR): ---- Received error message from worker 0 ----
+[0]  2026-02-01 19:57:30,524 libensemble.manager (ERROR): Message: AssertionError: Must give 'sim_ended' status to persistent_aposmm in gen_specs['in']
+[0]  2026-02-01 19:57:30,524 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/worker.py", line 414, in run
+    response = self._handle(Work)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/worker.py", line 357, in _handle
+    calc_out, persis_info, calc_status = self._handle_calc(Work, calc_in)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/worker.py", line 277, in _handle_calc
+    out = calc(calc_in, Work)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/utils/runners.py", line 41, in run
+    return self._result(calc_in, Work["persis_info"], Work["libE_info"])
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/utils/runners.py", line 33, in _result
+    return self.f(*args)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/gen_funcs/persistent_aposmm.py", line 166, in aposmm
+    n, n_s, rk_const, ld, mu, nu, comm, local_H = initialize_APOSMM(H, user_specs, libE_info)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/gen_funcs/persistent_aposmm.py", line 691, in initialize_APOSMM
+    assert "sim_ended" in H.dtype.names, "Must give 'sim_ended' status to persistent_aposmm in gen_specs['in']"
+AssertionError: Must give 'sim_ended' status to persistent_aposmm in gen_specs['in']
+
+[0]  2026-02-01 19:57:30,527 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 19:57:30,528 libensemble.libE (ERROR): Dumping ensemble history with 26 sims evaluated:
+[0]  2026-02-01 20:02:45,637 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:02:45,637 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:02:45,640 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 20:02:45,642 libensemble.history (MANAGER_WARNING): Giving entries in H0 back to gen. Marking entries in H0 as 'gen_informed' if 'sim_ended'.
+[0]  2026-02-01 20:02:45,655 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 699, in run
+    assert self.term_test() or any(
+AssertionError: alloc_f did not return any work, although all workers are idle.
+
+[0]  2026-02-01 20:02:45,656 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:02:45,657 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 20:02:45,657 libensemble.libE (ERROR): Dumping ensemble history with 29 sims evaluated:
+[0]  2026-02-01 20:05:47,651 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:05:47,652 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:05:47,655 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 20:05:47,656 libensemble.history (MANAGER_WARNING): Giving entries in H0 back to gen. Marking entries in H0 as 'gen_informed' if 'sim_ended'.
+[0]  2026-02-01 20:05:47,674 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 699, in run
+    assert self.term_test() or any(
+AssertionError: alloc_f did not return any work, although all workers are idle.
+
+[0]  2026-02-01 20:05:47,675 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:05:47,677 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 20:05:47,677 libensemble.libE (ERROR): Dumping ensemble history with 29 sims evaluated:
+[0]  2026-02-01 20:06:02,964 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:06:02,964 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:06:02,967 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 20:06:02,968 libensemble.history (MANAGER_WARNING): Giving entries in H0 back to gen. Marking entries in H0 as 'gen_informed' if 'sim_ended'.
+[0]  2026-02-01 20:06:02,978 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 699, in run
+    assert self.term_test() or any(
+AssertionError: alloc_f did not return any work, although all workers are idle.
+
+[0]  2026-02-01 20:06:02,979 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:06:02,980 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 20:06:02,980 libensemble.libE (ERROR): Dumping ensemble history with 29 sims evaluated:
+[0]  2026-02-01 20:06:28,223 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:06:28,223 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:06:28,226 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 20:06:28,228 libensemble.history (MANAGER_WARNING): Giving entries in H0 back to gen. Marking entries in H0 as 'gen_informed' if 'sim_ended'.
+[0]  2026-02-01 20:06:28,240 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 699, in run
+    assert self.term_test() or any(
+AssertionError: alloc_f did not return any work, although all workers are idle.
+
+[0]  2026-02-01 20:06:28,241 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:06:28,242 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 20:06:28,242 libensemble.libE (ERROR): Dumping ensemble history with 29 sims evaluated:
+[0]  2026-02-01 20:08:18,260 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:08:18,260 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:08:18,264 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 20:08:18,267 libensemble.history (MANAGER_WARNING): Giving entries in H0 back to gen. Marking entries in H0 as 'gen_informed' if 'sim_ended'.
+[0]  2026-02-01 20:08:19,020 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 688, in run
+    persis_info = self._receive_from_workers(persis_info)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 468, in _receive_from_workers
+    self._handle_msg_from_worker(persis_info, w)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 539, in _handle_msg_from_worker
+    self._update_state_on_worker_msg(persis_info, D_recv, w)
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/manager.py", line 503, in _update_state_on_worker_msg
+    self.hist.update_history_x_in(w, D_recv["calc_out"], self.W[w]["gen_started_time"])
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/libensemble/libensemble/history.py", line 238, in update_history_x_in
+    assert np.all(
+AssertionError: The generator function has produced sim_ids that are not in order.
+
+[0]  2026-02-01 20:08:19,065 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:08:19,066 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 20:08:19,066 libensemble.libE (ERROR): Dumping ensemble history with 29 sims evaluated:
+[0]  2026-02-01 20:08:50,563 libensemble.libE (INFO): Logger initializing: [workerID] precedes each line. [0] = Manager
+[0]  2026-02-01 20:08:50,564 libensemble.libE (INFO): libE version v1.5.0+dev
+[0]  2026-02-01 20:08:50,566 libensemble.manager (INFO): Manager exit_criteria: {'sim_max': 300}
+[0]  2026-02-01 20:08:50,568 libensemble.history (MANAGER_WARNING): Giving entries in H0 back to gen. Marking entries in H0 as 'gen_informed' if 'sim_ended'.
+[0]  2026-02-01 20:08:52,794 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:08:52,797 libensemble.manager (INFO): Term test tripped: sim_max
+[0]  2026-02-01 20:08:52,869 libensemble.manager (INFO): 
+*******************************************************************************
+A persistent worker has returned history data on shutdown. This data is
+not currently added to the manager's history to avoid possibly overwriting, but
+will be added to the manager's history in a future release. If you want to
+overwrite/append, you can set the libE_specs option ``use_persis_return_gen``
+or ``use_persis_return_sim``
+*******************************************************************************
+
+
+[0]  2026-02-01 20:08:52,871 libensemble.libE (INFO): Manager total time: 2.306

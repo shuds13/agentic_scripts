@@ -1,0 +1,22 @@
+SUCCESS
+Stdout:
+Using 81 of 302 completed points from run_example_history_length=302_evals=300_workers=4.npy
+First 3: [(0, [-0.72607663,  2.53957343], 140.31303976)
+ (1, [-0.78672845,  3.45899312], 523.78030605)
+ (2, [-0.91275002,  3.87014485], 835.9875474 )]
+Last 3: [(380, [-1.26935779,  0.2080852 ], 1.95763423)
+ (381, [-1.70361214,  0.7959963 ], 0.        )
+ (382, [-1.09544816,  0.79405218], 0.        )]
+
+Number of local minima found: 3
+Local minima x values: [[-0.08987747  0.71267664]
+ [-0.08982067  0.71269954]
+ [-0.08985863  0.71264705]]
+
+APOSMM_SUCCESS: Found 3 local minima (required: 3)
+
+
+Stderr:
+[0]  2026-02-03 13:56:04,408 libensemble.history (MANAGER_WARNING): Giving entries in H0 back to gen. Marking entries in H0 as 'gen_informed' if 'sim_ended'.
+------------------ Run completed -------------------
+Saving results to file: ./run_example_history_length=383_evals=381_workers=4

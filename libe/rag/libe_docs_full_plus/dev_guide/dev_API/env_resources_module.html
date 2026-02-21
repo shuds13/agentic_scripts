@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Environment Resources Module &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../../_static/libE_logo_circle.png"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <script src="../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Node Resources Module" href="node_resources_module.html" />
+    <link rel="prev" title="Worker Resources Module" href="worker_resources_module.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/dev_guide/dev_API/env_resources_module.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="developer_API.html">Internal Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="manager_module.html">Manager Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worker_module.html">Worker Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history_module.html">History Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resources_module.html">Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rset_resources_module.html">RSET Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worker_resources_module.html">Worker Resources Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Environment Resources Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#env_resources.EnvResources"><code class="docutils literal notranslate"><span class="pre">EnvResources</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.__init__"><code class="docutils literal notranslate"><span class="pre">EnvResources.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.get_nodelist"><code class="docutils literal notranslate"><span class="pre">EnvResources.get_nodelist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.abbrev_nodenames"><code class="docutils literal notranslate"><span class="pre">EnvResources.abbrev_nodenames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.cobalt_abbrev_nodenames"><code class="docutils literal notranslate"><span class="pre">EnvResources.cobalt_abbrev_nodenames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.shortnames"><code class="docutils literal notranslate"><span class="pre">EnvResources.shortnames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.get_slurm_nodelist"><code class="docutils literal notranslate"><span class="pre">EnvResources.get_slurm_nodelist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.get_cobalt_nodelist"><code class="docutils literal notranslate"><span class="pre">EnvResources.get_cobalt_nodelist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.get_pbs_nodelist"><code class="docutils literal notranslate"><span class="pre">EnvResources.get_pbs_nodelist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.get_lsf_nodelist"><code class="docutils literal notranslate"><span class="pre">EnvResources.get_lsf_nodelist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#env_resources.EnvResources.get_lsf_nodelist_frm_shortform"><code class="docutils literal notranslate"><span class="pre">EnvResources.get_lsf_nodelist_frm_shortform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="node_resources_module.html">Node Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mpi_resources_module.html">MPI Resources Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scheduler_module.html">Scheduler Module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="developer_API.html">Internal Modules</a></li>
+      <li class="breadcrumb-item active">Environment Resources Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/dev_guide/dev_API/env_resources_module.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-env_resources">
+<span id="environment-resources-module"></span><h1>Environment Resources Module<a class="headerlink" href="#module-env_resources" title="Link to this heading"></a></h1>
+<p>This module stores environment variables for use in resource detection</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="env_resources.EnvResources">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">env_resources.</span></span><span class="sig-name descname"><span class="pre">EnvResources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodelist_env_slurm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist_env_cobalt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist_env_pbs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist_env_lsf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist_env_lsf_shortform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources" title="Link to this definition"></a></dt>
+<dd><p>Stores environment variables to query for system resource information</p>
+<p><strong>Class Attributes:</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>default_nodelist_env_slurm</strong> (<em>string</em>) – Default SLRUM nodelist environment variable</p></li>
+<li><p><strong>default_nodelist_env_cobalt</strong> (<em>string</em>) – Default Cobalt nodelist environment variable</p></li>
+<li><p><strong>default_nodelist_env_pbs</strong> (<em>string</em>) – Default PBS nodelist environment variable (points to nodefile)</p></li>
+<li><p><strong>default_nodelist_env_lsf</strong> (<em>string</em>) – Default LSF nodelist environment variable</p></li>
+<li><p><strong>default_nodelist_env_lsf_shortform</strong> (<em>string</em>) – Default LSF short-form nodelist environment variable</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>nodelist_env_slurm</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>nodelist_env_cobalt</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>nodelist_env_pbs</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>nodelist_env_lsf</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>nodelist_env_lsf_shortform</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Object Attributes:</strong></p>
+<p>These are set on initialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodelists</strong> (<em>dict</em>) – Environment variable names to query for nodelists by scheduler</p></li>
+<li><p><strong>ndlist_funcs</strong> (<em>dict</em>) – Functions to extract nodelists from environment by scheduler</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>nodelist_env_slurm</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>nodelist_env_cobalt</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>nodelist_env_pbs</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>nodelist_env_lsf</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>nodelist_env_lsf_shortform</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodelist_env_slurm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist_env_cobalt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist_env_pbs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist_env_lsf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodelist_env_lsf_shortform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes a new EnvResources instance</p>
+<p>Determines the environment variables to query for resource
+information. These are either provided or given defaults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodelist_env_slurm</strong> (<em>String</em><em>, </em><em>optional</em>) – The environment variable giving a node list in Slurm format (Default: uses SLURM_NODELIST).
+Note: This is queried only if a node_list file is not provided.</p></li>
+<li><p><strong>nodelist_env_cobalt</strong> (<em>String</em><em>, </em><em>optional</em>) – The environment variable giving a node list in Cobalt format (Default: uses COBALT_PARTNAME).
+Note: This is queried only if a node_list file is not provided and disable_resource_manager=True.</p></li>
+<li><p><strong>nodelist_env_pbs</strong> (<em>String</em><em>, </em><em>optional</em>) – The environment variable giving a path to a nodefile in PBS format (Default: uses PBS_NODEFILE).
+This is queried if a node_list file is not provided.</p></li>
+<li><p><strong>nodelist_env_lsf</strong> (<em>String</em><em>, </em><em>optional</em>) – The environment variable giving a node list in LSF format (Default: uses LSB_HOSTS).
+Note: This is queried only if a node_list file is not provided.</p></li>
+<li><p><strong>nodelist_env_lsf_shortform</strong> (<em>String</em><em>, </em><em>optional</em>) – The environment variable giving a node list in LSF short-form format (Default: uses LSB_MCPU_HOSTS).
+Note: This is queried only if a node_list file is not provided.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.get_nodelist">
+<span class="sig-name descname"><span class="pre">get_nodelist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.get_nodelist" title="Link to this definition"></a></dt>
+<dd><p>Returns nodelist from environment or an empty list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str | <em>Any</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.abbrev_nodenames">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abbrev_nodenames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.abbrev_nodenames" title="Link to this definition"></a></dt>
+<dd><p>Returns nodelist with only string up to first dot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+<li><p><strong>prefix</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.cobalt_abbrev_nodenames">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cobalt_abbrev_nodenames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nid'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.cobalt_abbrev_nodenames" title="Link to this definition"></a></dt>
+<dd><p>Returns nodelist with prefix and leading zeros stripped</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+<li><p><strong>prefix</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.shortnames">
+<span class="sig-name descname"><span class="pre">shortnames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.shortnames" title="Link to this definition"></a></dt>
+<dd><p>Returns nodelist with entries in abbreviated form</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node_list</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.get_slurm_nodelist">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_slurm_nodelist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_list_env</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.get_slurm_nodelist" title="Link to this definition"></a></dt>
+<dd><p>Gets global libEnsemble nodelist from the Slurm environment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node_list_env</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str | <em>Any</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.get_cobalt_nodelist">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_cobalt_nodelist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_list_env</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.get_cobalt_nodelist" title="Link to this definition"></a></dt>
+<dd><p>Gets global libEnsemble nodelist from the Cobalt environment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node_list_env</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str | <em>Any</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.get_pbs_nodelist">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_pbs_nodelist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_list_env</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.get_pbs_nodelist" title="Link to this definition"></a></dt>
+<dd><p>Gets global libEnsemble nodelist path from PBS environment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node_list_env</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str | <em>Any</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.get_lsf_nodelist">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_lsf_nodelist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_list_env</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.get_lsf_nodelist" title="Link to this definition"></a></dt>
+<dd><p>Gets global libEnsemble nodelist from the LSF environment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node_list_env</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str | <em>Any</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="env_resources.EnvResources.get_lsf_nodelist_frm_shortform">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_lsf_nodelist_frm_shortform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_list_env</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#env_resources.EnvResources.get_lsf_nodelist_frm_shortform" title="Link to this definition"></a></dt>
+<dd><p>Gets global libEnsemble nodelist from the LSF environment from short-form version</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node_list_env</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str | <em>Any</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="worker_resources_module.html" class="btn btn-neutral float-left" title="Worker Resources Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="node_resources_module.html" class="btn btn-neutral float-right" title="Node Resources Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

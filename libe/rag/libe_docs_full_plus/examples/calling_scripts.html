@@ -1,0 +1,582 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calling Scripts &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Example Scheduler Submission Scripts" href="submission_scripts.html" />
+    <link rel="prev" title="Allocation Functions" href="alloc_funcs.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/examples/calling_scripts.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Calling Scripts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#local-sine-tutorial">Local Sine Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#electrostatic-forces-with-executor">Electrostatic Forces with Executor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#traditional-version">Traditional Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#object-yaml-version">Object + yaml Version</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#persistent-aposmm-with-gradients">Persistent APOSMM with Gradients</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Calling Scripts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/calling_scripts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="calling-scripts">
+<h1>Calling Scripts<a class="headerlink" href="#calling-scripts" title="Link to this heading"></a></h1>
+<p>Below are example calling scripts used to populate specifications for each user
+function and libEnsemble before initiating libEnsemble via the primary <code class="docutils literal notranslate"><span class="pre">libE()</span></code>
+call. The primary libEnsemble-relevant portions have been highlighted in each
+example. Non-highlighted portions may include setup routines, compilation steps
+for user applications, or output processing. The first two scripts correspond to
+random sampling calculations, while the third corresponds to an optimization routine.</p>
+<p>Many other examples of calling scripts can be found in libEnsemble’s <a class="reference external" href="https://github.com/Libensemble/libensemble/tree/develop/libensemble/tests/regression_tests">regression tests</a>.</p>
+<section id="local-sine-tutorial">
+<h2>Local Sine Tutorial<a class="headerlink" href="#local-sine-tutorial" title="Link to this heading"></a></h2>
+<p>This example is from the Local Sine <a class="reference internal" href="../tutorials/local_sine_tutorial.html"><span class="doc">Tutorial</span></a>,
+meant to run with Python’s multiprocessing as the primary <code class="docutils literal notranslate"><span class="pre">comms</span></code> method.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">examples/tutorials/simple_sine/test_local_sine_tutorial.py</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">sine_gen</span><span class="w"> </span><span class="kn">import</span> <span class="n">gen_random_sample</span>
+<span class="linenos"> 3</span><span class="kn">from</span><span class="w"> </span><span class="nn">sine_sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim_find_sine</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="linenos"> 6</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExitCriteria</span><span class="p">,</span> <span class="n">GenSpecs</span><span class="p">,</span> <span class="n">LibeSpecs</span><span class="p">,</span> <span class="n">SimSpecs</span>
+<span class="linenos"> 7</span>
+<span class="hll"><span class="linenos"> 8</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># Python-quirk required on macOS and windows</span>
+</span><span class="hll"><span class="linenos"> 9</span>    <span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span><span class="n">nworkers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">comms</span><span class="o">=</span><span class="s2">&quot;local&quot;</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">10</span>
+</span><span class="hll"><span class="linenos">11</span>    <span class="n">gen_specs</span> <span class="o">=</span> <span class="n">GenSpecs</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos">12</span>        <span class="n">gen_f</span><span class="o">=</span><span class="n">gen_random_sample</span><span class="p">,</span>  <span class="c1"># Our generator function</span>
+</span><span class="hll"><span class="linenos">13</span>        <span class="n">out</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))],</span>  <span class="c1"># gen_f output (name, type, size)</span>
+</span><span class="hll"><span class="linenos">14</span>        <span class="n">user</span><span class="o">=</span><span class="p">{</span>
+</span><span class="hll"><span class="linenos">15</span>            <span class="s2">&quot;lower&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">]),</span>  <span class="c1"># lower boundary for random sampling</span>
+</span><span class="hll"><span class="linenos">16</span>            <span class="s2">&quot;upper&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">]),</span>  <span class="c1"># upper boundary for random sampling</span>
+</span><span class="hll"><span class="linenos">17</span>            <span class="s2">&quot;gen_batch_size&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># number of x&#39;s gen_f generates per call</span>
+</span><span class="hll"><span class="linenos">18</span>        <span class="p">},</span>
+</span><span class="hll"><span class="linenos">19</span>    <span class="p">)</span>
+</span><span class="hll"><span class="linenos">20</span>
+</span><span class="hll"><span class="linenos">21</span>    <span class="n">sim_specs</span> <span class="o">=</span> <span class="n">SimSpecs</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos">22</span>        <span class="n">sim_f</span><span class="o">=</span><span class="n">sim_find_sine</span><span class="p">,</span>  <span class="c1"># Our simulator function</span>
+</span><span class="hll"><span class="linenos">23</span>        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>  <span class="c1"># InputArray field names. &quot;x&quot; from gen_f output</span>
+</span><span class="hll"><span class="linenos">24</span>        <span class="n">out</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>  <span class="c1"># sim_f output. &quot;y&quot; = sine(&quot;x&quot;)</span>
+</span><span class="hll"><span class="linenos">25</span>    <span class="p">)</span>  <span class="c1"># sim_specs_end_tag</span>
+</span><span class="hll"><span class="linenos">26</span>
+</span><span class="hll"><span class="linenos">27</span>    <span class="n">exit_criteria</span> <span class="o">=</span> <span class="n">ExitCriteria</span><span class="p">(</span><span class="n">sim_max</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>  <span class="c1"># Stop libEnsemble after 80 simulations</span>
+</span><span class="hll"><span class="linenos">28</span>
+</span><span class="linenos">29</span>    <span class="n">ensemble</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">(</span><span class="n">sim_specs</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">exit_criteria</span><span class="p">,</span> <span class="n">libE_specs</span><span class="p">)</span>
+<span class="linenos">30</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">add_random_streams</span><span class="p">()</span>  <span class="c1"># setup the random streams unique to each worker</span>
+<span class="linenos">31</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>  <span class="c1"># start the ensemble. Blocks until completion.</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span>    <span class="n">history</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">H</span>  <span class="c1"># start visualizing our results</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span>    <span class="nb">print</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">history</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">fields</span><span class="p">])</span>  <span class="c1"># (optional) to visualize our history array</span>
+<span class="linenos">36</span>    <span class="nb">print</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span>    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="linenos">39</span>
+<span class="linenos">40</span>    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">]</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">libE_specs</span><span class="o">.</span><span class="n">nworkers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="linenos">43</span>        <span class="n">worker_xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;sim_worker&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">,</span> <span class="n">history</span><span class="p">)</span>
+<span class="linenos">44</span>        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">worker_xy</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]]</span>
+<span class="linenos">45</span>        <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">entry</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">worker_xy</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]]</span>
+<span class="linenos">46</span>        <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Worker </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+<span class="linenos">47</span>
+<span class="linenos">48</span>    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Sine calculations for a uniformly sampled random distribution&quot;</span><span class="p">)</span>
+<span class="linenos">49</span>    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="linenos">50</span>    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;sine(x)&quot;</span><span class="p">)</span>
+<span class="linenos">51</span>    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+<span class="linenos">52</span>    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;tutorial_sines.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="electrostatic-forces-with-executor">
+<h2>Electrostatic Forces with Executor<a class="headerlink" href="#electrostatic-forces-with-executor" title="Link to this heading"></a></h2>
+<p>These examples are from a test for evaluating the scaling capabilities of libEnsemble
+by calculating particle electrostatic forces through a user application. This
+application is registered with the MPIExecutor, then submitted
+for execution in the <code class="docutils literal notranslate"><span class="pre">sim_f</span></code>. Note the use of the <code class="docutils literal notranslate"><span class="pre">parse_args=True</span></code> which allows
+reading arguments such as the number of workers from the command line.</p>
+<section id="traditional-version">
+<h3>Traditional Version<a class="headerlink" href="#traditional-version" title="Link to this heading"></a></h3>
+<p>Run using five workers with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_libe_forces</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>One worker runs a persistent generator and the other four run the forces simulations.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">tests/scaling_tests/forces/forces_simple/run_libe_forces.py</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/usr/bin/env python</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos"> 3</span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 6</span><span class="kn">from</span><span class="w"> </span><span class="nn">forces_simf</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_forces</span>  <span class="c1"># Sim func from current dir</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="linenos"> 9</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.alloc_funcs.start_only_persistent</span><span class="w"> </span><span class="kn">import</span> <span class="n">only_persistent_gens</span> <span class="k">as</span> <span class="n">alloc_f</span>
+<span class="linenos">10</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPIExecutor</span>
+<span class="linenos">11</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.gen_funcs.persistent_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">persistent_uniform</span> <span class="k">as</span> <span class="n">gen_f</span>
+<span class="linenos">12</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">AllocSpecs</span><span class="p">,</span> <span class="n">ExitCriteria</span><span class="p">,</span> <span class="n">GenSpecs</span><span class="p">,</span> <span class="n">LibeSpecs</span><span class="p">,</span> <span class="n">SimSpecs</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">15</span>    <span class="c1"># Initialize MPI Executor</span>
+<span class="linenos">16</span>    <span class="n">exctr</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">()</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span>    <span class="c1"># Register simulation executable with executor</span>
+<span class="linenos">19</span>    <span class="n">sim_app</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;../forces_app/forces.x&quot;</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">sim_app</span><span class="p">):</span>
+<span class="linenos">22</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;forces.x not found - please build first in ../forces_app dir&quot;</span><span class="p">)</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span>    <span class="n">exctr</span><span class="o">.</span><span class="n">register_app</span><span class="p">(</span><span class="n">full_path</span><span class="o">=</span><span class="n">sim_app</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;forces&quot;</span><span class="p">)</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span>    <span class="c1"># Parse number of workers, comms type, etc. from arguments</span>
+<span class="linenos">27</span>    <span class="n">ensemble</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">(</span><span class="n">parse_args</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">exctr</span><span class="p">)</span>
+<span class="linenos">28</span>    <span class="n">nsim_workers</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">nworkers</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># One worker is for persistent generator</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span>    <span class="c1"># Persistent gen does not need resources</span>
+<span class="linenos">31</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span>
+<span class="linenos">32</span>        <span class="n">num_resource_sets</span><span class="o">=</span><span class="n">nsim_workers</span><span class="p">,</span>
+<span class="linenos">33</span>        <span class="n">sim_dirs_make</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">34</span>    <span class="p">)</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">sim_specs</span> <span class="o">=</span> <span class="n">SimSpecs</span><span class="p">(</span>
+<span class="linenos">37</span>        <span class="n">sim_f</span><span class="o">=</span><span class="n">run_forces</span><span class="p">,</span>
+<span class="linenos">38</span>        <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+<span class="linenos">39</span>        <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>
+<span class="linenos">40</span>    <span class="p">)</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">gen_specs</span> <span class="o">=</span> <span class="n">GenSpecs</span><span class="p">(</span>
+<span class="linenos">43</span>        <span class="n">gen_f</span><span class="o">=</span><span class="n">gen_f</span><span class="p">,</span>
+<span class="linenos">44</span>        <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># No input when start persistent generator</span>
+<span class="linenos">45</span>        <span class="n">persis_in</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sim_id&quot;</span><span class="p">],</span>  <span class="c1"># Return sim_ids of evaluated points to generator</span>
+<span class="linenos">46</span>        <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))],</span>
+<span class="linenos">47</span>        <span class="n">user</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos">48</span>            <span class="s2">&quot;initial_batch_size&quot;</span><span class="p">:</span> <span class="n">nsim_workers</span><span class="p">,</span>
+<span class="linenos">49</span>            <span class="s2">&quot;lb&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">]),</span>  <span class="c1"># min particles</span>
+<span class="linenos">50</span>            <span class="s2">&quot;ub&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3000</span><span class="p">]),</span>  <span class="c1"># max particles</span>
+<span class="linenos">51</span>        <span class="p">},</span>
+<span class="linenos">52</span>    <span class="p">)</span>
+<span class="linenos">53</span>
+<span class="linenos">54</span>    <span class="c1"># Starts one persistent generator. Simulated values are returned in batch.</span>
+<span class="linenos">55</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">alloc_specs</span> <span class="o">=</span> <span class="n">AllocSpecs</span><span class="p">(</span>
+<span class="linenos">56</span>        <span class="n">alloc_f</span><span class="o">=</span><span class="n">alloc_f</span><span class="p">,</span>
+<span class="linenos">57</span>        <span class="n">user</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos">58</span>            <span class="s2">&quot;async_return&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># False causes batch returns</span>
+<span class="linenos">59</span>        <span class="p">},</span>
+<span class="linenos">60</span>    <span class="p">)</span>
+<span class="linenos">61</span>
+<span class="linenos">62</span>    <span class="c1"># Instruct libEnsemble to exit after this many simulations</span>
+<span class="linenos">63</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">exit_criteria</span> <span class="o">=</span> <span class="n">ExitCriteria</span><span class="p">(</span><span class="n">sim_max</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="linenos">64</span>
+<span class="linenos">65</span>    <span class="c1"># Seed random streams for each worker, particularly for gen_f</span>
+<span class="linenos">66</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">add_random_streams</span><span class="p">()</span>
+<span class="linenos">67</span>
+<span class="linenos">68</span>    <span class="c1"># Run ensemble</span>
+<span class="linenos">69</span>    <span class="n">ensemble</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="linenos">70</span>
+<span class="linenos">71</span>    <span class="k">if</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">is_manager</span><span class="p">:</span>
+<span class="linenos">72</span>        <span class="c1"># Note, this will change if changing sim_max, nworkers, lb, ub, etc.</span>
+<span class="linenos">73</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Final energy checksum: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ensemble</span><span class="o">.</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">])</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="object-yaml-version">
+<h3>Object + yaml Version<a class="headerlink" href="#object-yaml-version" title="Link to this heading"></a></h3>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">tests/scaling_tests/forces/forces_adv/run_libe_forces_from_yaml.py</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/usr/bin/env python</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos"> 3</span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="linenos"> 8</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.executors.mpi_executor</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPIExecutor</span>
+<span class="linenos"> 9</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_unique_random_streams</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="c1">####################</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="n">sim_app</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;../forces_app/forces.x&quot;</span><span class="p">)</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">sim_app</span><span class="p">):</span>
+<span class="linenos">16</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;forces.x not found - please build first in ../forces_app dir&quot;</span><span class="p">)</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="c1">####################</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="n">forces</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">(</span><span class="n">parse_args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">22</span><span class="n">forces</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="s2">&quot;forces.yaml&quot;</span><span class="p">)</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="n">forces</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="k">if</span> <span class="n">forces</span><span class="o">.</span><span class="n">is_manager</span><span class="p">:</span>
+<span class="linenos">27</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Running with </span><span class="si">{</span><span class="n">forces</span><span class="o">.</span><span class="n">nworkers</span><span class="si">}</span><span class="s2"> workers</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="n">exctr</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">()</span>
+<span class="linenos">30</span><span class="n">exctr</span><span class="o">.</span><span class="n">register_app</span><span class="p">(</span><span class="n">full_path</span><span class="o">=</span><span class="n">sim_app</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;forces&quot;</span><span class="p">)</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="n">forces</span><span class="o">.</span><span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;ensemble_dir_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./ensemble&quot;</span>
+<span class="linenos">33</span><span class="n">forces</span><span class="o">.</span><span class="n">gen_specs</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+<span class="linenos">34</span>    <span class="p">{</span>
+<span class="linenos">35</span>        <span class="s2">&quot;lb&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]),</span>
+<span class="linenos">36</span>        <span class="s2">&quot;ub&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">32767</span><span class="p">]),</span>
+<span class="linenos">37</span>    <span class="p">}</span>
+<span class="linenos">38</span><span class="p">)</span>
+<span class="linenos">39</span>
+<span class="linenos">40</span><span class="n">forces</span><span class="o">.</span><span class="n">persis_info</span> <span class="o">=</span> <span class="n">add_unique_random_streams</span><span class="p">({},</span> <span class="n">forces</span><span class="o">.</span><span class="n">nworkers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span><span class="n">forces</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="linenos">43</span><span class="n">forces</span><span class="o">.</span><span class="n">save_output</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">tests/scaling_tests/forces/forces_adv/forces.yaml</span><a class="headerlink" href="#id4" title="Link to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">libE_specs</span><span class="p">:</span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="nt">save_every_k_gens</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="nt">sim_dirs_make</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="nt">profile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="nt">exit_criteria</span><span class="p">:</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="nt">sim_max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="nt">sim_specs</span><span class="p">:</span>
+<span class="linenos">10</span><span class="w">    </span><span class="nt">sim_f</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">forces_simf.run_forces</span>
+<span class="linenos">11</span><span class="w">    </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="linenos">12</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x</span>
+<span class="linenos">13</span><span class="w">    </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="linenos">14</span><span class="w">        </span><span class="nt">energy</span><span class="p">:</span>
+<span class="linenos">15</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="w">    </span><span class="nt">user</span><span class="p">:</span>
+<span class="linenos">18</span><span class="w">        </span><span class="nt">keys</span><span class="p">:</span>
+<span class="linenos">19</span><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">seed</span>
+<span class="linenos">20</span><span class="w">        </span><span class="nt">cores</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="linenos">21</span><span class="w">        </span><span class="nt">sim_particles</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.e+3</span>
+<span class="linenos">22</span><span class="w">        </span><span class="nt">sim_timesteps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="linenos">23</span><span class="w">        </span><span class="nt">sim_kill_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
+<span class="linenos">24</span><span class="w">        </span><span class="nt">particle_variance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="linenos">25</span><span class="w">        </span><span class="nt">kill_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="linenos">26</span><span class="w">        </span><span class="nt">fail_on_sim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">27</span><span class="w">        </span><span class="nt">fail_on_submit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="nt">gen_specs</span><span class="p">:</span>
+<span class="linenos">30</span><span class="w">    </span><span class="nt">gen_f</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">libensemble.gen_funcs.sampling.uniform_random_sample</span>
+<span class="linenos">31</span><span class="w">    </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="linenos">32</span><span class="w">        </span><span class="nt">x</span><span class="p">:</span>
+<span class="linenos">33</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float</span>
+<span class="linenos">34</span><span class="w">            </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="linenos">35</span><span class="w">    </span><span class="nt">user</span><span class="p">:</span>
+<span class="linenos">36</span><span class="w">        </span><span class="nt">gen_batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span><span class="nt">alloc_specs</span><span class="p">:</span>
+<span class="linenos">39</span><span class="w">    </span><span class="nt">alloc_f</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">libensemble.alloc_funcs.give_sim_work_first.give_sim_work_first</span>
+<span class="linenos">40</span><span class="w">    </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="linenos">41</span><span class="w">        </span><span class="nt">allocated</span><span class="p">:</span>
+<span class="linenos">42</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span>
+<span class="linenos">43</span><span class="w">    </span><span class="nt">user</span><span class="p">:</span>
+<span class="linenos">44</span><span class="w">        </span><span class="nt">batch_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="linenos">45</span><span class="w">        </span><span class="nt">num_active_gens</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="persistent-aposmm-with-gradients">
+<h2>Persistent APOSMM with Gradients<a class="headerlink" href="#persistent-aposmm-with-gradients" title="Link to this heading"></a></h2>
+<p>This example is also from the regression tests and demonstrates configuring a
+persistent run via a custom allocation function.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">tests/regression_tests/test_persistent_aposmm_with_grad.py</span><a class="headerlink" href="#id5" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  2</span><span class="sd">Runs libEnsemble with APOSMM with an NLopt local optimizer that uses gradient</span>
+<span class="linenos">  3</span><span class="sd">information from the sim_f</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="sd">Execute via one of the following commands (e.g. 3 workers):</span>
+<span class="linenos">  6</span><span class="sd">   mpiexec -np 4 python test_persistent_aposmm_with_grad.py</span>
+<span class="linenos">  7</span><span class="sd">   python test_persistent_aposmm_with_grad.py --nworkers 3</span>
+<span class="linenos">  8</span><span class="sd">   python test_persistent_aposmm_with_grad.py --nworkers 3 --comms tcp</span>
+<span class="linenos">  9</span>
+<span class="linenos"> 10</span><span class="sd">When running with the above commands, the number of concurrent evaluations of</span>
+<span class="linenos"> 11</span><span class="sd">the objective function will be 2, as one of the three workers will be the</span>
+<span class="linenos"> 12</span><span class="sd">persistent generator.</span>
+<span class="linenos"> 13</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 14</span>
+<span class="linenos"> 15</span><span class="c1"># Do not change these lines - they are parsed by run-tests.sh</span>
+<span class="linenos"> 16</span><span class="c1"># TESTSUITE_COMMS: local mpi tcp</span>
+<span class="linenos"> 17</span><span class="c1"># TESTSUITE_NPROCS: 4</span>
+<span class="linenos"> 18</span><span class="c1"># TESTSUITE_EXTRA: true</span>
+<span class="linenos"> 19</span>
+<span class="linenos"> 20</span><span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="linenos"> 21</span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="linenos"> 22</span><span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="linenos"> 23</span>
+<span class="linenos"> 24</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span><span class="kn">import</span><span class="w"> </span><span class="nn">libensemble.gen_funcs</span>
+<span class="linenos"> 27</span>
+<span class="linenos"> 28</span><span class="c1"># Import libEnsemble items for this test</span>
+<span class="linenos"> 29</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.libE</span><span class="w"> </span><span class="kn">import</span> <span class="n">libE</span>
+<span class="linenos"> 30</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.sim_funcs.six_hump_camel</span><span class="w"> </span><span class="kn">import</span> <span class="n">six_hump_camel</span> <span class="k">as</span> <span class="n">sim_f</span>
+<span class="linenos"> 31</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.sim_funcs.six_hump_camel</span><span class="w"> </span><span class="kn">import</span> <span class="n">six_hump_camel_func</span><span class="p">,</span> <span class="n">six_hump_camel_grad</span>
+<span class="linenos"> 32</span>
+<span class="linenos"> 33</span><span class="n">libensemble</span><span class="o">.</span><span class="n">gen_funcs</span><span class="o">.</span><span class="n">rc</span><span class="o">.</span><span class="n">aposmm_optimizers</span> <span class="o">=</span> <span class="s2">&quot;nlopt&quot;</span>
+<span class="linenos"> 34</span><span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.alloc_funcs.persistent_aposmm_alloc</span><span class="w"> </span><span class="kn">import</span> <span class="n">persistent_aposmm_alloc</span> <span class="k">as</span> <span class="n">alloc_f</span>
+<span class="linenos"> 37</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.gen_funcs.persistent_aposmm</span><span class="w"> </span><span class="kn">import</span> <span class="n">aposmm</span> <span class="k">as</span> <span class="n">gen_f</span>
+<span class="linenos"> 38</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tests.regression_tests.support</span><span class="w"> </span><span class="kn">import</span> <span class="n">six_hump_camel_minima</span> <span class="k">as</span> <span class="n">minima</span>
+<span class="linenos"> 39</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_unique_random_streams</span><span class="p">,</span> <span class="n">parse_args</span><span class="p">,</span> <span class="n">save_libE_output</span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span><span class="c1"># Main block is necessary only when using local comms with spawn start method (default on macOS and Windows).</span>
+<span class="linenos"> 42</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos"> 43</span>    <span class="n">multiprocessing</span><span class="o">.</span><span class="n">set_start_method</span><span class="p">(</span><span class="s2">&quot;fork&quot;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span>    <span class="n">nworkers</span><span class="p">,</span> <span class="n">is_manager</span><span class="p">,</span> <span class="n">libE_specs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos"> 46</span>
+<span class="linenos"> 47</span>    <span class="k">if</span> <span class="n">is_manager</span><span class="p">:</span>
+<span class="linenos"> 48</span>        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="linenos"> 49</span>
+<span class="linenos"> 50</span>    <span class="k">if</span> <span class="n">nworkers</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+<span class="linenos"> 51</span>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Cannot run with a persistent worker if only one worker -- aborting...&quot;</span><span class="p">)</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span>    <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="linenos"> 54</span>    <span class="n">sim_specs</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 55</span>        <span class="s2">&quot;sim_f&quot;</span><span class="p">:</span> <span class="n">sim_f</span><span class="p">,</span>
+<span class="linenos"> 56</span>        <span class="s2">&quot;in&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+<span class="linenos"> 57</span>        <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;grad&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">)],</span>
+<span class="linenos"> 58</span>    <span class="p">}</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span>    <span class="n">gen_out</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos"> 61</span>        <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span>
+<span class="linenos"> 62</span>        <span class="p">(</span><span class="s2">&quot;x_on_cube&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span>
+<span class="linenos"> 63</span>        <span class="p">(</span><span class="s2">&quot;sim_id&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>
+<span class="linenos"> 64</span>        <span class="p">(</span><span class="s2">&quot;local_min&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span>
+<span class="linenos"> 65</span>        <span class="p">(</span><span class="s2">&quot;local_pt&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span>
+<span class="linenos"> 66</span>    <span class="p">]</span>
+<span class="linenos"> 67</span>
+<span class="linenos"> 68</span>    <span class="n">gen_in</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;grad&quot;</span><span class="p">,</span> <span class="s2">&quot;local_pt&quot;</span><span class="p">,</span> <span class="s2">&quot;sim_id&quot;</span><span class="p">,</span> <span class="s2">&quot;sim_ended&quot;</span><span class="p">,</span> <span class="s2">&quot;x_on_cube&quot;</span><span class="p">,</span> <span class="s2">&quot;local_min&quot;</span><span class="p">]</span>
+<span class="linenos"> 69</span>
+<span class="linenos"> 70</span>    <span class="n">gen_specs</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 71</span>        <span class="s2">&quot;gen_f&quot;</span><span class="p">:</span> <span class="n">gen_f</span><span class="p">,</span>
+<span class="linenos"> 72</span>        <span class="s2">&quot;in&quot;</span><span class="p">:</span> <span class="n">gen_in</span><span class="p">,</span>
+<span class="linenos"> 73</span>        <span class="s2">&quot;persis_in&quot;</span><span class="p">:</span> <span class="n">gen_in</span><span class="p">,</span>
+<span class="linenos"> 74</span>        <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="n">gen_out</span><span class="p">,</span>
+<span class="linenos"> 75</span>        <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos"> 76</span>            <span class="s2">&quot;initial_sample_size&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Don&#39;t need to do evaluations because the sampling already done below</span>
+<span class="linenos"> 77</span>            <span class="s2">&quot;localopt_method&quot;</span><span class="p">:</span> <span class="s2">&quot;LD_MMA&quot;</span><span class="p">,</span>
+<span class="linenos"> 78</span>            <span class="s2">&quot;rk_const&quot;</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">gamma</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n</span><span class="p">))</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">pi</span><span class="p">),</span>
+<span class="linenos"> 79</span>            <span class="s2">&quot;stop_after_k_minima&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+<span class="linenos"> 80</span>            <span class="s2">&quot;xtol_rel&quot;</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span>
+<span class="linenos"> 81</span>            <span class="s2">&quot;ftol_rel&quot;</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span>
+<span class="linenos"> 82</span>            <span class="s2">&quot;max_active_runs&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+<span class="linenos"> 83</span>            <span class="s2">&quot;lb&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]),</span>
+<span class="linenos"> 84</span>            <span class="s2">&quot;ub&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span>
+<span class="linenos"> 85</span>        <span class="p">},</span>
+<span class="linenos"> 86</span>    <span class="p">}</span>
+<span class="linenos"> 87</span>
+<span class="linenos"> 88</span>    <span class="n">alloc_specs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;alloc_f&quot;</span><span class="p">:</span> <span class="n">alloc_f</span><span class="p">}</span>
+<span class="linenos"> 89</span>
+<span class="linenos"> 90</span>    <span class="n">persis_info</span> <span class="o">=</span> <span class="n">add_unique_random_streams</span><span class="p">({},</span> <span class="n">nworkers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 91</span>
+<span class="linenos"> 92</span>    <span class="n">exit_criteria</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sim_max&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">}</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span>    <span class="c1"># Load in &quot;already completed&quot; set of &#39;x&#39;,&#39;f&#39;,&#39;grad&#39; values to give to libE/persistent_aposmm</span>
+<span class="linenos"> 95</span>    <span class="n">sample_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">minima</span><span class="p">)</span>
+<span class="linenos"> 96</span>
+<span class="linenos"> 97</span>    <span class="n">H0_dtype</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos"> 98</span>        <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span>
+<span class="linenos"> 99</span>        <span class="p">(</span><span class="s2">&quot;grad&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span>
+<span class="linenos">100</span>        <span class="p">(</span><span class="s2">&quot;sim_id&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>
+<span class="linenos">101</span>        <span class="p">(</span><span class="s2">&quot;x_on_cube&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span>
+<span class="linenos">102</span>        <span class="p">(</span><span class="s2">&quot;sim_ended&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span>
+<span class="linenos">103</span>        <span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>
+<span class="linenos">104</span>        <span class="p">(</span><span class="s2">&quot;gen_informed&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span>
+<span class="linenos">105</span>        <span class="p">(</span><span class="s2">&quot;sim_started&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span>
+<span class="linenos">106</span>    <span class="p">]</span>
+<span class="linenos">107</span>    <span class="n">H0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">H0_dtype</span><span class="p">)</span>
+<span class="linenos">108</span>
+<span class="linenos">109</span>    <span class="c1"># Two points in the following sample have the same best function value, which</span>
+<span class="linenos">110</span>    <span class="c1"># tests the corner case for some APOSMM logic</span>
+<span class="linenos">111</span>    <span class="n">H0</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">minima</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">112</span>    <span class="n">H0</span><span class="p">[</span><span class="s2">&quot;x_on_cube&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">H0</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;lb&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;ub&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;lb&quot;</span><span class="p">])</span>
+<span class="linenos">113</span>    <span class="n">H0</span><span class="p">[</span><span class="s2">&quot;sim_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+<span class="linenos">114</span>    <span class="n">H0</span><span class="p">[[</span><span class="s2">&quot;sim_started&quot;</span><span class="p">,</span> <span class="s2">&quot;gen_informed&quot;</span><span class="p">,</span> <span class="s2">&quot;sim_ended&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="linenos">115</span>
+<span class="linenos">116</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample_size</span><span class="p">):</span>
+<span class="linenos">117</span>        <span class="n">H0</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">six_hump_camel_func</span><span class="p">(</span><span class="n">H0</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos">118</span>        <span class="n">H0</span><span class="p">[</span><span class="s2">&quot;grad&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">six_hump_camel_grad</span><span class="p">(</span><span class="n">H0</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos">119</span>
+<span class="linenos">120</span>    <span class="c1"># Perform the run</span>
+<span class="linenos">121</span>    <span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">libE</span><span class="p">(</span><span class="n">sim_specs</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">exit_criteria</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">alloc_specs</span><span class="p">,</span> <span class="n">libE_specs</span><span class="p">,</span> <span class="n">H0</span><span class="o">=</span><span class="n">H0</span><span class="p">)</span>
+<span class="linenos">122</span>
+<span class="linenos">123</span>    <span class="k">if</span> <span class="n">is_manager</span><span class="p">:</span>
+<span class="linenos">124</span>        <span class="k">assert</span> <span class="n">persis_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;run_order&quot;</span><span class="p">),</span> <span class="s2">&quot;Run_order should have been given back&quot;</span>
+<span class="linenos">125</span>        <span class="k">assert</span> <span class="p">(</span>
+<span class="linenos">126</span>            <span class="nb">len</span><span class="p">(</span><span class="n">persis_info</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;run_order&quot;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;stop_after_k_minima&quot;</span><span class="p">]</span>
+<span class="linenos">127</span>        <span class="p">),</span> <span class="s2">&quot;This test should have many runs started.&quot;</span>
+<span class="linenos">128</span>        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">exit_criteria</span><span class="p">[</span><span class="s2">&quot;sim_max&quot;</span><span class="p">],</span> <span class="s2">&quot;Test should have stopped early due to &#39;stop_after_k_minima&#39;&quot;</span>
+<span class="linenos">129</span>
+<span class="linenos">130</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Manager]:&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;local_min&quot;</span><span class="p">])][</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+<span class="linenos">131</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Manager]: Time taken =&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">132</span>
+<span class="linenos">133</span>        <span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="linenos">134</span>        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">minima</span><span class="p">:</span>
+<span class="linenos">135</span>            <span class="c1"># The minima are known on this test problem.</span>
+<span class="linenos">136</span>            <span class="c1"># We use their values to test APOSMM has identified all minima</span>
+<span class="linenos">137</span>            <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">H</span><span class="p">[</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;local_min&quot;</span><span class="p">]][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">138</span>            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">H</span><span class="p">[</span><span class="n">H</span><span class="p">[</span><span class="s2">&quot;local_min&quot;</span><span class="p">]][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">tol</span>
+<span class="linenos">139</span>
+<span class="linenos">140</span>        <span class="n">save_libE_output</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="vm">__file__</span><span class="p">,</span> <span class="n">nworkers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="alloc_funcs.html" class="btn btn-neutral float-left" title="Allocation Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="submission_scripts.html" class="btn btn-neutral float-right" title="Example Scheduler Submission Scripts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

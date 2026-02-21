@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running on HPC Systems &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Aurora" href="aurora.html" />
+    <link rel="prev" title="Running libEnsemble" href="../running_libE.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/platforms/platforms_index.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Running on HPC Systems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#centralized-running">Centralized Running</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dedicated-mode">Dedicated Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-running">Distributed Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-the-run">Configuring the Run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mapping-tasks-to-resources">Mapping Tasks to Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zero-resource-workers">Zero-resource workers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#assigning-gpus">Assigning GPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#varying-resources">Varying resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overriding-auto-detection">Overriding Auto-Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#systems-with-launch-mom-nodes">Systems with Launch/MOM Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#globus-compute-remote-user-functions">Globus Compute - Remote User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#instructions-for-specific-platforms">Instructions for Specific Platforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="aurora.html">Aurora</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bebop.html">Bebop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontier.html">Frontier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="improv.html">Improv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perlmutter.html">Perlmutter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polaris.html">Polaris</a></li>
+<li class="toctree-l3"><a class="reference internal" href="summit.html">Summit (Decommissioned)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="srun.html">libEnsemble with SLURM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example_scripts.html">Example Scheduler Submission Scripts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Running on HPC Systems</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/platforms/platforms_index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-on-hpc-systems">
+<span id="platform-index"></span><h1>Running on HPC Systems<a class="headerlink" href="#running-on-hpc-systems" title="Link to this heading"></a></h1>
+<p>libEnsemble has been tested on systems of highly varying scales, from laptops to
+thousands of compute nodes. On multi-node systems, there are a few alternative
+ways of configuring libEnsemble to run and launch tasks (i.e., user applications)
+on the available nodes.</p>
+<p>The <a class="reference internal" href="../tutorials/executor_forces_tutorial.html"><span class="doc">Forces tutorial</span></a> gives an
+example with a simple MPI application.</p>
+<p>Note that while the diagrams below show one application being run per node,
+configurations with <strong>multiple nodes per worker</strong> or <strong>multiple workers per node</strong>
+are both common use cases.</p>
+<section id="centralized-running">
+<h2>Centralized Running<a class="headerlink" href="#centralized-running" title="Link to this heading"></a></h2>
+<p>The default communications scheme places the manager and workers on the first node.
+The <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPI Executor</span></a> can then be invoked by each
+simulation worker, and libEnsemble will distribute user applications across the
+node allocation. This is the <strong>most common approach</strong> where each simulation
+runs an MPI application.</p>
+<p>The generator will run on a worker by default, but if running a single generator,
+the <a class="reference internal" href="../data_structures/libE_specs.html#datastruct-libe-specs"><span class="std std-ref">libE_specs</span></a> option <strong>gen_on_manager</strong> is recommended,
+which runs the generator on the manager (using a thread) as below.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 60.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><a class="reference internal image-reference" href="../_images/centralized_gen_on_manager.png"><img alt="centralized" src="../_images/centralized_gen_on_manager.png" style="width: 420.20000000000005px; height: 222.75000000000003px;" />
+</a>
+</td>
+<td><p>In calling script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">ensemble</span><span class="o">.</span><span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span>
+<span class="linenos">2</span>    <span class="n">gen_on_manager</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A SLURM batch script may include:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --nodes 3</span>
+
+python<span class="w"> </span>run_libe_forces.py<span class="w"> </span>--nworkers<span class="w"> </span><span class="m">3</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>When using <strong>gen_on_manager</strong>, set <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> to the number of workers desired for running simulations.</p>
+<section id="dedicated-mode">
+<h3>Dedicated Mode<a class="headerlink" href="#dedicated-mode" title="Link to this heading"></a></h3>
+<p>If the <a class="reference internal" href="../data_structures/libE_specs.html#datastruct-libe-specs"><span class="std std-ref">libE_specs</span></a> option <strong>dedicated_mode</strong> is set to
+True, the MPI executor will not launch applications on nodes where libEnsemble Python
+processes (manager and workers) are running. Workers launch applications onto the
+remaining nodes in the allocation.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 60.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><a class="reference internal image-reference" href="../_images/centralized_dedicated.png"><img alt="centralized dedicated mode" src="../_images/centralized_dedicated.png" style="width: 393.59999999999997px; height: 232.2px;" />
+</a>
+</td>
+<td><p>In calling script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">ensemble</span><span class="o">.</span><span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span>
+<span class="linenos">2</span>    <span class="n">num_resource_sets</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="linenos">3</span>    <span class="n">dedicated_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A SLURM batch script may include:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --nodes 3</span>
+
+python<span class="w"> </span>run_libe_forces.py<span class="w"> </span>--nworkers<span class="w"> </span><span class="m">3</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note that <strong>gen_on_manager</strong> is not set in the above example.</p>
+</section>
+</section>
+<section id="distributed-running">
+<h2>Distributed Running<a class="headerlink" href="#distributed-running" title="Link to this heading"></a></h2>
+<p>In the <strong>distributed</strong> approach, libEnsemble can be run using the <strong>mpi4py</strong>
+communicator, with workers distributed across nodes. This is most often used
+when workers run simulation code directly, via a Python interface. The user
+script is invoked with an MPI runner, for example (using an <cite>mpich</cite>-based MPI):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpirun</span> <span class="o">-</span><span class="n">np</span> <span class="mi">4</span> <span class="o">-</span><span class="n">ppn</span> <span class="mi">1</span> <span class="n">python</span> <span class="n">myscript</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>The distributed approach, can also be used with the executor, to co-locate workers
+with the applications they submit. Ensuring that workers are placed as required in this
+case requires <a class="reference internal" href="example_scripts.html#slurm-mpi-distributed"><span class="std std-ref">a careful MPI rank placement</span></a>.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_images/distributed_new_detailed.png"><img alt="distributed" class="align-center" src="../_images/distributed_new_detailed.png" style="width: 465.59999999999997px; height: 208.2px;" />
+</a>
+</div></blockquote>
+<p>This allows the libEnsemble worker to read files produced by the application on
+local node storage.</p>
+</section>
+<section id="configuring-the-run">
+<h2>Configuring the Run<a class="headerlink" href="#configuring-the-run" title="Link to this heading"></a></h2>
+<p>On systems with a job scheduler, libEnsemble is typically run within a single
+<a class="reference internal" href="example_scripts.html"><span class="doc">job submission</span></a>. All user simulations will run on
+the nodes within that allocation.</p>
+<p><em>How does libEnsemble know where to run tasks (user applications)?</em></p>
+<p>The libEnsemble <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPI Executor</span></a> can be initialized from the user calling
+script, and then used by workers to run tasks. The Executor will automatically detect the nodes
+available on most systems. Alternatively, the user can provide a file called <strong>node_list</strong> in
+the run directory. By default, the Executor will divide up the nodes evenly to each worker.</p>
+</section>
+<section id="mapping-tasks-to-resources">
+<h2>Mapping Tasks to Resources<a class="headerlink" href="#mapping-tasks-to-resources" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="../resource_manager/resources_index.html#resources-index"><span class="std std-ref">resource manager</span></a> detects node lists from
+<a class="reference internal" href="../resource_manager/resource_detection.html#resource-detection"><span class="std std-ref">common batch schedulers</span></a>,
+and partitions these to workers. The <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPI Executor</span></a>
+accesses the resources available to the current worker when launching tasks.</p>
+</section>
+<section id="zero-resource-workers">
+<h2>Zero-resource workers<a class="headerlink" href="#zero-resource-workers" title="Link to this heading"></a></h2>
+<p>Users with persistent <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> functions may notice that the persistent workers
+are still automatically assigned system resources. This can be resolved by using
+the <code class="docutils literal notranslate"><span class="pre">gen_on_manager</span></code> option or by
+<a class="reference internal" href="../resource_manager/zero_resource_workers.html#zero-resource-workers"><span class="std std-ref">fixing the number of resource sets</span></a>.</p>
+</section>
+<section id="assigning-gpus">
+<h2>Assigning GPUs<a class="headerlink" href="#assigning-gpus" title="Link to this heading"></a></h2>
+<p>libEnsemble automatically detects and assigns Nvidia, AMD, and Intel GPUs without modifying the user scripts. This automatically works on many systems, but if the assignment is incorrect or needs to be modified the user can specify <a class="reference internal" href="../data_structures/platform_specs.html#datastruct-platform-specs"><span class="std std-ref">platform information</span></a>.
+The <a class="reference internal" href="../tutorials/forces_gpu_tutorial.html"><span class="doc">forces_gpu tutorial</span></a> shows an example of this.</p>
+</section>
+<section id="varying-resources">
+<h2>Varying resources<a class="headerlink" href="#varying-resources" title="Link to this heading"></a></h2>
+<p>libEnsemble also features <a class="reference internal" href="../tutorials/forces_gpu_tutorial.html#var-resources-gpu"><span class="std std-ref">dynamic resource assignment</span></a>, whereby the
+number of processes and/or the number of GPUs can be a set for each simulation by the generator.</p>
+</section>
+<section id="overriding-auto-detection">
+<h2>Overriding Auto-Detection<a class="headerlink" href="#overriding-auto-detection" title="Link to this heading"></a></h2>
+<p>libEnsemble can automatically detect system information. This includes resource information, such as
+available nodes and the number of cores on the node, and information about available MPI runners.</p>
+<p>System detection for resources can be overridden using the <a class="reference internal" href="../data_structures/libE_specs.html#resource-info"><span class="std std-ref">resource_info</span></a>
+libE_specs option.</p>
+<p>When using the MPI Executor, it is possible to override the detected information using the
+<cite>custom_info</cite> argument. See the <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPI Executor</span></a> for more.</p>
+</section>
+<section id="systems-with-launch-mom-nodes">
+<h2>Systems with Launch/MOM Nodes<a class="headerlink" href="#systems-with-launch-mom-nodes" title="Link to this heading"></a></h2>
+<p>Some large systems have a 3-tier node setup. That is, they have a separate set of launch nodes
+(known as MOM nodes on Cray Systems). User batch jobs or interactive sessions run on a launch node.
+Most such systems supply a special MPI runner that has some application-level scheduling
+capability (e.g., <code class="docutils literal notranslate"><span class="pre">aprun</span></code>, <code class="docutils literal notranslate"><span class="pre">jsrun</span></code>). MPI applications can only be submitted from these nodes. Examples
+of these systems include Summit and Sierra.</p>
+<p>There are two ways of running libEnsemble on these kinds of systems. The first, and simplest,
+is to run libEnsemble on the launch nodes. This is often sufficient if the worker’s simulation
+or generation functions are not doing much work (other than launching applications). This approach
+is inherently centralized. The entire node allocation is available for the worker-launched
+tasks.</p>
+<p>However, running libEnsemble on the compute nodes is potentially more scalable and
+will better manage simulation and generation functions that contain considerable
+computational work or I/O. Therefore the second option is to use Globus Compute
+to isolate this work from the workers.</p>
+</section>
+<section id="globus-compute-remote-user-functions">
+<span id="globus-compute-ref"></span><h2>Globus Compute - Remote User Functions<a class="headerlink" href="#globus-compute-remote-user-functions" title="Link to this heading"></a></h2>
+<p>If libEnsemble is running on some resource with
+internet access (laptops, login nodes, other servers, etc.), workers can be instructed to
+launch generator or simulator user function instances to separate resources from
+themselves via <a class="reference external" href="https://www.globus.org/compute">Globus Compute</a> (formerly funcX), a distributed, high-performance function-as-a-service platform:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_images/funcxmodel.png"><img alt="running_with_globus_compute" class="align-center" src="../_images/funcxmodel.png" style="width: 511.5px; height: 300.0px;" />
+</a>
+</div></blockquote>
+<p>This is useful for running ensembles across machines and heterogeneous resources, but
+comes with several caveats:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>User functions registered with Globus Compute must be <em>non-persistent</em>, since
+manager-worker communicators can’t be serialized or used by a remote resource.</p></li>
+<li><p>Likewise, the <code class="docutils literal notranslate"><span class="pre">Executor.manager_poll()</span></code> capability is disabled. The only
+available control over remote functions by workers is processing return values
+or exceptions when they complete.</p></li>
+<li><p>Globus Compute imposes a <a class="reference external" href="https://globus-compute.readthedocs.io/en/latest/limits.html">handful of task-rate and data limits</a> on submitted functions.</p></li>
+<li><p>Users are responsible for authenticating via <a class="reference external" href="https://www.globus.org/">Globus</a> and maintaining their
+<a class="reference external" href="https://globus-compute.readthedocs.io/en/latest/endpoints.html">Globus Compute endpoints</a> on their target systems.</p></li>
+</ol>
+</div></blockquote>
+<p>Users can still define Executor instances within their user functions and submit
+MPI applications normally, as long as libEnsemble and the target application are
+accessible on the remote system:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Within remote user function</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPIExecutor</span>
+<span class="n">exctr</span> <span class="o">=</span> <span class="n">MPIExecutor</span><span class="p">()</span>
+<span class="n">exctr</span><span class="o">.</span><span class="n">register_app</span><span class="p">(</span><span class="n">full_path</span><span class="o">=</span><span class="s2">&quot;/home/user/forces.x&quot;</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;forces&quot;</span><span class="p">)</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">exctr</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">app_name</span><span class="o">=</span><span class="s2">&quot;forces&quot;</span><span class="p">,</span> <span class="n">num_procs</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Specify a Globus Compute endpoint in either <a class="reference internal" href="../data_structures/sim_specs.html#libensemble.specs.SimSpecs" title="libensemble.specs.SimSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">sim_specs</span></code></a> or <a class="reference internal" href="../data_structures/gen_specs.html#libensemble.specs.GenSpecs" title="libensemble.specs.GenSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">gen_specs</span></code></a> via the <code class="docutils literal notranslate"><span class="pre">globus_compute_endpoint</span></code>
+argument. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimSpecs</span>
+
+<span class="n">sim_specs</span> <span class="o">=</span> <span class="n">SimSpecs</span><span class="p">(</span>
+    <span class="n">sim_f</span> <span class="o">=</span> <span class="n">sim_f</span><span class="p">,</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>
+    <span class="n">globus_compute_endpoint</span> <span class="o">=</span> <span class="s2">&quot;3af6dc24-3f27-4c49-8d11-e301ade15353&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>See the <code class="docutils literal notranslate"><span class="pre">libensemble/tests/scaling_tests/globus_compute_forces</span></code> directory for a complete
+remote-simulation example.</p>
+</section>
+<section id="instructions-for-specific-platforms">
+<h2>Instructions for Specific Platforms<a class="headerlink" href="#instructions-for-specific-platforms" title="Link to this heading"></a></h2>
+<p>The following subsections have more information about configuring and launching
+libEnsemble on specific HPC systems.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="aurora.html">Aurora</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bebop.html">Bebop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier.html">Frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="improv.html">Improv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="perlmutter.html">Perlmutter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polaris.html">Polaris</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summit.html">Summit (Decommissioned)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="srun.html">libEnsemble with SLURM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_scripts.html">Example Scheduler Submission Scripts</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../running_libE.html" class="btn btn-neutral float-left" title="Running libEnsemble" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="aurora.html" class="btn btn-neutral float-right" title="Aurora" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

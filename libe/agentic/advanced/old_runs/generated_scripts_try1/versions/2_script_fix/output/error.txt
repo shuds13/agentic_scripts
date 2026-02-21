@@ -1,0 +1,40 @@
+Return code 1
+Stderr: [0]  2026-02-01 17:39:04,890 libensemble.manager (ERROR): ---- Received error message from worker 0 ----
+[0]  2026-02-01 17:39:04,890 libensemble.manager (ERROR): Message: libensemble.gen_funcs.aposmm_localopt_support.APOSMMException: No module named 'nlopt'
+[0]  2026-02-01 17:39:04,890 libensemble.manager (ERROR): Traceback (most recent call last):
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/worker.py", line 408, in run
+    response = self._handle(Work)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/worker.py", line 351, in _handle
+    calc_out, persis_info, calc_status = self._handle_calc(Work, calc_in)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/worker.py", line 271, in _handle_calc
+    out = calc(calc_in, Work)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/utils/runners.py", line 42, in run
+    return self._result(calc_in, Work["persis_info"], Work["libE_info"])
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/utils/runners.py", line 34, in _result
+    return self.f(*args)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/gen_funcs/persistent_aposmm.py", line 241, in aposmm
+    local_opter = LocalOptInterfacer(
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/gen_funcs/aposmm_localopt_support.py", line 142, in __init__
+    raise APOSMMException(x_new.x)
+libensemble.gen_funcs.aposmm_localopt_support.APOSMMException: No module named 'nlopt'
+
+[0]  2026-02-01 17:39:04,891 libensemble.libE (ERROR): Manager exception raised .. aborting ensemble:
+[0]  2026-02-01 17:39:04,891 libensemble.libE (ERROR): Dumping ensemble history with 100 sims evaluated:
+Traceback (most recent call last):
+  File "/home/shudson/test_mcp/script-creator/agentic/advanced/generated_scripts/run_example.py", line 72, in <module>
+    H, persis_info, flag = ensemble.run()
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/ensemble.py", line 413, in run
+    self.H, self.persis_info, self.flag = libE(
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/pydantic/_internal/_validate_call.py", line 39, in wrapper_function
+    return wrapper(*args, **kwargs)
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/pydantic/_internal/_validate_call.py", line 136, in __call__
+    res = self.__pydantic_validator__.validate_python(pydantic_core.ArgsKwargs(args, kwargs))
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/libE.py", line 262, in libE
+    return libE_funcs[libE_specs.get("comms", "mpi")](
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/libE.py", line 509, in libE_local
+    return manager(
+  File "/home/shudson/miniconda3/envs/academy_env/lib/python3.10/site-packages/libensemble/libE.py", line 310, in manager
+    raise LoggedException(*e.args, "See error details above and in ensemble.log") from None
+libensemble.manager.LoggedException: ('Received error message from worker 0', "libensemble.gen_funcs.aposmm_localopt_support.APOSMMException: No module named 'nlopt'", 'See error details above and in ensemble.log')
+
+Stdout: 

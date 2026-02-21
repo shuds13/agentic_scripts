@@ -1,0 +1,656 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running an Ensemble &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="_static/libE_logo_circle.png"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <script src="_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuring libEnsemble" href="data_structures/data_structures.html" />
+    <link rel="prev" title="Constructing Workflows" href="programming_libE.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/libe_module.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Running an Ensemble</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#libensemble.ensemble.Ensemble"><code class="docutils literal notranslate"><span class="pre">Ensemble</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.ensemble.Ensemble.ready"><code class="docutils literal notranslate"><span class="pre">Ensemble.ready()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.ensemble.Ensemble.run"><code class="docutils literal notranslate"><span class="pre">Ensemble.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.ensemble.Ensemble.from_yaml"><code class="docutils literal notranslate"><span class="pre">Ensemble.from_yaml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.ensemble.Ensemble.from_toml"><code class="docutils literal notranslate"><span class="pre">Ensemble.from_toml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.ensemble.Ensemble.from_json"><code class="docutils literal notranslate"><span class="pre">Ensemble.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.ensemble.Ensemble.add_random_streams"><code class="docutils literal notranslate"><span class="pre">Ensemble.add_random_streams()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.ensemble.Ensemble.save_output"><code class="docutils literal notranslate"><span class="pre">Ensemble.save_output()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#libensemble.libE.libE"><code class="docutils literal notranslate"><span class="pre">libE()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="programming_libE.html">Constructing Workflows</a></li>
+      <li class="breadcrumb-item active">Running an Ensemble</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/libe_module.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="running-an-ensemble">
+<span id="libe-module"></span><h1>Running an Ensemble<a class="headerlink" href="#running-an-ensemble" title="Link to this heading"></a></h1>
+<p>libEnsemble features two approaches to run an ensemble. We recommend the newer <code class="docutils literal notranslate"><span class="pre">Ensemble</span></code> class,
+but will continue to support <code class="docutils literal notranslate"><span class="pre">libE()</span></code> for backward compatibility.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Ensemble Class</label><div class="sd-tab-content docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="libensemble.ensemble.Ensemble">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libensemble.ensemble.</span></span><span class="sig-name descname"><span class="pre">Ensemble</span></span><a class="headerlink" href="#libensemble.ensemble.Ensemble" title="Link to this definition"></a></dt>
+<dd><p>The primary object for a libEnsemble workflow.
+Parses and validates settings, sets up logging, and maintains output.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Example</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="linenos"> 4</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.gen_funcs.sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">latin_hypercube_sample</span>
+<span class="linenos"> 5</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.sim_funcs.simple_sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm_eval</span>
+<span class="linenos"> 6</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExitCriteria</span><span class="p">,</span> <span class="n">GenSpecs</span><span class="p">,</span> <span class="n">LibeSpecs</span><span class="p">,</span> <span class="n">SimSpecs</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="n">libE_specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span><span class="n">nworkers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="linenos"> 9</span><span class="n">sampling</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">(</span><span class="n">libE_specs</span><span class="o">=</span><span class="n">libE_specs</span><span class="p">)</span>
+<span class="linenos">10</span><span class="n">sampling</span><span class="o">.</span><span class="n">sim_specs</span> <span class="o">=</span> <span class="n">SimSpecs</span><span class="p">(</span>
+<span class="linenos">11</span>    <span class="n">sim_f</span><span class="o">=</span><span class="n">norm_eval</span><span class="p">,</span>
+<span class="linenos">12</span>    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+<span class="linenos">13</span>    <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>
+<span class="linenos">14</span><span class="p">)</span>
+<span class="linenos">15</span><span class="n">sampling</span><span class="o">.</span><span class="n">gen_specs</span> <span class="o">=</span> <span class="n">GenSpecs</span><span class="p">(</span>
+<span class="linenos">16</span>    <span class="n">gen_f</span><span class="o">=</span><span class="n">latin_hypercube_sample</span><span class="p">,</span>
+<span class="linenos">17</span>    <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))],</span>
+<span class="linenos">18</span>    <span class="n">user</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos">19</span>        <span class="s2">&quot;gen_batch_size&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+<span class="linenos">20</span>        <span class="s2">&quot;lb&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">]),</span>
+<span class="linenos">21</span>        <span class="s2">&quot;ub&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">]),</span>
+<span class="linenos">22</span>    <span class="p">},</span>
+<span class="linenos">23</span><span class="p">)</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="n">sampling</span><span class="o">.</span><span class="n">add_random_streams</span><span class="p">()</span>
+<span class="linenos">26</span><span class="n">sampling</span><span class="o">.</span><span class="n">exit_criteria</span> <span class="o">=</span> <span class="n">ExitCriteria</span><span class="p">(</span><span class="n">sim_max</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">29</span>    <span class="n">sampling</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="linenos">30</span>    <span class="n">sampling</span><span class="o">.</span><span class="n">save_output</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>Run the above example via <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">this_file.py</span></code>.</p>
+<p>Instead of using the libE_specs line, you can also use <code class="docutils literal notranslate"><span class="pre">sampling</span> <span class="pre">=</span> <span class="pre">Ensemble(parse_args=True)</span></code>
+and run via <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">this_file.py</span> <span class="pre">-n</span> <span class="pre">4</span></code> (4 workers). The <code class="docutils literal notranslate"><span class="pre">parse_args=True</span></code> parameter
+instructs the Ensemble class to read command-line arguments.</p>
+<p>Configure by:</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Option 1: Providing parameters on instantiation</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">my_simulator</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim_find_energy</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="n">sim_specs</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 5</span>    <span class="s2">&quot;sim_f&quot;</span><span class="p">:</span> <span class="n">sim_find_energy</span><span class="p">,</span>
+<span class="linenos"> 6</span>    <span class="s2">&quot;in&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+<span class="linenos"> 7</span>    <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>
+<span class="linenos"> 8</span><span class="p">}</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="n">experiment</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">(</span><span class="n">sim_specs</span><span class="o">=</span><span class="n">sim_specs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Option 2: Assigning parameters to an instance</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span><span class="p">,</span> <span class="n">SimSpecs</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">my_simulator</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim_find_energy</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="n">sim_specs</span> <span class="o">=</span> <span class="n">SimSpecs</span><span class="p">(</span>
+<span class="linenos"> 5</span>    <span class="n">sim_f</span><span class="o">=</span><span class="n">sim_find_energy</span><span class="p">,</span>
+<span class="linenos"> 6</span>    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+<span class="linenos"> 7</span>    <span class="n">outputs</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>
+<span class="linenos"> 8</span><span class="p">)</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="n">experiment</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">()</span>
+<span class="linenos">11</span><span class="n">experiment</span><span class="o">.</span><span class="n">sim_specs</span> <span class="o">=</span> <span class="n">sim_specs</span>
+</pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Option 3: Loading parameters from files</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ensemble</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">experiment</span> <span class="o">=</span> <span class="n">Ensemble</span><span class="p">()</span>
+<span class="linenos">4</span>
+<span class="linenos">5</span><span class="n">my_experiment</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="s2">&quot;my_parameters.yaml&quot;</span><span class="p">)</span>
+<span class="linenos">6</span><span class="c1"># or...</span>
+<span class="linenos">7</span><span class="n">my_experiment</span><span class="o">.</span><span class="n">from_toml</span><span class="p">(</span><span class="s2">&quot;my_parameters.toml&quot;</span><span class="p">)</span>
+<span class="linenos">8</span><span class="c1"># or...</span>
+<span class="linenos">9</span><span class="n">my_experiment</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="s2">&quot;my_parameters.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+my_parameters.yaml</label><div class="sd-tab-content docutils">
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">libE_specs</span><span class="p">:</span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="nt">save_every_k_gens</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="nt">exit_criteria</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="nt">sim_max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="nt">gen_specs</span><span class="p">:</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="nt">gen_f</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">generator.gen_random_sample</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="linenos">10</span><span class="w">        </span><span class="nt">x</span><span class="p">:</span>
+<span class="linenos">11</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float</span>
+<span class="linenos">12</span><span class="w">            </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="linenos">13</span><span class="w">    </span><span class="nt">user</span><span class="p">:</span>
+<span class="linenos">14</span><span class="w">        </span><span class="nt">gen_batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="nt">sim_specs</span><span class="p">:</span>
+<span class="linenos">17</span><span class="w">    </span><span class="nt">sim_f</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simulator.sim_find_sine</span>
+<span class="linenos">18</span><span class="w">    </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="linenos">19</span><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x</span>
+<span class="linenos">20</span><span class="w">    </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="linenos">21</span><span class="w">        </span><span class="nt">y</span><span class="p">:</span>
+<span class="linenos">22</span><span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+my_parameters.toml</label><div class="sd-tab-content docutils">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">[libE_specs]</span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="n">save_every_k_gens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">300</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">[exit_criteria]</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="n">sim_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">80</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">[gen_specs]</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="n">gen_f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;generator.gen_random_sample&quot;</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="k">[gen_specs.outputs]</span>
+<span class="linenos">10</span><span class="w">        </span><span class="k">[gen_specs.outputs.x]</span>
+<span class="linenos">11</span><span class="w">            </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;float&quot;</span>
+<span class="linenos">12</span><span class="w">            </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="linenos">13</span><span class="w">    </span><span class="k">[gen_specs.user]</span>
+<span class="linenos">14</span><span class="w">        </span><span class="n">gen_batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="k">[sim_specs]</span>
+<span class="linenos">17</span><span class="w">    </span><span class="n">sim_f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;simulator.sim_find_sine&quot;</span>
+<span class="linenos">18</span><span class="w">    </span><span class="n">inputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+<span class="linenos">19</span><span class="w">    </span><span class="k">[sim_specs.outputs]</span>
+<span class="linenos">20</span><span class="w">        </span><span class="k">[sim_specs.outputs.y]</span>
+<span class="linenos">21</span><span class="w">            </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;float&quot;</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+my_parameters.json</label><div class="sd-tab-content docutils">
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="p">{</span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="nt">&quot;libE_specs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w">        </span><span class="nt">&quot;save_every_k_gens&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="nt">&quot;exit_criteria&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 6</span><span class="w">        </span><span class="nt">&quot;sim_max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="nt">&quot;gen_specs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="nt">&quot;gen_f&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;generator.gen_random_sample&quot;</span><span class="p">,</span>
+<span class="linenos">10</span><span class="w">        </span><span class="nt">&quot;outputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">11</span><span class="w">            </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">12</span><span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;float&quot;</span><span class="p">,</span>
+<span class="linenos">13</span><span class="w">                </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="linenos">14</span><span class="w">            </span><span class="p">}</span>
+<span class="linenos">15</span><span class="w">        </span><span class="p">},</span>
+<span class="linenos">16</span><span class="w">        </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">17</span><span class="w">            </span><span class="nt">&quot;gen_batch_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
+<span class="linenos">18</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">19</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos">20</span><span class="w">    </span><span class="nt">&quot;sim_specs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">21</span><span class="w">        </span><span class="nt">&quot;sim_f&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;simulator.sim_find_sine&quot;</span><span class="p">,</span>
+<span class="linenos">22</span><span class="w">        </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+<span class="linenos">23</span><span class="w">        </span><span class="nt">&quot;outputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">24</span><span class="w">            </span><span class="nt">&quot;f&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;float&quot;</span><span class="p">}</span>
+<span class="linenos">25</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">26</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">27</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</details><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sim_specs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/sim_specs.html#libensemble.specs.SimSpecs" title="libensemble.specs.SimSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimSpecs</span></code></a>) – Specifications for the simulation function</p></li>
+<li><p><strong>gen_specs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/gen_specs.html#libensemble.specs.GenSpecs" title="libensemble.specs.GenSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenSpecs</span></code></a>, Optional) – Specifications for the generator function</p></li>
+<li><p><strong>exit_criteria</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/exit_criteria.html#libensemble.specs.ExitCriteria" title="libensemble.specs.ExitCriteria"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExitCriteria</span></code></a>, Optional) – Tell libEnsemble when to stop a run</p></li>
+<li><p><strong>libE_specs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/libE_specs.html#libensemble.specs.LibeSpecs" title="libensemble.specs.LibeSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">LibeSpecs</span></code></a>, Optional) – Specifications for libEnsemble</p></li>
+<li><p><strong>alloc_specs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/alloc_specs.html#libensemble.specs.AllocSpecs" title="libensemble.specs.AllocSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllocSpecs</span></code></a>, Optional) – Specifications for the allocation function</p></li>
+<li><p><strong>persis_info</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>, Optional) – Persistent information to be passed between user function instances
+<a class="reference internal" href="data_structures/persis_info.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>executor</strong> (<a class="reference internal" href="executor/executor.html#libensemble.executors.executor.Executor" title="libensemble.executors.executor.Executor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Executor</span></code></a>, Optional) – libEnsemble Executor instance for use within simulation or generator functions</p></li>
+<li><p><strong>H0</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.rec.html">NumPy structured array</a>, Optional) – A libEnsemble history to be prepended to this run’s history
+<a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p></li>
+<li><p><strong>parse_args</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Read <code class="docutils literal notranslate"><span class="pre">nworkers</span></code>, <code class="docutils literal notranslate"><span class="pre">comms</span></code>, and other arguments from the command-line. For MPI, calculate <code class="docutils literal notranslate"><span class="pre">nworkers</span></code>
+and set the <code class="docutils literal notranslate"><span class="pre">is_manager</span></code> Boolean attribute on MPI rank 0. See the <a class="reference internal" href="utilities.html#tools.parse_args" title="tools.parse_args"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse_args</span></code></a>
+docs for more information.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.ensemble.Ensemble.ready">
+<span class="sig-name descname"><span class="pre">ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.ensemble.Ensemble.ready" title="Link to this definition"></a></dt>
+<dd><p>Quickly verify that all necessary data has been provided</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.ensemble.Ensemble.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.ensemble.Ensemble.run" title="Link to this definition"></a></dt>
+<dd><p>Initializes libEnsemble.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">MPI/comms Notes</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Manager–worker intercommunications are parsed from the <code class="docutils literal notranslate"><span class="pre">comms</span></code> key of
+<a class="reference internal" href="data_structures/libE_specs.html#datastruct-libe-specs"><span class="std std-ref">libE_specs</span></a>. An MPI runtime is assumed by default
+if <code class="docutils literal notranslate"><span class="pre">--comms</span> <span class="pre">local</span></code> wasn’t specified on the command-line or in <code class="docutils literal notranslate"><span class="pre">libE_specs</span></code>.</p>
+<p class="sd-card-text">If a MPI communicator was provided in <code class="docutils literal notranslate"><span class="pre">libE_specs</span></code>, then each <code class="docutils literal notranslate"><span class="pre">.run()</span></code> call
+will initiate intercommunications on a <strong>duplicate</strong> of that communicator.
+Otherwise, a duplicate of <code class="docutils literal notranslate"><span class="pre">COMM_WORLD</span></code> will be used.</p>
+</div>
+</details><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul>
+<li><p><strong>H</strong> (<em>NumPy structured array</em>) – History array storing rows for each point.
+<a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p></li>
+<li><p><strong>persis_info</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Final state of persistent information
+<a class="reference internal" href="data_structures/persis_info.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>exit_flag</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – Flag containing final task status</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="o">=</span> <span class="n">No</span> <span class="n">errors</span>
+<span class="mi">1</span> <span class="o">=</span> <span class="ne">Exception</span> <span class="n">occurred</span>
+<span class="mi">2</span> <span class="o">=</span> <span class="n">Manager</span> <span class="n">timed</span> <span class="n">out</span> <span class="ow">and</span> <span class="n">ended</span> <span class="n">simulation</span>
+<span class="mi">3</span> <span class="o">=</span> <span class="n">Current</span> <span class="n">process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">libEnsemble</span> <span class="n">MPI</span> <span class="n">communicator</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(numpy.ndarray[tuple[int, …], numpy.dtype[+_ScalarType_co]], &lt;class ‘dict’&gt;, &lt;class ‘int’&gt;)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.ensemble.Ensemble.from_yaml">
+<span class="sig-name descname"><span class="pre">from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.ensemble.Ensemble.from_yaml" title="Link to this definition"></a></dt>
+<dd><p>Parameterizes libEnsemble from <code class="docutils literal notranslate"><span class="pre">yaml</span></code> file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.ensemble.Ensemble.from_toml">
+<span class="sig-name descname"><span class="pre">from_toml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.ensemble.Ensemble.from_toml" title="Link to this definition"></a></dt>
+<dd><p>Parameterizes libEnsemble from <code class="docutils literal notranslate"><span class="pre">toml</span></code> file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.ensemble.Ensemble.from_json">
+<span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.ensemble.Ensemble.from_json" title="Link to this definition"></a></dt>
+<dd><p>Parameterizes libEnsemble from <code class="docutils literal notranslate"><span class="pre">json</span></code> file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.ensemble.Ensemble.add_random_streams">
+<span class="sig-name descname"><span class="pre">add_random_streams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_streams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.ensemble.Ensemble.add_random_streams" title="Link to this definition"></a></dt>
+<dd><p>Adds <code class="docutils literal notranslate"><span class="pre">np.random</span></code> generators for each worker ID to <code class="docutils literal notranslate"><span class="pre">self.persis_info</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_streams</strong> (<em>int</em><em>, </em><em>Optional</em>) – Number of matching worker ID and random stream entries to create. Defaults to
+<code class="docutils literal notranslate"><span class="pre">self.nworkers</span></code>.</p></li>
+<li><p><strong>seed</strong> (<em>str</em><em>, </em><em>Optional</em>) – Seed for NumPy’s RNG.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.ensemble.Ensemble.save_output">
+<span class="sig-name descname"><span class="pre">save_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.ensemble.Ensemble.save_output" title="Link to this definition"></a></dt>
+<dd><p>Writes out History array and persis_info to files.
+If using a workflow_dir, will place with specified filename in that directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Format</strong> (<code class="docutils literal notranslate"><span class="pre">&lt;basename&gt;_results_History_length=&lt;length&gt;_evals=&lt;Completed</span> <span class="pre">evals&gt;_ranks=&lt;nworkers&gt;</span></code>)</p></li>
+<li><p><strong>basename</strong> (<em>str</em>)</p></li>
+<li><p><strong>append_attrs=False</strong> (<em>set</em>)</p></li>
+<li><p><strong>Format</strong></p></li>
+<li><p><strong>basename</strong></p></li>
+<li><p><strong>append_attrs</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+libE()</label><div class="sd-tab-content docutils">
+<p id="module-libensemble.libE">The libE module is the outer libEnsemble routine.</p>
+<p>This module sets up the manager and the team of workers, configured according
+to the contents of <a class="reference internal" href="data_structures/libE_specs.html#datastruct-libe-specs"><span class="std std-ref">libE_specs</span></a>. The manager/worker
+communications scheme used in libEnsemble is parsed from the <code class="docutils literal notranslate"><span class="pre">comms</span></code> key if
+present, with valid values being <code class="docutils literal notranslate"><span class="pre">mpi</span></code>, <code class="docutils literal notranslate"><span class="pre">local</span></code> (for multiprocessing), or
+<code class="docutils literal notranslate"><span class="pre">tcp</span></code>.</p>
+<p>MPI is the default if <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> is not given. However, if <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;nworkers&quot;]</span></code>
+is specified, then <code class="docutils literal notranslate"><span class="pre">local</span></code> comms will be used unless a parallel MPI environment
+is detected.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">mpi</span></code> comms, if a communicator is specified, each call to this module
+will initiate manager/worker communications on a duplicate of that
+communicator. Otherwise, a duplicate of <code class="docutils literal notranslate"><span class="pre">COMM_WORLD</span></code> will be used.</p>
+<p>In the vast majority of cases, programming with libEnsemble involves the creation
+of a <em>calling script</em>, a Python file where libEnsemble is parameterized via
+the various specification dictionaries (e.g. <a class="reference internal" href="data_structures/libE_specs.html#datastruct-libe-specs"><span class="std std-ref">libE_specs</span></a>,
+<a class="reference internal" href="data_structures/sim_specs.html#datastruct-sim-specs"><span class="std std-ref">sim_specs</span></a>, and <a class="reference internal" href="data_structures/gen_specs.html#datastruct-gen-specs"><span class="std std-ref">gen_specs</span></a>).
+The outer libEnsemble routine <a class="reference internal" href="#libensemble.libE.libE" title="libensemble.libE.libE"><code class="xref py py-meth docutils literal notranslate"><span class="pre">libE()</span></code></a> is imported and
+called with such dictionaries to initiate libEnsemble. A simple calling script
+(from <a class="reference internal" href="tutorials/local_sine_tutorial.html"><span class="doc">the first tutorial</span></a>) may resemble:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.libE</span><span class="w"> </span><span class="kn">import</span> <span class="n">libE</span>
+<span class="linenos"> 3</span><span class="kn">from</span><span class="w"> </span><span class="nn">generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">gen_random_sample</span>
+<span class="linenos"> 4</span><span class="kn">from</span><span class="w"> </span><span class="nn">simulator</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim_find_sine</span>
+<span class="linenos"> 5</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_unique_random_streams</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="n">nworkers</span><span class="p">,</span> <span class="n">is_manager</span><span class="p">,</span> <span class="n">libE_specs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;save_every_k_gens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="n">gen_specs</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">12</span>    <span class="s2">&quot;gen_f&quot;</span><span class="p">:</span> <span class="n">gen_random_sample</span><span class="p">,</span>
+<span class="linenos">13</span>    <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))],</span>
+<span class="linenos">14</span>    <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lower&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">]),</span> <span class="s2">&quot;upper&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">]),</span> <span class="s2">&quot;gen_batch_size&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+<span class="linenos">15</span><span class="p">}</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="n">sim_specs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sim_f&quot;</span><span class="p">:</span> <span class="n">sim_find_sine</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)]}</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="n">persis_info</span> <span class="o">=</span> <span class="n">add_unique_random_streams</span><span class="p">({},</span> <span class="n">nworkers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="n">exit_criteria</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sim_max&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">}</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">libE</span><span class="p">(</span><span class="n">sim_specs</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">exit_criteria</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">libE_specs</span><span class="o">=</span><span class="n">libE_specs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will initiate libEnsemble with a Manager and <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> workers (parsed from
+the command line), and runs on laptops or supercomputers. If an exception is
+encountered by the manager or workers, the history array is dumped to file, and
+MPI abort is called.</p>
+<p>On macOS (since Python 3.8) and Windows, the default multiprocessing start method is <code class="docutils literal notranslate"><span class="pre">&quot;spawn&quot;</span></code>
+and you must place most calling script code (or just <code class="docutils literal notranslate"><span class="pre">libE()</span></code> / <code class="docutils literal notranslate"><span class="pre">Ensemble().run()</span></code> at a minimum) in
+an <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">&quot;__main__:&quot;</span></code> block.</p>
+<p>Therefore a calling script that is universal across
+all platforms and comms-types may resemble:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.libE</span><span class="w"> </span><span class="kn">import</span> <span class="n">libE</span>
+<span class="linenos"> 3</span><span class="kn">from</span><span class="w"> </span><span class="nn">generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">gen_random_sample</span>
+<span class="linenos"> 4</span><span class="kn">from</span><span class="w"> </span><span class="nn">simulator</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim_find_sine</span>
+<span class="linenos"> 5</span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_unique_random_streams</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos"> 8</span>    <span class="n">nworkers</span><span class="p">,</span> <span class="n">is_manager</span><span class="p">,</span> <span class="n">libE_specs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>    <span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;save_every_k_gens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span>    <span class="n">gen_specs</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">13</span>        <span class="s2">&quot;gen_f&quot;</span><span class="p">:</span> <span class="n">gen_random_sample</span><span class="p">,</span>
+<span class="linenos">14</span>        <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))],</span>
+<span class="linenos">15</span>        <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="linenos">16</span>            <span class="s2">&quot;lower&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">]),</span>
+<span class="linenos">17</span>            <span class="s2">&quot;upper&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">]),</span>
+<span class="linenos">18</span>            <span class="s2">&quot;gen_batch_size&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="linenos">19</span>        <span class="p">},</span>
+<span class="linenos">20</span>    <span class="p">}</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span>    <span class="n">sim_specs</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">23</span>        <span class="s2">&quot;sim_f&quot;</span><span class="p">:</span> <span class="n">sim_find_sine</span><span class="p">,</span>
+<span class="linenos">24</span>        <span class="s2">&quot;in&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+<span class="linenos">25</span>        <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)],</span>
+<span class="linenos">26</span>    <span class="p">}</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span>    <span class="n">persis_info</span> <span class="o">=</span> <span class="n">add_unique_random_streams</span><span class="p">({},</span> <span class="n">nworkers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span>    <span class="n">exit_criteria</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sim_max&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">}</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span>    <span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">libE</span><span class="p">(</span><span class="n">sim_specs</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">exit_criteria</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">libE_specs</span><span class="o">=</span><span class="n">libE_specs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively, you may set the multiprocessing start method to <code class="docutils literal notranslate"><span class="pre">&quot;fork&quot;</span></code> via the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_start_method</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">set_start_method</span><span class="p">(</span><span class="s2">&quot;fork&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But note that this is incompatible with some libraries.</p>
+<p>See below for the complete traditional API.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="libensemble.libE.libE">
+<span class="sig-prename descclassname"><span class="pre">libensemble.libE.</span></span><span class="sig-name descname"><span class="pre">libE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_specs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exit_criteria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info={}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alloc_specs=AllocSpecs(alloc_f=&lt;function</span> <span class="pre">give_sim_work_first&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user={'num_active_gens':</span> <span class="pre">1}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs=[])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_specs={}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H0=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.libE.libE" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sim_specs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/sim_specs.html#libensemble.specs.SimSpecs" title="libensemble.specs.SimSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimSpecs</span></code></a>) – Specifications for the simulation function
+<a class="reference internal" href="data_structures/sim_specs.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>gen_specs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/gen_specs.html#libensemble.specs.GenSpecs" title="libensemble.specs.GenSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenSpecs</span></code></a>, Optional) – Specifications for the generator function
+<a class="reference internal" href="data_structures/gen_specs.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>exit_criteria</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/exit_criteria.html#libensemble.specs.ExitCriteria" title="libensemble.specs.ExitCriteria"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExitCriteria</span></code></a>, Optional) – Tell libEnsemble when to stop a run
+<a class="reference internal" href="data_structures/exit_criteria.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>persis_info</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>, Optional) – Persistent information to be passed between user functions
+<a class="reference internal" href="data_structures/persis_info.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>alloc_specs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/alloc_specs.html#libensemble.specs.AllocSpecs" title="libensemble.specs.AllocSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllocSpecs</span></code></a>, Optional) – Specifications for the allocation function
+<a class="reference internal" href="data_structures/alloc_specs.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>libE_specs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> or <a class="reference internal" href="data_structures/libE_specs.html#libensemble.specs.LibeSpecs" title="libensemble.specs.LibeSpecs"><code class="xref py py-class docutils literal notranslate"><span class="pre">LibeSpecs</span></code></a>, Optional) – Specifications for libEnsemble
+<a class="reference internal" href="data_structures/libE_specs.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>H0</strong> – A libEnsemble history to be prepended to this run’s history
+<a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul>
+<li><p><strong>H</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.rec.html">NumPy structured array</a>) – History array storing rows for each point.
+<a class="reference internal" href="function_guides/history_array.html#funcguides-history"><span class="std std-ref">(example)</span></a></p></li>
+<li><p><strong>persis_info</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>) – Final state of persistent information
+<a class="reference internal" href="data_structures/persis_info.html"><span class="doc">(example)</span></a></p></li>
+<li><p><strong>exit_flag</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>) – Flag containing final task status</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="o">=</span> <span class="n">No</span> <span class="n">errors</span>
+<span class="mi">1</span> <span class="o">=</span> <span class="ne">Exception</span> <span class="n">occurred</span>
+<span class="mi">2</span> <span class="o">=</span> <span class="n">Manager</span> <span class="n">timed</span> <span class="n">out</span> <span class="ow">and</span> <span class="n">ended</span> <span class="n">simulation</span>
+<span class="mi">3</span> <span class="o">=</span> <span class="n">Current</span> <span class="n">process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">libEnsemble</span> <span class="n">MPI</span> <span class="n">communicator</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(&lt;class ‘numpy.ndarray’&gt;, &lt;class ‘dict’&gt;, &lt;class ‘int’&gt;)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="programming_libE.html" class="btn btn-neutral float-left" title="Constructing Workflows" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="data_structures/data_structures.html" class="btn btn-neutral float-right" title="Configuring libEnsemble" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,591 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Allocation Functions &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User Function API" href="sim_gen_alloc_api.html" />
+    <link rel="prev" title="Simulator Functions" href="simulator.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/function_guides/allocator.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="function_guide_index.html">Writing User Functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="generator.html">Generator Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html">Simulator Functions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Allocation Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.tools.alloc_support.AllocSupport"><code class="docutils literal notranslate"><span class="pre">AllocSupport</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sim_gen_alloc_api.html">User Function API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calc_status.html">calc_status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="work_dict.html">Work Dictionary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_array.html">Worker Array</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+          <li class="breadcrumb-item"><a href="function_guide_index.html">Writing User Functions</a></li>
+      <li class="breadcrumb-item active">Allocation Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/function_guides/allocator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="allocation-functions">
+<span id="funcguides-alloc"></span><h1>Allocation Functions<a class="headerlink" href="#allocation-functions" title="Link to this heading"></a></h1>
+<p>Although the included allocation functions are sufficient for
+most users, those who want to fine-tune how data or resources are allocated to their generator or simulator can write their own.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">alloc_f</span></code> is unique since it is called by libEnsemble’s manager instead of a worker.</p>
+<p>For allocation functions, as with the other user functions, the level of complexity can
+vary widely. We encourage experimenting with:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Prioritization of simulations</p></li>
+<li><p>Sending results immediately or in batch</p></li>
+<li><p>Assigning varying resources to evaluations</p></li>
+</ol>
+</div></blockquote>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Example</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">libensemble.alloc_funcs.fast_alloc.give_sim_work_first</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools.alloc_support</span><span class="w"> </span><span class="kn">import</span> <span class="n">AllocSupport</span><span class="p">,</span> <span class="n">InsufficientFreeResources</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">give_sim_work_first</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">alloc_specs</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This allocation function gives (in order) entries in ``H`` to idle workers</span>
+<span class="sd">    to evaluate in the simulation function. The fields in ``sim_specs[&quot;in&quot;]``</span>
+<span class="sd">    are given. If all entries in `H` have been given a be evaluated, a worker</span>
+<span class="sd">    is told to call the generator function, provided this wouldn&#39;t result in</span>
+<span class="sd">    more than ``alloc_specs[&quot;user&quot;][&quot;num_active_gen&quot;]`` active generators.</span>
+
+<span class="sd">    This fast_alloc variation of give_sim_work_first is useful for cases that</span>
+<span class="sd">    simply iterate through H, issuing evaluations in order and, in particular,</span>
+<span class="sd">    is likely to be faster if there will be many short simulation evaluations,</span>
+<span class="sd">    given that this function contains fewer column length operations.</span>
+
+<span class="sd">    tags: alloc, simple, fast</span>
+
+<span class="sd">    .. seealso::</span>
+<span class="sd">        `test_fast_alloc.py &lt;https://github.com/Libensemble/libensemble/blob/develop/libensemble/tests/functionality_tests/test_fast_alloc.py&gt;`_ # noqa</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;sim_max_given&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;any_idle_workers&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{},</span> <span class="n">persis_info</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="n">alloc_specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">manage_resources</span> <span class="o">=</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;use_resource_sets&quot;</span><span class="p">]</span>
+
+    <span class="n">support</span> <span class="o">=</span> <span class="n">AllocSupport</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">manage_resources</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">)</span>
+
+    <span class="n">gen_count</span> <span class="o">=</span> <span class="n">support</span><span class="o">.</span><span class="n">count_gens</span><span class="p">()</span>
+    <span class="n">Work</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">gen_in</span> <span class="o">=</span> <span class="n">gen_specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="c1"># Give sim work if possible</span>
+    <span class="k">for</span> <span class="n">wid</span> <span class="ow">in</span> <span class="n">support</span><span class="o">.</span><span class="n">avail_worker_ids</span><span class="p">(</span><span class="n">gen_workers</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">persis_info</span> <span class="o">=</span> <span class="n">support</span><span class="o">.</span><span class="n">skip_canceled_points</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">persis_info</span><span class="p">[</span><span class="s2">&quot;next_to_give&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">Work</span><span class="p">[</span><span class="n">wid</span><span class="p">]</span> <span class="o">=</span> <span class="n">support</span><span class="o">.</span><span class="n">sim_work</span><span class="p">(</span><span class="n">wid</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">[</span><span class="s2">&quot;in&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">persis_info</span><span class="p">[</span><span class="s2">&quot;next_to_give&quot;</span><span class="p">]],</span> <span class="p">[])</span>
+            <span class="k">except</span> <span class="n">InsufficientFreeResources</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">persis_info</span><span class="p">[</span><span class="s2">&quot;next_to_give&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Give gen work if possible</span>
+    <span class="k">if</span> <span class="n">persis_info</span><span class="p">[</span><span class="s2">&quot;next_to_give&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wid</span> <span class="ow">in</span> <span class="n">support</span><span class="o">.</span><span class="n">avail_worker_ids</span><span class="p">(</span><span class="n">gen_workers</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">wid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Work</span> <span class="ow">and</span> <span class="n">gen_count</span> <span class="o">&lt;</span> <span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_active_gens&quot;</span><span class="p">,</span> <span class="n">gen_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">return_rows</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">H</span><span class="p">))</span> <span class="k">if</span> <span class="n">gen_in</span> <span class="k">else</span> <span class="p">[]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">Work</span><span class="p">[</span><span class="n">wid</span><span class="p">]</span> <span class="o">=</span> <span class="n">support</span><span class="o">.</span><span class="n">gen_work</span><span class="p">(</span><span class="n">wid</span><span class="p">,</span> <span class="n">gen_in</span><span class="p">,</span> <span class="n">return_rows</span><span class="p">,</span> <span class="n">persis_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">wid</span><span class="p">))</span>
+                <span class="k">except</span> <span class="n">InsufficientFreeResources</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">gen_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">persis_info</span><span class="p">[</span><span class="s2">&quot;total_gen_calls&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">Work</span><span class="p">,</span> <span class="n">persis_info</span>
+</pre></div>
+</div>
+</div>
+</div>
+</details><p>Most <code class="docutils literal notranslate"><span class="pre">alloc_f</span></code> function definitions written by users resemble:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_allocator</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">sim_specs</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">alloc_specs</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>where:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="worker_array.html#funcguides-workerarray"><span class="std std-ref">W</span></a> is an array containing worker state info</p></li>
+<li><p><a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">H</span></a> is the <em>trimmed</em> History array, containing rows from the generator</p></li>
+<li><p><a class="reference internal" href="#libe-info-alloc"><span class="std std-ref">libE_info</span></a> is a set of statistics to determine the progress of work or exit conditions</p></li>
+</ul>
+</div></blockquote>
+<p>Most users first check that it is appropriate to allocate work:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;sim_max_given&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;any_idle_workers&quot;</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="p">{},</span> <span class="n">persis_info</span>
+</pre></div>
+</div>
+<p>If the allocation is to continue, a support class is instantiated and a
+<a class="reference internal" href="work_dict.html#funcguides-workdict"><span class="std std-ref">Work dictionary</span></a> is initialized:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">manage_resources</span> <span class="o">=</span> <span class="s2">&quot;resource_sets&quot;</span> <span class="ow">in</span> <span class="n">H</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span> <span class="ow">or</span> <span class="n">libE_info</span><span class="p">[</span><span class="s2">&quot;use_resource_sets&quot;</span><span class="p">]</span>
+<span class="n">support</span> <span class="o">=</span> <span class="n">AllocSupport</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">manage_resources</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">)</span>
+<span class="n">Work</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+</div>
+<p>This Work dictionary is populated with integer keys <code class="docutils literal notranslate"><span class="pre">wid</span></code> for each worker and
+dictionary values to give to those workers:</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Example <code class="docutils literal notranslate"><span class="pre">Work</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;H_fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;persis_info&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;rand_stream&quot;</span><span class="p">:</span> <span class="n">RandomState</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="n">at</span> <span class="o">...</span><span class="p">,</span> <span class="s2">&quot;worker_num&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;libE_info&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;H_rows&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">368</span><span class="p">])}</span>
+    <span class="p">},</span>
+
+    <span class="mi">2</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;H_fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;persis_info&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;rand_stream&quot;</span><span class="p">:</span> <span class="n">RandomState</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="n">at</span> <span class="o">...</span><span class="p">,</span> <span class="s2">&quot;worker_num&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+        <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;libE_info&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;H_rows&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">369</span><span class="p">])}</span>
+    <span class="p">},</span>
+
+    <span class="mi">3</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;H_fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;persis_info&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;rand_stream&quot;</span><span class="p">:</span> <span class="n">RandomState</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="n">at</span> <span class="o">...</span><span class="p">,</span> <span class="s2">&quot;worker_num&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+        <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;libE_info&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;H_rows&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">370</span><span class="p">])}</span>
+    <span class="p">},</span>
+    <span class="o">...</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details><p>This Work dictionary instructs each worker to call the <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> (<code class="docutils literal notranslate"><span class="pre">tag:</span> <span class="pre">1</span></code>)
+with data from <code class="docutils literal notranslate"><span class="pre">&quot;x&quot;</span></code> and a given <code class="docutils literal notranslate"><span class="pre">&quot;H_row&quot;</span></code> from the
+History array. A worker-specific <code class="docutils literal notranslate"><span class="pre">persis_info</span></code> is also given.</p>
+<p>Constructing these arrays and determining which workers are available
+for receiving data is simplified by the <code class="docutils literal notranslate"><span class="pre">AllocSupport</span></code> class
+available within the <code class="docutils literal notranslate"><span class="pre">libensemble.tools.alloc_support</span></code> module:</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">AllocSupport</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libensemble.tools.alloc_support.</span></span><span class="sig-name descname"><span class="pre">AllocSupport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manage_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_scheduler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">A helper class to assist with writing allocation functions.</p>
+<p class="sd-card-text">This class contains methods for common operations like populating work
+units, determining which workers are available, evaluating what values
+need to be distributed to workers, and others.</p>
+<p class="sd-card-text">Note that since the <code class="docutils literal notranslate"><span class="pre">alloc_f</span></code> is called periodically by the Manager, this
+class instance (if used) will be recreated/destroyed on each loop.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manage_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">libE_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_resources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_scheduler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.__init__" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Instantiate a new AllocSupport instance</p>
+<p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">W</span></code> is passed in for convenience on init; it is referenced by the various methods,
+but never modified.</p>
+<p class="sd-card-text">By default, an <code class="docutils literal notranslate"><span class="pre">AllocSupport</span></code> instance uses any initiated libEnsemble resource
+module and the built-in libEnsemble scheduler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p class="sd-card-text"><strong>W</strong> – A <a class="reference internal" href="worker_array.html#funcguides-workerarray"><span class="std std-ref">Worker array</span></a></p></li>
+<li><p class="sd-card-text"><strong>manage_resources</strong> – (Optional) Boolean for if to assign resource sets when creating work units.</p></li>
+<li><p class="sd-card-text"><strong>persis_info</strong> – (Optional) A <a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">dictionary of persistent information.</span></a>.</p></li>
+<li><p class="sd-card-text"><strong>scheduler_opts</strong> – (Optional) A dictionary of options to pass to the resource scheduler.</p></li>
+<li><p class="sd-card-text"><strong>user_resources</strong> – (Optional) A user supplied <code class="docutils literal notranslate"><span class="pre">resources</span></code> object.</p></li>
+<li><p class="sd-card-text"><strong>user_scheduler</strong> – (Optional) A user supplied <code class="docutils literal notranslate"><span class="pre">user_scheduler</span></code> object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.assign_resources">
+<span class="sig-name descname"><span class="pre">assign_resources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rsets_req</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.assign_resources" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Schedule resource sets to a work record if possible.</p>
+<p class="sd-card-text">For default scheduler, if more than one group (node) is required,
+will try to find even split, otherwise allocates whole nodes.</p>
+<p class="sd-card-text">Raises <code class="docutils literal notranslate"><span class="pre">InsufficientFreeResources</span></code> if the required resources are not
+currently available, or <code class="docutils literal notranslate"><span class="pre">InsufficientResourcesError</span></code> if the required
+resources do not exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p class="sd-card-text"><strong>rsets_req</strong> – Int. Number of resource sets to request.</p></li>
+<li><p class="sd-card-text"><strong>use_gpus</strong> – Bool. Whether to use GPU resource sets.</p></li>
+<li><p class="sd-card-text"><strong>user_params</strong> – List of Integers. User parameters num_procs, num_gpus.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">List of Integers. Resource set indices assigned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.avail_worker_ids">
+<span class="sig-name descname"><span class="pre">avail_worker_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">persistent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_recv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_resource_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.avail_worker_ids" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Returns available workers as a list of IDs, filtered by the given options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p class="sd-card-text"><strong>persistent</strong> – (Optional) Int. Only return workers with given <code class="docutils literal notranslate"><span class="pre">persis_state</span></code> (1=sim, 2=gen).</p></li>
+<li><p class="sd-card-text"><strong>active_recv</strong> – (Optional) Boolean. Only return workers with given active_recv state.</p></li>
+<li><p class="sd-card-text"><strong>zero_resource_workers</strong> – (Optional) Boolean. Only return workers that require no resources.</p></li>
+<li><p class="sd-card-text"><strong>gen_workers</strong> – (Optional) Boolean. If True, return gen-only workers. If False, return all other workers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">List of worker IDs.</p>
+</dd>
+</dl>
+<p class="sd-card-text">If there are no zero resource workers defined, then the <code class="docutils literal notranslate"><span class="pre">zero_resource_workers</span></code> argument will
+be ignored.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.count_gens">
+<span class="sig-name descname"><span class="pre">count_gens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.count_gens" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Returns the number of active generators.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.test_any_gen">
+<span class="sig-name descname"><span class="pre">test_any_gen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.test_any_gen" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if a generator worker is active.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.count_persis_gens">
+<span class="sig-name descname"><span class="pre">count_persis_gens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.count_persis_gens" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Return the number of active persistent generators.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.sim_work">
+<span class="sig-name descname"><span class="pre">sim_work</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_rows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.sim_work" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Add sim work record to given <code class="docutils literal notranslate"><span class="pre">Work</span></code> dictionary.</p>
+<blockquote>
+<div><p class="sd-card-text">Includes evaluation of required resources if the worker is not in a
+persistent state.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p class="sd-card-text"><strong>wid</strong> – Int. Worker ID.</p></li>
+<li><p class="sd-card-text"><strong>H</strong> – <a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">History array</span></a>. For parsing out requested resource sets.</p></li>
+<li><p class="sd-card-text"><strong>H_fields</strong> – Which fields from <a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">H</span></a> to send.</p></li>
+<li><p class="sd-card-text"><strong>H_rows</strong> – Which rows of <code class="docutils literal notranslate"><span class="pre">H</span></code> to send.</p></li>
+<li><p class="sd-card-text"><strong>persis_info</strong> – Worker specific <a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">persis_info</span></a> dictionary.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">a Work entry.</p>
+</dd>
+</dl>
+<p class="sd-card-text">Additional passed parameters are inserted into <code class="docutils literal notranslate"><span class="pre">libE_info</span></code> in the resulting work record.</p>
+<p class="sd-card-text">If <code class="docutils literal notranslate"><span class="pre">rset_team</span></code> is passed as an additional parameter, it will be honored, assuming that
+any resource checking has already been done.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.gen_work">
+<span class="sig-name descname"><span class="pre">gen_work</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_rows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">libE_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.gen_work" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Add gen work record to given <code class="docutils literal notranslate"><span class="pre">Work</span></code> dictionary.</p>
+<blockquote>
+<div><p class="sd-card-text">Includes evaluation of required resources if the worker is not in a
+persistent state.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p class="sd-card-text"><strong>Work</strong> – <a class="reference internal" href="work_dict.html#funcguides-workdict"><span class="std std-ref">Work dictionary</span></a>.</p></li>
+<li><p class="sd-card-text"><strong>wid</strong> – Worker ID.</p></li>
+<li><p class="sd-card-text"><strong>H_fields</strong> – Which fields from <a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">H</span></a> to send.</p></li>
+<li><p class="sd-card-text"><strong>H_rows</strong> – Which rows of <code class="docutils literal notranslate"><span class="pre">H</span></code> to send.</p></li>
+<li><p class="sd-card-text"><strong>persis_info</strong> – Worker specific <a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">persis_info</span></a> dictionary.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">A Work entry.</p>
+</dd>
+</dl>
+<p class="sd-card-text">Additional passed parameters are inserted into <code class="docutils literal notranslate"><span class="pre">libE_info</span></code> in the resulting work record.</p>
+<p class="sd-card-text">If <code class="docutils literal notranslate"><span class="pre">rset_team</span></code> is passed as an additional parameter, it will be honored, and assume that
+any resource checking has already been done. For example, passing <code class="docutils literal notranslate"><span class="pre">rset_team=[]</span></code>, would
+ensure that no resources are assigned.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.all_sim_started">
+<span class="sig-name descname"><span class="pre">all_sim_started</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.all_sim_started" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if all expected points have started their sim.</p>
+<p class="sd-card-text">Excludes cancelled points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p class="sd-card-text"><strong>pt_filter</strong> – (Optional) Boolean array filtering expected returned points in <code class="docutils literal notranslate"><span class="pre">H</span></code>.</p></li>
+<li><p class="sd-card-text"><strong>low_bound</strong> – (Optional) Lower bound for testing all returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">True if all expected points have started their sim.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.all_sim_ended">
+<span class="sig-name descname"><span class="pre">all_sim_ended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.all_sim_ended" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if all expected points have had their sim_end.</p>
+<p class="sd-card-text">Excludes cancelled points that were not already sim_started.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p class="sd-card-text"><strong>pt_filter</strong> – (Optional) Boolean array filtering expected returned points in <code class="docutils literal notranslate"><span class="pre">H</span></code>.</p></li>
+<li><p class="sd-card-text"><strong>low_bound</strong> – (Optional) Lower bound for testing all returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">True if all expected points have had their sim_end.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.all_gen_informed">
+<span class="sig-name descname"><span class="pre">all_gen_informed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pt_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.all_gen_informed" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if gen has been informed of all expected points.</p>
+<p class="sd-card-text">Excludes cancelled points that were not already given out.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p class="sd-card-text"><strong>pt_filter</strong> – (Optional) Boolean array filtering expected sim_end points in <code class="docutils literal notranslate"><span class="pre">H</span></code>.</p></li>
+<li><p class="sd-card-text"><strong>low_bound</strong> – (Optional) Lower bound for testing all returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">True if gen have been informed of all expected points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.points_by_priority">
+<span class="sig-name descname"><span class="pre">points_by_priority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points_avail</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.points_by_priority" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Returns indices of points to give by priority.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p class="sd-card-text"><strong>points_avail</strong> – Indices of points that are available to give.</p></li>
+<li><p class="sd-card-text"><strong>batch</strong> – (Optional) Boolean. Should batches of points with the same priority be given simultaneously.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p class="sd-card-text">An array of point indices to give.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libensemble.tools.alloc_support.AllocSupport.skip_canceled_points">
+<span class="sig-name descname"><span class="pre">skip_canceled_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persis_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.alloc_support.AllocSupport.skip_canceled_points" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Increments the “next_to_give” field in persis_info to skip any cancelled points</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</details><p>The Work dictionary is returned to the manager alongside <code class="docutils literal notranslate"><span class="pre">persis_info</span></code>. If <code class="docutils literal notranslate"><span class="pre">1</span></code>
+is returned as the third value, this instructs the ensemble to stop.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An error occurs when the <code class="docutils literal notranslate"><span class="pre">alloc_f</span></code> returns nothing while
+all workers are idle</p>
+</div>
+<p id="libe-info-alloc">Information from the manager describing the progress of the current libEnsemble
+routine can be found in <code class="docutils literal notranslate"><span class="pre">libE_info</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">libE_info</span> <span class="o">=</span>  <span class="p">{</span><span class="s2">&quot;exit_criteria&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>               <span class="c1"># Criteria for ending routine</span>
+              <span class="s2">&quot;elapsed_time&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>               <span class="c1"># Time elapsed since start of routine</span>
+              <span class="s2">&quot;manager_kill_canceled_sims&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>  <span class="c1"># True if manager is to send kills to cancelled simulations</span>
+              <span class="s2">&quot;sim_started_count&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>            <span class="c1"># Total number of points given for simulation function evaluation</span>
+              <span class="s2">&quot;sim_ended_count&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>              <span class="c1"># Total number of points returned from simulation function evaluations</span>
+              <span class="s2">&quot;gen_informed_count&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>           <span class="c1"># Total number of evaluated points given back to a generator function</span>
+              <span class="s2">&quot;sim_max_given&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>               <span class="c1"># True if `sim_max` simulations have been given out to workers</span>
+              <span class="s2">&quot;use_resource_sets&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">}</span>           <span class="c1"># True if num_resource_sets has been explicitly set.</span>
+</pre></div>
+</div>
+<p>Most often, the allocation function will just return once <code class="docutils literal notranslate"><span class="pre">sim_max_given</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+but the user could choose to do something different,
+such as cancel points or keep returning completed points to the generator.</p>
+<p>Generators that construct models based
+on <em>all evaluated points</em>, for example, may need simulation work units at the end
+of an ensemble to be returned to the generator anyway.</p>
+<p>Alternatively, users can use <code class="docutils literal notranslate"><span class="pre">elapsed_time</span></code> to track runtime inside their
+allocation function and detect impending timeouts, then pack up cleanup work requests,
+or mark points for cancellation.</p>
+<p>The remaining values above are useful for efficient filtering of H values
+(e.g., <code class="docutils literal notranslate"><span class="pre">sim_ended_count</span></code> saves filtering by an entire column of H.)</p>
+<p>Descriptions of included allocation functions can be found <a class="reference internal" href="../examples/alloc_funcs.html"><span class="doc">here</span></a>.
+The default allocation function is
+<code class="docutils literal notranslate"><span class="pre">give_sim_work_first</span></code>. During its worker ID loop, it checks if there’s unallocated
+work and assigns simulations for that work. Otherwise, it initializes
+generators for up to <code class="docutils literal notranslate"><span class="pre">&quot;num_active_gens&quot;</span></code> instances. Other settings like
+<code class="docutils literal notranslate"><span class="pre">batch_mode</span></code> are also supported. See
+<a class="reference internal" href="../examples/alloc_funcs.html#gswf-label"><span class="std std-ref">here</span></a> for more information about <code class="docutils literal notranslate"><span class="pre">give_sim_work_first</span></code>.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="simulator.html" class="btn btn-neutral float-left" title="Simulator Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sim_gen_alloc_api.html" class="btn btn-neutral float-right" title="User Function API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

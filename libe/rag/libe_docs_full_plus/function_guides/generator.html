@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generator Functions &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Simulator Functions" href="simulator.html" />
+    <link rel="prev" title="Writing User Functions" href="function_guide_index.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/function_guides/generator.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data_structures/data_structures.html">Configuring libEnsemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="function_guide_index.html">Writing User Functions</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Generator Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#writing-a-generator">Writing a Generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#persistent-generators">Persistent Generators</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#active-receive-mode">Active receive mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cancelling-simulations">Cancelling Simulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modification-of-existing-points">Modification of existing points</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generator-initiated-shutdown">Generator initiated shutdown</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simulator.html">Simulator Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="allocator.html">Allocation Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sim_gen_alloc_api.html">User Function API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calc_status.html">calc_status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="work_dict.html">Work Dictionary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_array.html">Worker Array</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+          <li class="breadcrumb-item"><a href="function_guide_index.html">Writing User Functions</a></li>
+      <li class="breadcrumb-item active">Generator Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/function_guides/generator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generator-functions">
+<span id="funcguides-gen"></span><h1>Generator Functions<a class="headerlink" href="#generator-functions" title="Link to this heading"></a></h1>
+<p>Generator and <a class="reference internal" href="simulator.html#funcguides-sim"><span class="std std-ref">Simulator functions</span></a> have relatively similar interfaces.</p>
+<section id="writing-a-generator">
+<h2>Writing a Generator<a class="headerlink" href="#writing-a-generator" title="Link to this heading"></a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="nodecorate" for="sd-tab-item-0">
+Non-decorated</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_generator</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+
+    <span class="n">Output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+    <span class="c1"># ...</span>
+    <span class="n">Output</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">persis_info</span> <span class="o">=</span> <span class="n">generate_next_simulation_inputs</span><span class="p">(</span><span class="n">Input</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">],</span> <span class="n">persis_info</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Output</span><span class="p">,</span> <span class="n">persis_info</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="decorate" for="sd-tab-item-1">
+Decorated</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">input_fields</span><span class="p">,</span> <span class="n">output_data</span>
+
+
+<span class="nd">@input_fields</span><span class="p">([</span><span class="s2">&quot;f&quot;</span><span class="p">])</span>
+<span class="nd">@output_data</span><span class="p">([(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_generator</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+
+    <span class="n">Output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+    <span class="c1"># ...</span>
+    <span class="n">Output</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">persis_info</span> <span class="o">=</span> <span class="n">generate_next_simulation_inputs</span><span class="p">(</span><span class="n">Input</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">],</span> <span class="n">persis_info</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Output</span><span class="p">,</span> <span class="n">persis_info</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Most <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> function definitions written by users resemble:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_generator</span><span class="p">(</span><span class="n">Input</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span> <span class="n">libE_info</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>where:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Input</span></code> is a selection of the <a class="reference internal" href="history_array.html#funcguides-history"><span class="std std-ref">History array</span></a>, a NumPy structured array.</p></li>
+<li><p><a class="reference internal" href="../data_structures/persis_info.html#datastruct-persis-info"><span class="std std-ref">persis_info</span></a> is a dictionary containing state information.</p></li>
+<li><p><a class="reference internal" href="../data_structures/gen_specs.html#datastruct-gen-specs"><span class="std std-ref">gen_specs</span></a> is a dictionary of generator parameters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libE_info</span></code> is a dictionary containing miscellaneous entries.</p></li>
+</ul>
+</div></blockquote>
+<p>Valid generator functions can accept a subset of the above parameters. So a very simple generator can start:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_generator</span><span class="p">(</span><span class="n">Input</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">gen_specs</span></code> was initially defined:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="nodecorate" for="sd-tab-item-2">
+Non-decorated function</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gen_specs</span> <span class="o">=</span> <span class="n">GenSpecs</span><span class="p">(</span>
+    <span class="n">gen_f</span><span class="o">=</span><span class="n">my_generator</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">],</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)],</span>
+    <span class="n">user</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="decorate" for="sd-tab-item-3">
+Decorated function</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gen_specs</span> <span class="o">=</span> <span class="n">GenSpecs</span><span class="p">(</span>
+    <span class="n">gen_f</span><span class="o">=</span><span class="n">my_generator</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then user parameters and a <em>local</em> array of outputs may be obtained/initialized like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+<span class="n">Output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">gen_specs</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This array should be populated by whatever values are generated within
+the function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Output</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">persis_info</span> <span class="o">=</span> <span class="n">generate_next_simulation_inputs</span><span class="p">(</span><span class="n">Input</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">],</span> <span class="n">persis_info</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then return the array and <code class="docutils literal notranslate"><span class="pre">persis_info</span></code> to libEnsemble:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">Output</span><span class="p">,</span> <span class="n">persis_info</span>
+</pre></div>
+</div>
+<p>Between the <code class="docutils literal notranslate"><span class="pre">Output</span></code> definition and the <code class="docutils literal notranslate"><span class="pre">return</span></code>, any computation can be performed.
+Users can try an <a class="reference internal" href="../executor/overview.html"><span class="doc">executor</span></a> to submit applications to parallel
+resources, or plug in components from other libraries to serve their needs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>State <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> information like checkpointing should be
+appended to <code class="docutils literal notranslate"><span class="pre">persis_info</span></code>.</p>
+</div>
+</section>
+<section id="persistent-generators">
+<span id="persistent-gens"></span><h2>Persistent Generators<a class="headerlink" href="#persistent-generators" title="Link to this heading"></a></h2>
+<p>While non-persistent generators return after completing their calculation, persistent
+generators do the following in a loop:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Receive simulation results and metadata; exit if metadata instructs.</p></li>
+<li><p>Perform analysis.</p></li>
+<li><p>Send subsequent simulation parameters.</p></li>
+</ol>
+</div></blockquote>
+<p>Persistent generators don’t need to be re-initialized on each call, but are typically
+more complicated. The persistent <a class="reference internal" href="../examples/aposmm.html"><span class="doc">APOSMM</span></a>
+optimization generator function included with libEnsemble maintains
+local optimization subprocesses based on results from complete simulations.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">GenSpecs.persis_in</span></code> to specify fields to send back to the generator throughout the run.
+<code class="docutils literal notranslate"><span class="pre">GenSpecs.inputs</span></code> only describes the input fields when the function is <strong>first called</strong>.</p>
+<p>Functions for a persistent generator to communicate directly with the manager
+are available in the <a class="reference internal" href="../utilities.html#p-gen-routines"><span class="std std-ref">libensemble.tools.persistent_support</span></a> class.</p>
+<p>Sending/receiving data is supported by the <a class="reference internal" href="../utilities.html#p-gen-routines"><span class="std std-ref">PersistentSupport</span></a> class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">PersistentSupport</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.message_numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">STOP_TAG</span><span class="p">,</span> <span class="n">PERSIS_STOP</span><span class="p">,</span> <span class="n">EVAL_GEN_TAG</span><span class="p">,</span> <span class="n">FINISHED_PERSISTENT_GEN_TAG</span>
+
+<span class="n">my_support</span> <span class="o">=</span> <span class="n">PersistentSupport</span><span class="p">(</span><span class="n">libE_info</span><span class="p">,</span> <span class="n">EVAL_GEN_TAG</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Implementing functions from the above class is relatively simple:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+send</label><div class="sd-tab-content docutils">
+<dl class="py function">
+<dt class="sig sig-object py" id="libensemble.tools.persistent_support.PersistentSupport.send">
+<span class="sig-prename descclassname"><span class="pre">libensemble.tools.persistent_support.PersistentSupport.</span></span><span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.persistent_support.PersistentSupport.send" title="Link to this definition"></a></dt>
+<dd><p>Send message from worker to manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>...</em><em>]</em><em>, </em><em>dtype</em><em>[</em><em>_ScalarType_co</em><em>]</em><em>]</em>) – Output array to be sent to manager.</p></li>
+<li><p><strong>calc_status</strong> (<em>int</em>) – (Optional) Provides a task status.</p></li>
+<li><p><strong>keep_state</strong> – (Optional) If True the manager will not modify its
+record of the workers state (usually the manager changes the
+worker’s state to inactive, indicating the worker is ready to receive
+more work, unless using active receive mode).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>This function call typically resembles:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_support</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">local_H_out</span><span class="p">[</span><span class="n">selected_IDs</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Note that this function has no return.</p>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+recv</label><div class="sd-tab-content docutils">
+<dl class="py function">
+<dt class="sig sig-object py" id="libensemble.tools.persistent_support.PersistentSupport.recv">
+<span class="sig-prename descclassname"><span class="pre">libensemble.tools.persistent_support.PersistentSupport.</span></span><span class="sig-name descname"><span class="pre">recv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocking</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.persistent_support.PersistentSupport.recv" title="Link to this definition"></a></dt>
+<dd><p>Receive message to worker from manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>blocking</strong> (<em>bool</em>) – (Optional) If True (default), will block until a message is received.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>message tag, Work dictionary, calc_in array</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(&lt;class ‘int’&gt;, &lt;class ‘dict’&gt;, numpy.ndarray[tuple[int, …], numpy.dtype[+_ScalarType_co]])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>This function call typically resembles:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tag</span><span class="p">,</span> <span class="n">Work</span><span class="p">,</span> <span class="n">calc_in</span> <span class="o">=</span> <span class="n">my_support</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="p">[</span><span class="n">STOP_TAG</span><span class="p">,</span> <span class="n">PERSIS_STOP</span><span class="p">]:</span>
+    <span class="n">cleanup</span><span class="p">()</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+<p>The logic following the function call is typically used to break the persistent
+generator’s main loop and return.</p>
+</div>
+<input id="sd-tab-item-6" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-6">
+send_recv</label><div class="sd-tab-content docutils">
+<dl class="py function">
+<dt class="sig sig-object py" id="libensemble.tools.persistent_support.PersistentSupport.send_recv">
+<span class="sig-prename descclassname"><span class="pre">libensemble.tools.persistent_support.PersistentSupport.</span></span><span class="sig-name descname"><span class="pre">send_recv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.persistent_support.PersistentSupport.send_recv" title="Link to this definition"></a></dt>
+<dd><p>Send message from worker to manager and receive response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output</strong> (<em>ndarray</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>...</em><em>]</em><em>, </em><em>dtype</em><em>[</em><em>_ScalarType_co</em><em>]</em><em>]</em>) – Output array to be sent to manager.</p></li>
+<li><p><strong>calc_status</strong> (<em>int</em>) – (Optional) Provides a task status.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>message tag, Work dictionary, calc_in array</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(&lt;class ‘int’&gt;, &lt;class ‘dict’&gt;, numpy.ndarray[tuple[int, …], numpy.dtype[+_ScalarType_co]])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>This function performs both of the previous functions in a single statement. Its
+usage typically resembles:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tag</span><span class="p">,</span> <span class="n">Work</span><span class="p">,</span> <span class="n">calc_in</span> <span class="o">=</span> <span class="n">my_support</span><span class="o">.</span><span class="n">send_recv</span><span class="p">(</span><span class="n">local_H_out</span><span class="p">[</span><span class="n">selected_IDs</span><span class="p">])</span>
+<span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="p">[</span><span class="n">STOP_TAG</span><span class="p">,</span> <span class="n">PERSIS_STOP</span><span class="p">]:</span>
+    <span class="n">cleanup</span><span class="p">()</span>
+    <span class="k">break</span>
+</pre></div>
+</div>
+<p>Once the persistent generator’s loop has been broken because of
+the tag from the manager, it should return with an additional tag:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="n">local_H_out</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">FINISHED_PERSISTENT_GEN_TAG</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>See <a class="reference internal" href="calc_status.html#funcguides-calcstatus"><span class="std std-ref">calc_status</span></a> for more information about
+the message tags.</p>
+</section>
+<section id="active-receive-mode">
+<span id="gen-active-recv"></span><h2>Active receive mode<a class="headerlink" href="#active-receive-mode" title="Link to this heading"></a></h2>
+<p>By default, a persistent worker is expected to
+receive and send data in a <em>ping pong</em> fashion. Alternatively,
+a worker can be initiated in <em>active receive</em> mode by the allocation
+function (see <a class="reference internal" href="../examples/alloc_funcs.html#start-only-persistent-label"><span class="std std-ref">start_only_persistent</span></a>).
+The persistent worker can then send and receive from the manager at any time.</p>
+<p>Ensure there are no communication deadlocks in this mode. In manager-worker message exchanges, only the worker-side
+receive is blocking by default (a non-blocking option is available).</p>
+</section>
+<section id="cancelling-simulations">
+<h2>Cancelling Simulations<a class="headerlink" href="#cancelling-simulations" title="Link to this heading"></a></h2>
+<p>Previously submitted simulations can be cancelled by sending a message to the manager:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="libensemble.tools.persistent_support.PersistentSupport.request_cancel_sim_ids">
+<span class="sig-prename descclassname"><span class="pre">libensemble.tools.persistent_support.PersistentSupport.</span></span><span class="sig-name descname"><span class="pre">request_cancel_sim_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_ids</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libensemble.tools.persistent_support.PersistentSupport.request_cancel_sim_ids" title="Link to this definition"></a></dt>
+<dd><p>Request cancellation of sim_ids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim_ids</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – A list of sim_ids to cancel.</p>
+</dd>
+</dl>
+<p>A message is sent to the manager to mark requested sim_ids as cancel_requested.</p>
+</dd></dl>
+
+<ul class="simple">
+<li><p>If a generated point is cancelled by the generator <strong>before sending</strong> to another worker for simulation, then it won’t be sent.</p></li>
+<li><p>If that point has <strong>already been evaluated</strong> by a simulation, the <code class="docutils literal notranslate"><span class="pre">cancel_requested</span></code> field will remain <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p>If that point is <strong>currently being evaluated</strong>, a kill signal will be sent to the corresponding worker; it must be manually processed in the simulation function.</p></li>
+</ul>
+<p>The <a class="reference internal" href="../tutorials/calib_cancel_tutorial.html"><span class="doc">Borehole Calibration tutorial</span></a> gives an example
+of the capability to cancel pending simulations.</p>
+</section>
+<section id="modification-of-existing-points">
+<h2>Modification of existing points<a class="headerlink" href="#modification-of-existing-points" title="Link to this heading"></a></h2>
+<p>To change existing fields of the History array, create a NumPy structured array where the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> contains
+the <code class="docutils literal notranslate"><span class="pre">sim_id</span></code> and the fields to be modified. Send this array with <code class="docutils literal notranslate"><span class="pre">keep_state=True</span></code> to the manager.
+This will overwrite the manager’s History array.</p>
+<p>For example, the cancellation function <code class="docutils literal notranslate"><span class="pre">request_cancel_sim_ids</span></code> could be replicated by
+the following (where <code class="docutils literal notranslate"><span class="pre">sim_ids_to_cancel</span></code> is a list of integers):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Send only these fields to existing H rows and libEnsemble will slot in the change.</span>
+<span class="n">H_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sim_ids_to_cancel</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;sim_id&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;cancel_requested&quot;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)])</span>
+<span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;sim_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim_ids_to_cancel</span>
+<span class="n">H_o</span><span class="p">[</span><span class="s2">&quot;cancel_requested&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">ps</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">H_o</span><span class="p">,</span> <span class="n">keep_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="generator-initiated-shutdown">
+<h2>Generator initiated shutdown<a class="headerlink" href="#generator-initiated-shutdown" title="Link to this heading"></a></h2>
+<p>If using a supporting allocation function, the generator can prompt the ensemble to shutdown
+by simply exiting the function (e.g., on a test for a converged value). For example, the
+allocation function <a class="reference internal" href="../examples/alloc_funcs.html#start-only-persistent-label"><span class="std std-ref">start_only_persistent</span></a> closes down
+the ensemble as soon as a persistent generator returns. The usual return values should be given.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<p>Examples of non-persistent and persistent generator functions
+can be found <a class="reference internal" href="../examples/gen_funcs.html"><span class="doc">here</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="function_guide_index.html" class="btn btn-neutral float-left" title="Writing User Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="simulator.html" class="btn btn-neutral float-right" title="Simulator Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

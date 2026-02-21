@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calibration with Simulation Cancellation &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Generator Functions" href="../examples/gen_funcs.html" />
+    <link rel="prev" title="Optimization with APOSMM" href="aposmm_tutorial.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/tutorials/calib_cancel_tutorial.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Calibration with Simulation Cancellation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction-calibration-with-libensemble-and-a-regression-model">Introduction - Calibration with libEnsemble and a Regression Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview-of-the-calibration-problem">Overview of the Calibration Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#point-cancellation-requests-and-dedicated-fields">Point Cancellation Requests and Dedicated Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#allocation-function-and-cancellation-configuration">Allocation Function and Cancellation Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calling-script-reading-results">Calling Script - Reading Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-cancellations-to-kill-running-simulations">Using cancellations to kill running simulations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Calibration with Simulation Cancellation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/calib_cancel_tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="calibration-with-simulation-cancellation">
+<h1>Calibration with Simulation Cancellation<a class="headerlink" href="#calibration-with-simulation-cancellation" title="Link to this heading"></a></h1>
+<section id="introduction-calibration-with-libensemble-and-a-regression-model">
+<h2>Introduction - Calibration with libEnsemble and a Regression Model<a class="headerlink" href="#introduction-calibration-with-libensemble-and-a-regression-model" title="Link to this heading"></a></h2>
+<p>This tutorial demonstrates libEnsemble’s capability to selectively cancel pending
+simulations based on instructions from a calibration Generator Function.
+This capability is desirable, especially when evaluations are expensive, since
+compute resources may then be more effectively applied toward critical evaluations.</p>
+<p>For a somewhat different approach than libEnsemble’s <a class="reference internal" href="tutorials.html"><span class="doc">other tutorials</span></a>,
+we’ll emphasize the settings, functions, and data fields within the calling script,
+<a class="reference internal" href="../function_guides/generator.html#persistent-gens"><span class="std std-ref">persistent generator</span></a>, manager, and <a class="reference internal" href="../function_guides/sim_gen_alloc_api.html#api-sim-f"><span class="std std-ref">sim_f</span></a>
+that make this capability possible, rather than outlining a step-by-step process.</p>
+<p>The libEnsemble regression test <code class="docutils literal notranslate"><span class="pre">test_persistent_surmise_calib.py</span></code> demonstrates
+cancellation of pending simulations, while the <code class="docutils literal notranslate"><span class="pre">test_persistent_surmise_killsims.py</span></code>
+test demonstrates libEnsemble’s capability to also kill running simulations that
+have been marked as cancelled.</p>
+</section>
+<section id="overview-of-the-calibration-problem">
+<h2>Overview of the Calibration Problem<a class="headerlink" href="#overview-of-the-calibration-problem" title="Link to this heading"></a></h2>
+<p>The generator function featured in this tutorial can be found in
+<code class="docutils literal notranslate"><span class="pre">gen_funcs/persistent_surmise_calib.py</span></code> and uses the <a class="reference external" href="https://github.com/mosesyhc/surmise">surmise</a> library for its
+calibration surrogate model interface. The surmise library uses the  “PCGPwM”
+emulation method in this example.</p>
+<p>Say there is a computer model <span class="math notranslate nohighlight">\(f(\theta, x)\)</span> to be calibrated.  To calibrate
+is to find some parameter <span class="math notranslate nohighlight">\(\theta_0\)</span> such that <span class="math notranslate nohighlight">\(f(\theta_0, x)\)</span> closely
+resembles data collected from a physical experiment.  For example, a (simple)
+physical experiment may involve dropping a ball at different heights to study the
+gravitational constant, and the corresponding computer model could be the set of
+differential equations that govern the drop. In a case where the computation of
+the computer model is relatively expensive, we employ a fast surrogate model to
+approximate the model and to inform good parameters to test next.  Here the computer
+model <span class="math notranslate nohighlight">\(f(\theta, x)\)</span> is accessible only through performing <a class="reference internal" href="../function_guides/sim_gen_alloc_api.html#api-sim-f"><span class="std std-ref">sim_f</span></a>
+evaluations.</p>
+<p>As a convenience for testing, the <code class="docutils literal notranslate"><span class="pre">observed</span></code> data values are modelled by calling the <code class="docutils literal notranslate"><span class="pre">sim_f</span></code>
+for the known true theta, which in this case is the center of a unit hypercube. These values
+are therefore stored at the start of libEnsemble’s
+main <a class="reference internal" href="../history_output_logging.html"><span class="doc">History array</span></a> array, and have associated <code class="docutils literal notranslate"><span class="pre">sim_id</span></code>’s.</p>
+<p>The generator function <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> then samples an initial batch of parameters
+<span class="math notranslate nohighlight">\((\theta_1, \ldots, \theta_n)\)</span> and constructs a surrogate model.</p>
+<p>For illustration, the initial batch of evaluations are arranged in the following sense:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\newcommand{\T}{\mathsf{T}}
+\mathbf{f} = \begin{pmatrix} f(\theta_1)^\T \\ \vdots \\ f(\theta_n)^\T \end{pmatrix}
+= \begin{pmatrix} f(\theta_1, x_1) &amp; \ldots &amp; f(\theta_1, x_m) \\ \vdots &amp; \ddots &amp; \vdots
+\\ f(\theta_n, x_1) &amp; \ldots &amp; f(\theta_n, x_m) \end{pmatrix}.\end{split}\]</div>
+<p>The surrogate then generates (suggests) new parameters for <code class="docutils literal notranslate"><span class="pre">sim_f</span></code> evaluations,
+so the number of parameters <span class="math notranslate nohighlight">\(n\)</span> grows as more evaluations are scheduled and performed.
+As more evaluations are performed and received by <code class="docutils literal notranslate"><span class="pre">gen_f</span></code>, the surrogate evolves and
+suggests parameters closer to <span class="math notranslate nohighlight">\(\theta_0\)</span> with uncertainty estimates.
+The calibration can be terminated when either <code class="docutils literal notranslate"><span class="pre">gen_f</span></code> determines it has found
+<span class="math notranslate nohighlight">\(\theta_0\)</span> with some tolerance in the surrounding uncertainty, or computational
+resource runs out.  At termination, the generator exits and returns, initiating the
+shutdown of the libEnsemble routine.</p>
+<p>The following is a pseudocode overview of the generator. Functions directly from
+the calibration library used within the generator function have the <code class="docutils literal notranslate"><span class="pre">calib:</span></code> prefix.
+Helper functions defined to improve the data received by the calibration library by
+interfacing with libEnsemble have the <code class="docutils literal notranslate"><span class="pre">libE:</span></code> prefix. All other statements are
+workflow logic or persistent generator helper functions like <code class="docutils literal notranslate"><span class="pre">send</span></code> or <code class="docutils literal notranslate"><span class="pre">receive</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span>    <span class="n">libE</span><span class="p">:</span> <span class="n">calculate</span> <span class="n">observation</span> <span class="n">values</span> <span class="ow">and</span> <span class="n">first</span> <span class="n">batch</span>
+<span class="mi">2</span>    <span class="k">while</span> <span class="n">STOP_signal</span> <span class="ow">not</span> <span class="n">received</span><span class="p">:</span>
+<span class="mi">3</span>        <span class="n">receive</span><span class="p">:</span> <span class="n">evaluated</span> <span class="n">points</span>
+<span class="mi">4</span>        <span class="n">unpack</span> <span class="n">points</span> <span class="n">into</span> <span class="mi">2</span><span class="n">D</span> <span class="n">Theta</span> <span class="n">x</span> <span class="n">Point</span> <span class="n">structures</span>
+<span class="mi">5</span>        <span class="k">if</span> <span class="n">new</span> <span class="n">model</span> <span class="n">condition</span><span class="p">:</span>
+<span class="mi">6</span>            <span class="n">calib</span><span class="p">:</span> <span class="n">construct</span> <span class="n">new</span> <span class="n">model</span>
+<span class="mi">7</span>        <span class="k">else</span><span class="p">:</span>
+<span class="mi">8</span>            <span class="n">wait</span> <span class="n">to</span> <span class="n">receive</span> <span class="n">more</span> <span class="n">points</span>
+<span class="mi">9</span>        <span class="k">if</span> <span class="n">some</span> <span class="n">condition</span><span class="p">:</span>
+<span class="mi">10</span>           <span class="n">calib</span><span class="p">:</span> <span class="n">generate</span> <span class="n">new</span> <span class="n">thetas</span> <span class="kn">from</span><span class="w"> </span><span class="nn">model</span>
+<span class="mi">11</span>           <span class="n">calib</span><span class="p">:</span> <span class="k">if</span> <span class="n">error</span> <span class="n">threshold</span> <span class="n">reached</span><span class="p">:</span>
+<span class="mi">12</span>               <span class="n">exit</span> <span class="n">loop</span> <span class="o">-</span> <span class="n">done</span>
+<span class="mi">13</span>           <span class="n">send</span><span class="p">:</span> <span class="n">new</span> <span class="n">points</span> <span class="n">to</span> <span class="n">be</span> <span class="n">evaluated</span>
+<span class="mi">14</span>       <span class="k">if</span> <span class="nb">any</span> <span class="n">sent</span> <span class="n">points</span> <span class="n">must</span> <span class="n">be</span> <span class="n">obviated</span><span class="p">:</span>
+<span class="mi">15</span>           <span class="n">libE</span><span class="p">:</span> <span class="n">mark</span> <span class="n">points</span> <span class="k">with</span> <span class="n">cancel</span> <span class="n">request</span>
+<span class="mi">16</span>               <span class="n">send</span><span class="p">:</span> <span class="n">points</span> <span class="k">with</span> <span class="n">cancel</span> <span class="n">request</span>
+</pre></div>
+</div>
+</section>
+<section id="point-cancellation-requests-and-dedicated-fields">
+<h2>Point Cancellation Requests and Dedicated Fields<a class="headerlink" href="#point-cancellation-requests-and-dedicated-fields" title="Link to this heading"></a></h2>
+<p>While the generator loops and updates the model based on returned
+points from simulations, it detects conditionally if any new Thetas should be generated
+from the model, simultaneously evaluating if any <em>pending</em> simulations ought to be
+cancelled (“obviated”). If so, the generator then calls <code class="docutils literal notranslate"><span class="pre">cancel_columns()</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">select_condition</span><span class="p">(</span><span class="n">pending</span><span class="p">):</span>
+    <span class="n">new_theta</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">select_next_theta</span><span class="p">(</span><span class="n">step_add_theta</span><span class="p">,</span> <span class="n">cal</span><span class="p">,</span> <span class="n">emu</span><span class="p">,</span> <span class="n">pending</span><span class="p">,</span> <span class="n">n_explore_theta</span><span class="p">)</span>
+    <span class="o">...</span>
+    <span class="n">c_obviate</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;obviatesugg&quot;</span><span class="p">]</span>  <span class="c1"># suggested</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">c_obviate</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">cancel_columns</span><span class="p">(</span><span class="n">obs_offset</span><span class="p">,</span> <span class="n">c_obviate</span><span class="p">,</span> <span class="n">n_x</span><span class="p">,</span> <span class="n">pending</span><span class="p">,</span> <span class="n">ps</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">obs_offset</span></code> is an offset that excludes the observations when mapping points in surmise
+data structures to <code class="docutils literal notranslate"><span class="pre">sim_id</span></code>’s, <code class="docutils literal notranslate"><span class="pre">c_obviate</span></code> is a selection
+of columns to cancel, <code class="docutils literal notranslate"><span class="pre">n_x</span></code> is the number of <code class="docutils literal notranslate"><span class="pre">x</span></code> values, and <code class="docutils literal notranslate"><span class="pre">pending</span></code> is used
+to check that points marked for cancellation have not already returned. <code class="docutils literal notranslate"><span class="pre">ps</span></code> is the
+instantiation of the <em>PersistentSupport</em> class that is set up for persistent generators, and
+provides an interface for communication with the manager.</p>
+<p>Within <code class="docutils literal notranslate"><span class="pre">cancel_columns()</span></code>, each column in <code class="docutils literal notranslate"><span class="pre">c_obviate</span></code> is iterated over, and if a
+point is <code class="docutils literal notranslate"><span class="pre">pending</span></code> and thus has not yet been evaluated by a simulation,
+its <code class="docutils literal notranslate"><span class="pre">sim_id</span></code> is appended to a list to be sent to the Manager for cancellation.
+Cancellation is requested using the helper function <code class="docutils literal notranslate"><span class="pre">request_cancel_sim_ids</span></code> provided
+by the <em>PersistentSupport</em> class.  Each of these helper functions is described
+<a class="reference internal" href="../utilities.html#p-gen-routines"><span class="std std-ref">here</span></a>. The entire <code class="docutils literal notranslate"><span class="pre">cancel_columns()</span></code> routine is listed below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cancel_columns</span><span class="p">(</span><span class="n">obs_offset</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">n_x</span><span class="p">,</span> <span class="n">pending</span><span class="p">,</span> <span class="n">ps</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cancel columns&quot;&quot;&quot;</span>
+    <span class="n">sim_ids_to_cancel</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+        <span class="n">col_offset</span> <span class="o">=</span> <span class="n">c</span> <span class="o">*</span> <span class="n">n_x</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_x</span><span class="p">):</span>
+            <span class="n">sim_id_cancel</span> <span class="o">=</span> <span class="n">obs_offset</span> <span class="o">+</span> <span class="n">col_offset</span> <span class="o">+</span> <span class="n">i</span>
+            <span class="k">if</span> <span class="n">pending</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">]:</span>
+                <span class="n">sim_ids_to_cancel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim_id_cancel</span><span class="p">)</span>
+                <span class="n">pending</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">ps</span><span class="o">.</span><span class="n">request_cancel_sim_ids</span><span class="p">(</span><span class="n">sim_ids_to_cancel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In future calls to the allocation function by the manager, points that would have
+been distributed for simulation work but are now marked with “cancel_requested” will not
+be processed. The manager will send kill signals to workers that are already processing
+cancelled points. These signals can be caught and acted on by the user <code class="docutils literal notranslate"><span class="pre">sim_f</span></code>; otherwise
+they will be ignored.</p>
+</section>
+<section id="allocation-function-and-cancellation-configuration">
+<h2>Allocation Function and Cancellation Configuration<a class="headerlink" href="#allocation-function-and-cancellation-configuration" title="Link to this heading"></a></h2>
+<p>The allocation function used in this example is the <em>only_persistent_gens</em> function in the
+<em>start_only_persistent</em> module. The calling script passes the following specifications:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;kill_canceled_sims&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">alloc_specs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;alloc_f&quot;</span><span class="p">:</span> <span class="n">alloc_f</span><span class="p">,</span>
+    <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;init_sample_size&quot;</span><span class="p">:</span> <span class="n">init_sample_size</span><span class="p">,</span>
+        <span class="s2">&quot;async_return&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;active_recv_gen&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>async_return</strong> tells the allocation function to return results to the generator as soon
+as they come back from evaluation (once the initial sample is complete).</p>
+<p><strong>init_sample_size</strong> gives the size of the initial sample that is batch returned to the gen.
+This is calculated from other parameters in the calling script.</p>
+<p><strong>active_recv_gen</strong> allows the persistent generator to handle irregular communications (see below).</p>
+<p>By default, workers (including persistent workers), are only
+allocated work when they’re in an <a class="reference internal" href="../function_guides/worker_array.html#funcguides-workerarray"><span class="std std-ref">idle or non-active state</span></a>.
+However, since this generator must asynchronously update its model, the worker
+running this generator remains in an <em>active receive</em> state, until it becomes
+non-persistent. This means both the manager and persistent worker (generator in
+this case) must be prepared for irregular sending/receiving of data.</p>
+</section>
+<section id="calling-script-reading-results">
+<h2>Calling Script - Reading Results<a class="headerlink" href="#calling-script-reading-results" title="Link to this heading"></a></h2>
+<p>Within the libEnsemble calling script, once the main <a class="reference internal" href="../libe_module.html"><span class="doc">libE()</span></a>
+function call has returned, it’s a simple enough process to view the History rows
+that were marked as cancelled:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># required by multiprocessing on macOS and windows</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">libE</span><span class="p">(</span><span class="n">sim_specs</span><span class="p">,</span> <span class="n">gen_specs</span><span class="p">,</span>
+                                <span class="n">exit_criteria</span><span class="p">,</span> <span class="n">persis_info</span><span class="p">,</span>
+                                <span class="n">alloc_specs</span><span class="o">=</span><span class="n">alloc_specs</span><span class="p">,</span>
+                                <span class="n">libE_specs</span><span class="o">=</span><span class="n">libE_specs</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">is_manager</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cancelled sims&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">[</span><span class="s2">&quot;cancel_requested&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Here’s an example graph showing the relationship between scheduled, cancelled (obviated),
+failed, and completed simulations requested by the <code class="docutils literal notranslate"><span class="pre">gen_f</span></code>. Notice that for each
+batch of scheduled simulations, most either complete or fail but the rest are
+successfully obviated:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_images/gen_v_fail_or_cancel.png"><img alt="surmise_sample_graph" class="align-center" src="../_images/gen_v_fail_or_cancel.png" style="width: 600px;" />
+</a>
+</div></blockquote>
+<p>Please see the <code class="docutils literal notranslate"><span class="pre">test_persistent_surmise_calib.py</span></code> regression test for an example
+routine using the surmise calibration generator.
+The associated simulation function and allocation function are included in
+<code class="docutils literal notranslate"><span class="pre">sim_funcs/surmise_test_function.py</span></code> and <code class="docutils literal notranslate"><span class="pre">alloc_funcs/start_only_persistent.py</span></code> respectively.</p>
+</section>
+<section id="using-cancellations-to-kill-running-simulations">
+<h2>Using cancellations to kill running simulations<a class="headerlink" href="#using-cancellations-to-kill-running-simulations" title="Link to this heading"></a></h2>
+<p>If a generated point is cancelled by the generator before it has been given to a worker for evaluation,
+then it will never be given. If it has already returned from the simulation, then results can be returned,
+but the <code class="docutils literal notranslate"><span class="pre">cancel_requested</span></code> field remains as True. However, if the simulation is running when the manager
+receives the cancellation request, a kill signal will be sent to the worker. This can be caught and acted upon
+by a user function, otherwise it will be ignored. To demonstrate this, the test <code class="docutils literal notranslate"><span class="pre">test_persistent_surmise_killsims.py</span></code>
+captures and processes this signal from the manager.</p>
+<p>In order to do this, a compiled version of the borehole function is launched by <code class="docutils literal notranslate"><span class="pre">sim_funcs/borehole_kills.py</span></code>
+via the <a class="reference internal" href="../executor/overview.html"><span class="doc">Executor</span></a>. As the borehole application used here is serial, we use the
+<a class="reference internal" href="../executor/executor.html"><span class="doc">Executor base class</span></a> rather than the commonly used <a class="reference internal" href="../executor/mpi_executor.html"><span class="doc">MPIExecutor</span></a>
+class. The base Executor submit routine simply sub-processes a serial application in-place. After the initial
+sample batch of evaluations has been processed, an artificial delay is added to the sub-processed borehole to
+allow time to receive the kill signal and terminate the application. Killed simulations will be reported at
+the end of the test. As this is dependent on timing, the number of killed simulations will vary between runs.
+This test is added simply to demonstrate the killing of running simulations and thus uses a reduced number of evaluations.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aposmm_tutorial.html" class="btn btn-neutral float-left" title="Optimization with APOSMM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../examples/gen_funcs.html" class="btn btn-neutral float-right" title="Generator Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

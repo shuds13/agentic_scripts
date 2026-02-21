@@ -1,0 +1,945 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LibE Specs &mdash; libEnsemble</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/my_theme.css?v=dd6640cf" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="shortcut icon" href="../_static/libE_logo_circle.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=bcd630d1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <script src="../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Generator Specs" href="gen_specs.html" />
+    <link rel="prev" title="Configuring libEnsemble" href="data_structures.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="libensemble" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/data_structures/libE_specs.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/libE_logo_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_installation.html">Advanced Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_usecases.html">Understanding libEnsemble</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../programming_libE.html">Constructing Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../libe_module.html">Running an Ensemble</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="data_structures.html">Configuring libEnsemble</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">LibE Specs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#libensemble.specs.LibeSpecs"><code class="docutils literal notranslate"><span class="pre">LibeSpecs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scheduler-options">Scheduler Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#overriding-resource-auto-detection">Overriding Resource Auto-Detection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#formatting-options-for-libe-stats-file">Formatting Options for libE_stats File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gen_specs.html">Generator Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sim_specs.html">Simulation Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="alloc_specs.html">Allocation Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="platform_specs.html">Platform Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="persis_info.html">persis_info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exit_criteria.html">Exit Criteria</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../history_output_logging.html">Output Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/history_array.html">History Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../resource_manager/resources_index.html">Resource Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../function_guides/function_guide_index.html">Writing User Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../executor/ex_index.html">Executors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities.html">Convenience Tools and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../running_libE.html">Running libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../platforms/platforms_index.html">Running on HPC Systems</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/local_sine_tutorial.html">Simple Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/executor_forces_tutorial.html">Ensemble with an MPI Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/forces_gpu_tutorial.html">Executor - Assign GPUs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/gpcam_tutorial.html">Surrogate Modeling with gpCAM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/aposmm_tutorial.html">Optimization with APOSMM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/calib_cancel_tutorial.html">Calibration with Simulation Cancellation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/gen_funcs.html">Generator Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/sim_funcs.html">Simulation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/alloc_funcs.html">Allocation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/calling_scripts.html">Calling Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/submission_scripts.html">Submission Scripts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../known_issues.html">Known Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to libEnsemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../posters.html">Posters and Presentations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/release_management/release_index.html">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_guide/dev_API/developer_API.html">Internal Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libEnsemble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../programming_libE.html">Constructing Workflows</a></li>
+          <li class="breadcrumb-item"><a href="data_structures.html">Configuring libEnsemble</a></li>
+      <li class="breadcrumb-item active">LibE Specs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/data_structures/libE_specs.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="libe-specs">
+<span id="datastruct-libe-specs"></span><h1>LibE Specs<a class="headerlink" href="#libe-specs" title="Link to this heading"></a></h1>
+<p>libEnsemble is primarily customized by setting options within a <code class="docutils literal notranslate"><span class="pre">LibeSpecs</span></code> class or dictionary.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.specs</span><span class="w"> </span><span class="kn">import</span> <span class="n">LibeSpecs</span>
+
+<span class="n">specs</span> <span class="o">=</span> <span class="n">LibeSpecs</span><span class="p">(</span>
+    <span class="n">gen_on_manager</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">save_every_k_gens</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">sim_dirs_make</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">nworkers</span><span class="o">=</span><span class="mi">4</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Settings by Category</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+General</label><div class="sd-tab-content docutils">
+<dl class="simple">
+<dt><strong>comms</strong> [str] = <code class="docutils literal notranslate"><span class="pre">&quot;mpi&quot;</span></code>:</dt><dd><p class="sd-card-text">Manager/Worker communications mode: <code class="docutils literal notranslate"><span class="pre">'mpi'</span></code>, <code class="docutils literal notranslate"><span class="pre">'local'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'tcp'</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> is specified, then <code class="docutils literal notranslate"><span class="pre">local</span></code> comms will be used unless a
+parallel MPI environment is detected.</p>
+</dd>
+<dt><strong>nworkers</strong> [int]:</dt><dd><p class="sd-card-text">Number of worker processes in <code class="docutils literal notranslate"><span class="pre">&quot;local&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;threads&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;tcp&quot;</span></code>.</p>
+</dd>
+<dt><strong>gen_on_manager</strong> [bool] = False</dt><dd><p class="sd-card-text">Instructs Manager process to run generator functions.
+This generator function can access/modify user objects by reference.</p>
+</dd>
+<dt><strong>mpi_comm</strong> [MPI communicator] = <code class="docutils literal notranslate"><span class="pre">MPI.COMM_WORLD</span></code>:</dt><dd><p class="sd-card-text">libEnsemble MPI communicator.</p>
+</dd>
+<dt><strong>dry_run</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Whether libEnsemble should immediately exit after validating all inputs.</p>
+</dd>
+<dt><strong>abort_on_exception</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">True</span></code>:</dt><dd><p class="sd-card-text">In MPI mode, whether to call <code class="docutils literal notranslate"><span class="pre">MPI_ABORT</span></code> on an exception.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, an exception will be raised by the manager.</p>
+</dd>
+<dt><strong>worker_timeout</strong> [int] = <code class="docutils literal notranslate"><span class="pre">1</span></code>:</dt><dd><p class="sd-card-text">On libEnsemble shutdown, number of seconds after which workers considered timed out,
+then terminated.</p>
+</dd>
+<dt><strong>kill_canceled_sims</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Try to kill sims with <code class="docutils literal notranslate"><span class="pre">cancel_requested</span></code> set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, the manager avoids this moderate overhead.</p>
+</dd>
+<dt><strong>disable_log_files</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Disable <code class="docutils literal notranslate"><span class="pre">ensemble.log</span></code> and <code class="docutils literal notranslate"><span class="pre">libE_stats.txt</span></code> log files.</p>
+</dd>
+<dt><strong>gen_workers</strong> [list of ints]:</dt><dd><p class="sd-card-text">List of workers that should run only generators. All other workers will run
+only simulator functions.</p>
+</dd>
+</dl>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Directories</label><div class="sd-tab-content docutils">
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-6">
+General</label><div class="sd-tab-content docutils">
+<dl>
+<dt><strong>use_workflow_dir</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Whether to place <em>all</em> log files, dumped arrays, and default ensemble-directories in a
+separate <code class="docutils literal notranslate"><span class="pre">workflow</span></code> directory. Each run is suffixed with a hash.
+If copying back an ensemble directory from another location, the copy is placed here.</p>
+</dd>
+<dt><strong>workflow_dir_path</strong> [str]:</dt><dd><p class="sd-card-text">Optional path to the workflow directory.</p>
+</dd>
+<dt><strong>ensemble_dir_path</strong> [str] = <code class="docutils literal notranslate"><span class="pre">&quot;./ensemble&quot;</span></code>:</dt><dd><p class="sd-card-text">Path to main ensemble directory. Can serve
+as single working directory for workers, or contain calculation directories.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LibeSpecs</span><span class="o">.</span><span class="n">ensemble_dir_path</span> <span class="o">=</span> <span class="s2">&quot;/scratch/my_ensemble&quot;</span>
+</pre></div>
+</div>
+</dd>
+<dt><strong>ensemble_copy_back</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Whether to copy back contents of <code class="docutils literal notranslate"><span class="pre">ensemble_dir_path</span></code> to launch
+location. Useful if <code class="docutils literal notranslate"><span class="pre">ensemble_dir_path</span></code> is located on node-local storage.</p>
+</dd>
+<dt><strong>reuse_output_dir</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Whether to allow overwrites and access to previous ensemble and workflow directories in subsequent runs.
+<code class="docutils literal notranslate"><span class="pre">False</span></code> by default to protect results.</p>
+</dd>
+<dt><strong>calc_dir_id_width</strong> [int] = <code class="docutils literal notranslate"><span class="pre">4</span></code>:</dt><dd><p class="sd-card-text">The width of the numerical ID component of a calculation directory name. Leading
+zeros are padded to the sim/gen ID.</p>
+</dd>
+<dt><strong>use_worker_dirs</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Whether to organize calculation directories under worker-specific directories:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-9" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-9">
+False</label><div class="sd-tab-content docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="o">/</span><span class="n">ensemble_dir</span>
+    <span class="o">-</span> <span class="o">/</span><span class="n">sim0000</span>
+    <span class="o">-</span> <span class="o">/</span><span class="n">gen0001</span>
+    <span class="o">-</span> <span class="o">/</span><span class="n">sim0001</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-10" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-10">
+True</label><div class="sd-tab-content docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="o">/</span><span class="n">ensemble_dir</span>
+    <span class="o">-</span> <span class="o">/</span><span class="n">worker1</span>
+        <span class="o">-</span> <span class="o">/</span><span class="n">sim0000</span>
+        <span class="o">-</span> <span class="o">/</span><span class="n">gen0001</span>
+        <span class="o">-</span> <span class="o">/</span><span class="n">sim0004</span>
+        <span class="o">...</span>
+    <span class="o">-</span> <span class="o">/</span><span class="n">worker2</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-7">
+Sims</label><div class="sd-tab-content docutils">
+<dl class="simple">
+<dt><strong>sim_dirs_make</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Whether to make calculation directories for each simulation function call.</p>
+</dd>
+<dt><strong>sim_dir_copy_files</strong> [list]:</dt><dd><p class="sd-card-text">Paths to files or directories to copy into each sim directory, or ensemble directory.
+List of strings or <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects.</p>
+</dd>
+<dt><strong>sim_dir_symlink_files</strong> [list]:</dt><dd><p class="sd-card-text">Paths to files or directories to symlink into each sim directory, or ensemble directory.
+List of strings or <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects.</p>
+</dd>
+<dt><strong>sim_input_dir</strong> [str]:</dt><dd><p class="sd-card-text">Copy this directory’s contents into the working directory upon calling the simulation function.
+Forms the base of a simulation directory.</p>
+</dd>
+</dl>
+</div>
+<input id="sd-tab-item-8" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-8">
+Gens</label><div class="sd-tab-content docutils">
+<dl class="simple">
+<dt><strong>gen_dirs_make</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Whether to make generator-specific calculation directories for each generator function call.
+<em>Each persistent generator creates a single directory</em>.</p>
+</dd>
+<dt><strong>gen_dir_copy_files</strong> [list]:</dt><dd><p class="sd-card-text">Paths to copy into the working directory upon calling the generator function.
+List of strings or <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects</p>
+</dd>
+<dt><strong>gen_dir_symlink_files</strong> [list]:</dt><dd><p class="sd-card-text">Paths to files or directories to symlink into each gen directory.
+List of strings or <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects</p>
+</dd>
+<dt><strong>gen_input_dir</strong> [str]:</dt><dd><p class="sd-card-text">Copy this directory’s contents into the working directory upon calling the generator function.
+Forms the base of a generator directory.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Profiling</label><div class="sd-tab-content docutils">
+<dl class="simple">
+<dt><strong>profile</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Profile manager and worker logic using <code class="docutils literal notranslate"><span class="pre">cProfile</span></code>.</p>
+</dd>
+<dt><strong>safe_mode</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">True</span></code>:</dt><dd><p class="sd-card-text">Prevents user functions from overwriting internal fields, but requires moderate overhead.</p>
+</dd>
+<dt><strong>stats_fmt</strong> [dict]:</dt><dd><p class="sd-card-text">A dictionary of options for formatting <code class="docutils literal notranslate"><span class="pre">&quot;libE_stats.txt&quot;</span></code>.
+See “Formatting Options for libE_stats.txt”.</p>
+</dd>
+<dt><strong>live_data</strong> [LiveData] = None:</dt><dd><p class="sd-card-text">Add a live data capture object (e.g., for plotting).</p>
+</dd>
+</dl>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+TCP</label><div class="sd-tab-content docutils">
+<dl class="simple">
+<dt><strong>workers</strong> [list]:</dt><dd><p class="sd-card-text">TCP Only: A list of worker hostnames.</p>
+</dd>
+<dt><strong>ip</strong> [str]:</dt><dd><p class="sd-card-text">TCP Only: IP address for Manager’s system.</p>
+</dd>
+<dt><strong>port</strong> [int]:</dt><dd><p class="sd-card-text">TCP Only: Port number for Manager’s system.</p>
+</dd>
+<dt><strong>authkey</strong> [str]:</dt><dd><p class="sd-card-text">TCP Only: Authkey for Manager’s system.</p>
+</dd>
+<dt><strong>workerID</strong> [int]:</dt><dd><p class="sd-card-text">TCP Only: Worker ID number assigned to the new process.</p>
+</dd>
+<dt><strong>worker_cmd</strong> [list]:</dt><dd><p class="sd-card-text">TCP Only: Split string corresponding to worker/client Python process invocation. Contains
+a local Python path, calling script, and manager/server format-fields for <code class="docutils literal notranslate"><span class="pre">manager_ip</span></code>,
+<code class="docutils literal notranslate"><span class="pre">manager_port</span></code>, <code class="docutils literal notranslate"><span class="pre">authkey</span></code>, and <code class="docutils literal notranslate"><span class="pre">workerID</span></code>. <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> is specified normally.</p>
+</dd>
+</dl>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+History</label><div class="sd-tab-content docutils">
+<dl class="simple">
+<dt><strong>save_every_k_sims</strong> [int]:</dt><dd><p class="sd-card-text">Save history array to file after every k simulated points.</p>
+</dd>
+<dt><strong>save_every_k_gens</strong> [int]:</dt><dd><p class="sd-card-text">Save history array to file after every k generated points.</p>
+</dd>
+<dt><strong>save_H_and_persis_on_abort</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">True</span></code>:</dt><dd><p class="sd-card-text">Save states of <code class="docutils literal notranslate"><span class="pre">H</span></code> and <code class="docutils literal notranslate"><span class="pre">persis_info</span></code> to file on aborting after an exception.</p>
+</dd>
+<dt><strong>save_H_on_completion</strong> bool | None = <code class="docutils literal notranslate"><span class="pre">False</span></code></dt><dd><p class="sd-card-text">Save state of <code class="docutils literal notranslate"><span class="pre">H</span></code> to file upon completing a workflow. Also enabled when either <code class="docutils literal notranslate"><span class="pre">save_every_k_sims</span></code>
+or <code class="docutils literal notranslate"><span class="pre">save_every_k_gens</span></code> is set.</p>
+</dd>
+<dt><strong>save_H_with_date</strong> bool | None = <code class="docutils literal notranslate"><span class="pre">False</span></code></dt><dd><p class="sd-card-text">Save <code class="docutils literal notranslate"><span class="pre">H</span></code> filename contains date and timestamp.</p>
+</dd>
+<dt><strong>H_file_prefix</strong> str | None = <code class="docutils literal notranslate"><span class="pre">&quot;libE_history&quot;</span></code></dt><dd><p class="sd-card-text">Prefix for <code class="docutils literal notranslate"><span class="pre">H</span></code> filename.</p>
+</dd>
+<dt><strong>use_persis_return_gen</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Adds persistent generator output fields to the History array on return.</p>
+</dd>
+<dt><strong>use_persis_return_sim</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Adds persistent simulator output fields to the History array on return.</p>
+</dd>
+<dt><strong>final_gen_send</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Send final simulation results to persistent generators before shutdown.
+The results will be sent along with the <code class="docutils literal notranslate"><span class="pre">PERSIS_STOP</span></code> tag.</p>
+</dd>
+</dl>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+Resources</label><div class="sd-tab-content docutils">
+<dl class="simple">
+<dt><strong>disable_resource_manager</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Disable the built-in resource manager, including automatic resource detection
+and/or assignment of resources to workers. <code class="docutils literal notranslate"><span class="pre">&quot;resource_info&quot;</span></code> will be ignored.</p>
+</dd>
+<dt><strong>platform</strong> [str]:</dt><dd><p class="sd-card-text">Name of a <a class="reference internal" href="platform_specs.html#known-platforms"><span class="std std-ref">known platform</span></a>, e.g., <code class="docutils literal notranslate"><span class="pre">LibeSpecs.platform</span> <span class="pre">=</span> <span class="pre">&quot;perlmutter_g&quot;</span></code>
+Alternatively set the <code class="docutils literal notranslate"><span class="pre">LIBE_PLATFORM</span></code> environment variable.</p>
+</dd>
+<dt><strong>platform_specs</strong> [Platform|dict]:</dt><dd><p class="sd-card-text">A <code class="docutils literal notranslate"><span class="pre">Platform</span></code> object (or dictionary) specifying <a class="reference internal" href="platform_specs.html#platform-fields"><span class="std std-ref">settings for a platform.</span></a>.
+Fields not provided will be auto-detected. Can be set to a <a class="reference internal" href="platform_specs.html#known-platforms"><span class="std std-ref">known platform object</span></a>.</p>
+</dd>
+<dt><strong>num_resource_sets</strong> [int]:</dt><dd><p class="sd-card-text">The total number of resource sets into which resources will be divided.
+By default resources will be divided by workers (excluding
+<code class="docutils literal notranslate"><span class="pre">zero_resource_workers</span></code>).</p>
+</dd>
+<dt><strong>gen_num_procs</strong> [int] = <code class="docutils literal notranslate"><span class="pre">0</span></code>:</dt><dd><p class="sd-card-text">The default number of processors (MPI ranks) required by generators. Unless
+overridden by equivalent <code class="docutils literal notranslate"><span class="pre">persis_info</span></code> settings, generators will be allocated
+this many processors for applications launched via the MPIExecutor.</p>
+</dd>
+<dt><strong>gen_num_gpus</strong> [int] = <code class="docutils literal notranslate"><span class="pre">0</span></code>:</dt><dd><p class="sd-card-text">The default number of GPUs required by generators. Unless overridden by
+the equivalent <code class="docutils literal notranslate"><span class="pre">persis_info</span></code> settings, generators will be allocated this
+many GPUs.</p>
+</dd>
+<dt><strong>gpus_per_group</strong> [int]:</dt><dd><p class="sd-card-text">Number of GPUs for each group in the scheduler. This can be used when
+running on nodes with different numbers of GPUs. In effect a
+block of this many GPUs will be treated as a virtual node.
+By default the GPUs on each node are treated as a group.</p>
+</dd>
+<dt><strong>use_tiles_as_gpus</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">If <code class="docutils literal notranslate"><span class="pre">True</span></code> then treat a GPU tile as one GPU, assuming
+<code class="docutils literal notranslate"><span class="pre">tiles_per_GPU</span></code> is provided in <code class="docutils literal notranslate"><span class="pre">platform_specs</span></code> or detected.</p>
+</dd>
+<dt><strong>enforce_worker_core_bounds</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Permit submission of tasks with a
+higher processor count than the CPUs available to the worker.
+Larger node counts are not allowed. Ignored when
+<code class="docutils literal notranslate"><span class="pre">disable_resource_manager</span></code> is set.</p>
+</dd>
+<dt><strong>dedicated_mode</strong> [bool] = <code class="docutils literal notranslate"><span class="pre">False</span></code>:</dt><dd><p class="sd-card-text">Instructs libEnsemble’s MPI executor not to run applications on nodes where
+libEnsemble processes (manager and workers) are running.</p>
+</dd>
+<dt><strong>zero_resource_workers</strong> [list of ints]:</dt><dd><p class="sd-card-text">List of workers (by IDs) that require no resources. For when a fixed mapping of workers
+to resources is required. Otherwise, use <code class="docutils literal notranslate"><span class="pre">num_resource_sets</span></code>.
+For use with supported allocation functions.</p>
+</dd>
+<dt><strong>resource_info</strong> [dict]:</dt><dd><p class="sd-card-text">Provide resource information that will override automatically detected resources.
+The allowable fields are given below in “Overriding Resource Auto-Detection”
+Ignored if <code class="docutils literal notranslate"><span class="pre">disable_resource_manager</span></code> is set.</p>
+</dd>
+<dt><strong>scheduler_opts</strong> [dict]:</dt><dd><p class="sd-card-text">Options for the resource scheduler.
+See “Scheduler Options” for more options.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Complete Class API</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libensemble.specs.</span></span><span class="sig-name descname"><span class="pre">LibeSpecs</span></span><a class="headerlink" href="#libensemble.specs.LibeSpecs" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Specifications for configuring libEnsemble’s runtime behavior.</p>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.H_file_prefix">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">H_file_prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'libE_history'</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.H_file_prefix" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Prefix for <code class="docutils literal notranslate"><span class="pre">H</span></code> filename.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.abort_on_exception">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abort_on_exception</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.abort_on_exception" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">In MPI mode, whether to call <code class="docutils literal notranslate"><span class="pre">MPI_ABORT</span></code> on an exception.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, an exception will be raised by the manager.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.authkey">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">authkey</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'libE_auth_864'</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.authkey" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">TCP Only: Authkey for Manager’s system.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.calc_dir_id_width">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calc_dir_id_width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.calc_dir_id_width" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">The width of the numerical ID component of a calculation directory name. Leading
+zeros are padded to the sim/gen ID.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.comms">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">comms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mpi'</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.comms" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Manager/Worker communications mode. <code class="docutils literal notranslate"><span class="pre">'mpi'</span></code>, <code class="docutils literal notranslate"><span class="pre">'local'</span></code>, <code class="docutils literal notranslate"><span class="pre">'threads'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'tcp'</span></code>
+If <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> is specified, then <code class="docutils literal notranslate"><span class="pre">local</span></code> comms will be used unless a parallel MPI
+environment is detected.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.dedicated_mode">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dedicated_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.dedicated_mode" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Instructs libEnsemble’s MPI executor not to run applications on nodes where
+libEnsemble processes (manager and workers) are running.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.disable_log_files">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disable_log_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.disable_log_files" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Disable <code class="docutils literal notranslate"><span class="pre">ensemble.log</span></code> and <code class="docutils literal notranslate"><span class="pre">libE_stats.txt</span></code> log files.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.disable_resource_manager">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disable_resource_manager</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.disable_resource_manager" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Disable the built-in resource manager, including automatic resource detection
+and/or assignment of resources to workers. <code class="docutils literal notranslate"><span class="pre">&quot;resource_info&quot;</span></code> will be ignored.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.dry_run">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dry_run</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.dry_run" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Whether libEnsemble should immediately exit after validating all inputs.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.enforce_worker_core_bounds">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">enforce_worker_core_bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.enforce_worker_core_bounds" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">If <code class="docutils literal notranslate"><span class="pre">False</span></code>, the Executor will permit the submission of tasks with a
+higher processor count than the CPUs available to the worker as
+detected by the resource manager. Larger node counts are not allowed.
+When <code class="docutils literal notranslate"><span class="pre">&quot;disable_resource_manager&quot;</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+this argument is ignored</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.ensemble_copy_back">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ensemble_copy_back</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.ensemble_copy_back" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Whether to copy back contents of <code class="docutils literal notranslate"><span class="pre">ensemble_dir_path</span></code> to launch
+location. Useful if <code class="docutils literal notranslate"><span class="pre">ensemble_dir_path</span></code> is located on node-local storage.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.ensemble_dir_path">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ensemble_dir_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('ensemble')</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.ensemble_dir_path" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Path to main ensemble directory. Can serve
+as a single working directory for workers, or contain calculation directories</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.final_gen_send">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">final_gen_send</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.final_gen_send" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Send final simulation results to persistent generators before shutdown.
+The results will be sent along with the <code class="docutils literal notranslate"><span class="pre">PERSIS_STOP</span></code> tag.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.gen_dir_copy_files">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_dir_copy_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.gen_dir_copy_files" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Paths to copy into the working directory upon calling the generator function.
+list of strings or <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.gen_dir_symlink_files">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_dir_symlink_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.gen_dir_symlink_files" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Paths to symlink into the working directory upon calling the generator function.
+list of strings or <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.gen_dirs_make">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_dirs_make</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.gen_dirs_make" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Whether to make generator-specific calculation directories for each generator function call.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.gen_input_dir">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_input_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.gen_input_dir" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Copy this directory’s contents into the working directory upon calling the generator function.
+Forms the base of a generator directory.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.gen_num_gpus">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_num_gpus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.gen_num_gpus" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">The default number of GPUs required by generators. Unless overridden by
+the equivalent <cite>persis_info</cite> settings, generators will be allocated this
+many GPUs.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.gen_num_procs">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_num_procs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.gen_num_procs" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">The default number of processors (MPI ranks) required by generators. Unless
+overridden by the equivalent <cite>persis_info</cite> settings, generators will be
+allocated this many processors for applications launched via the MPIExecutor.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.gen_on_manager">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_on_manager</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.gen_on_manager" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Instructs Manager process to run generator functions.
+This generator function can access/modify user objects by reference.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.gen_workers">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gen_workers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.gen_workers" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">list of workers that should only run generators. All other workers will only
+run simulator functions.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.gpus_per_group">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gpus_per_group</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.gpus_per_group" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Number of GPUs for each group in the scheduler. This can be used to deal
+with scenarios where nodes have different numbers of GPUs. In effect a
+block of this many GPUs will be treated as a virtual node.
+By default the GPUs on a node are treated as a group.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.ip">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ip</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.ip" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">TCP Only: IP address for Manager’s system.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.kill_canceled_sims">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kill_canceled_sims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.kill_canceled_sims" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Try to kill sims with <code class="docutils literal notranslate"><span class="pre">&quot;cancel_requested&quot;</span></code> set <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, the manager avoids this moderate overhead.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.live_data">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">live_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.live_data" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Add a live data capture object (e.g., for plotting).</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.mpi_comm">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mpi_comm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.mpi_comm" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">libEnsemble MPI communicator. Default: <code class="docutils literal notranslate"><span class="pre">MPI.COMM_WORLD</span></code></p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.num_resource_sets">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_resource_sets</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.num_resource_sets" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Total number of resource sets. Resources will be divided into this number.
+If not set, resources will be divided evenly (excluding zero_resource_workers).</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.nworkers">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nworkers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.nworkers" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Number of worker processes in <code class="docutils literal notranslate"><span class="pre">&quot;local&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;threads&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;tcp&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.platform">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">platform</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.platform" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Name of a known platform defined in the platforms module.</p>
+<p class="sd-card-text">See <a class="reference internal" href="platform_specs.html#libensemble.resources.platforms.Known_platforms" title="libensemble.resources.platforms.Known_platforms"><code class="xref py py-class docutils literal notranslate"><span class="pre">Known</span> <span class="pre">Platforms</span> <span class="pre">list</span></code></a>.</p>
+<p class="sd-card-text">Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;platform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;perlmutter_g&quot;</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Alternatively set the environment variable <code class="docutils literal notranslate"><span class="pre">LIBE_PLATFORM</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">LIBE_PLATFORM</span><span class="o">=</span><span class="s2">&quot;perlmutter_g&quot;</span>
+</pre></div>
+</div>
+<p class="sd-card-text">See also option <a class="reference internal" href="#libensemble.specs.LibeSpecs.platform_specs" title="libensemble.specs.LibeSpecs.platform_specs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">platform_specs</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.platform_specs">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">platform_specs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.platform_specs" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">A Platform object or dictionary specifying settings for a platform.</p>
+<p class="sd-card-text">To use existing platform:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.resources.platforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">PerlmutterGPU</span>
+
+<span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;platform_specs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PerlmutterGPU</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sd-card-text">See <a class="reference internal" href="platform_specs.html#libensemble.resources.platforms.Known_platforms" title="libensemble.resources.platforms.Known_platforms"><code class="xref py py-class docutils literal notranslate"><span class="pre">Known</span> <span class="pre">Platforms</span> <span class="pre">list</span></code></a>.</p>
+<p class="sd-card-text">Or define a platform:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libensemble.resources.platforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">Platform</span>
+
+<span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;platform_specs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Platform</span><span class="p">(</span>
+    <span class="n">mpi_runner</span><span class="o">=</span><span class="s2">&quot;srun&quot;</span><span class="p">,</span>
+    <span class="n">cores_per_node</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">logical_cores_per_node</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">gpus_per_node</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">gpu_setting_type</span><span class="o">=</span><span class="s2">&quot;runner_default&quot;</span><span class="p">,</span>
+    <span class="n">scheduler_match_slots</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p class="sd-card-text">For list of Platform fields see <a class="reference internal" href="platform_specs.html#libensemble.resources.platforms.Platform" title="libensemble.resources.platforms.Platform"><code class="xref py py-class docutils literal notranslate"><span class="pre">Platform</span> <span class="pre">Fields</span></code></a>.</p>
+<p class="sd-card-text">Any fields not given will be auto-detected by libEnsemble.</p>
+<p class="sd-card-text">See also option <a class="reference internal" href="#libensemble.specs.LibeSpecs.platform" title="libensemble.specs.LibeSpecs.platform"><code class="xref py py-attr docutils literal notranslate"><span class="pre">platform</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.port">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.port" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">TCP Only: Port number for Manager’s system.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.profile">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">profile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.profile" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Profile manager and worker logic using <code class="docutils literal notranslate"><span class="pre">cProfile</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.resource_info">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resource_info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.resource_info" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Resource information to override automatically detected resources.
+Allowed fields are given below in ‘Overriding Resource Auto-detection’.
+Note that if <code class="docutils literal notranslate"><span class="pre">disable_resource_manager</span></code> is set then this option is ignored.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.reuse_output_dir">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reuse_output_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.reuse_output_dir" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Whether to allow overwrites and access to previous ensemble and workflow directories in subsequent runs.
+<code class="docutils literal notranslate"><span class="pre">False</span></code> by default to protect results.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.safe_mode">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">safe_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.safe_mode" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Prevents user functions from overwriting protected History fields, but requires moderate overhead.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.save_H_and_persis_on_abort">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_H_and_persis_on_abort</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.save_H_and_persis_on_abort" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Save states of <code class="docutils literal notranslate"><span class="pre">H</span></code> and <code class="docutils literal notranslate"><span class="pre">persis_info</span></code> to file on aborting after an exception.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.save_H_on_completion">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_H_on_completion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.save_H_on_completion" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Save state of <code class="docutils literal notranslate"><span class="pre">H</span></code> to file upon completing a workflow. Also enabled when either <code class="docutils literal notranslate"><span class="pre">save_every_k_sims</span></code>
+or <code class="docutils literal notranslate"><span class="pre">save_every_k_gens</span></code> is set.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.save_H_with_date">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_H_with_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.save_H_with_date" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">H</span></code> filename contains date and timestamp.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.save_every_k_gens">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_every_k_gens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.save_every_k_gens" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Save history array to file after every k generated points.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.save_every_k_sims">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_every_k_sims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.save_every_k_sims" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Save history array to file after every k evaluated points.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.scheduler_opts">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scheduler_opts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.scheduler_opts" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Options for the resource scheduler. See ‘Scheduler Options’ for more info</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.sim_dir_copy_files">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sim_dir_copy_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.sim_dir_copy_files" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Paths to copy into the working directory upon calling the simulation function.
+list of strings or <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.sim_dir_symlink_files">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sim_dir_symlink_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.sim_dir_symlink_files" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Paths to symlink into the working directory upon calling the simulation function.
+list of strings or <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.sim_dirs_make">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sim_dirs_make</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.sim_dirs_make" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Whether to make calculation directories for each simulation function call.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.sim_input_dir">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sim_input_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.sim_input_dir" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Copy this directory’s contents into the working directory upon calling the simulation function.
+Forms the base of a simulation directory.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.stats_fmt">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stats_fmt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.stats_fmt" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Options for formatting <code class="docutils literal notranslate"><span class="pre">'libE_stats.txt'</span></code>. See ‘Formatting libE_stats.txt’.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.use_persis_return_gen">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">use_persis_return_gen</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.use_persis_return_gen" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Adds persistent generator output fields to the History array on return.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.use_persis_return_sim">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">use_persis_return_sim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.use_persis_return_sim" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Adds persistent simulator output fields to the History array on return.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.use_tiles_as_gpus">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">use_tiles_as_gpus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.use_tiles_as_gpus" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">If <code class="docutils literal notranslate"><span class="pre">True</span></code> then treat a GPU tile as one GPU when GPU tiles is provided
+in platform specs or detected.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.use_worker_dirs">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">use_worker_dirs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.use_worker_dirs" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Whether to organize calculation directories under worker-specific directories.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.use_workflow_dir">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">use_workflow_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.use_workflow_dir" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Whether to place <em>all</em> log files, dumped arrays, and default output directories in a
+separate <cite>workflow</cite> directory. Each run will be suffixed with a hash.
+If copying back an ensemble directory from a scratch space, the copy is placed here.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.workerID">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">workerID</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.workerID" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">TCP Only: Worker ID number assigned to the new process.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.worker_cmd">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">worker_cmd</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.worker_cmd" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">TCP Only: Split string corresponding to worker/client Python process invocation. Contains
+a local Python path, calling script, and manager/server format-fields for <code class="docutils literal notranslate"><span class="pre">manager_ip</span></code>,
+<code class="docutils literal notranslate"><span class="pre">manager_port</span></code>, <code class="docutils literal notranslate"><span class="pre">authkey</span></code>, and <code class="docutils literal notranslate"><span class="pre">workerID</span></code>. <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> is specified normally.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.worker_timeout">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">worker_timeout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.worker_timeout" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">On libEnsemble shutdown, number of seconds after which workers considered timed out, then terminated.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.workers">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">workers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.workers" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">TCP Only: A list of worker hostnames.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.workflow_dir_path">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">workflow_dir_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'.'</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.workflow_dir_path" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">Optional path to the workflow directory.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="libensemble.specs.LibeSpecs.zero_resource_workers">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zero_resource_workers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#libensemble.specs.LibeSpecs.zero_resource_workers" title="Link to this definition"></a></dt>
+<dd><p class="sd-card-text">list of workers that require no resources. For when a fixed mapping of workers
+to resources is required. Otherwise, use <code class="docutils literal notranslate"><span class="pre">num_resource_sets</span></code>.
+For use with supported allocation functions.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</details><section id="scheduler-options">
+<h2>Scheduler Options<a class="headerlink" href="#scheduler-options" title="Link to this heading"></a></h2>
+<p>See options for <a class="reference internal" href="../resource_manager/scheduler_module.html#resources-scheduler"><span class="std std-ref">built-in scheduler</span></a>.</p>
+</section>
+<section id="overriding-resource-auto-detection">
+<span id="resource-info"></span><h2>Overriding Resource Auto-Detection<a class="headerlink" href="#overriding-resource-auto-detection" title="Link to this heading"></a></h2>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">&quot;cores_on_node&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;gpus_on_node&quot;</span></code> are supported for backward
+compatibility, but use of <a class="reference internal" href="platform_specs.html#datastruct-platform-specs"><span class="std std-ref">Platform specification</span></a> is
+recommended for these settings.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Resource Info Fields</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">The allowable <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;resource_info&quot;]</span></code> fields are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&quot;cores_on_node&quot; [tuple (int, int)]:
+    Tuple (physical cores, logical cores) on nodes.
+
+&quot;gpus_on_node&quot; [int]:
+    Number of GPUs on each node.
+
+&quot;node_file&quot; [str]:
+    Name of file containing a node-list. Default is &quot;node_list&quot;.
+
+&quot;nodelist_env_slurm&quot; [str]:
+    The environment variable giving a node list in Slurm format
+    (Default: Uses ``SLURM_NODELIST``).  Queried only if
+    a ``node_list`` file is not provided and the resource manager is
+    enabled.
+
+&quot;nodelist_env_cobalt&quot; [str]:
+    The environment variable giving a node list in Cobalt format
+    (Default: Uses ``COBALT_PARTNAME``) Queried only
+    if a ``node_list`` file is not provided and the resource manager
+    is enabled.
+
+&quot;nodelist_env_lsf&quot; [str]:
+    The environment variable giving a node list in LSF format
+    (Default: Uses ``LSB_HOSTS``) Queried only
+    if a ``node_list`` file is not provided and the resource manager
+    is enabled.
+
+&quot;nodelist_env_lsf_shortform&quot; [str]:
+    The environment variable giving a node list in LSF short-form
+    format (Default: Uses ``LSB_MCPU_HOSTS``) Queried only
+    if a ``node_list`` file is not provided and the resource manager is
+    enabled.
+</pre></div>
+</div>
+<p class="sd-card-text">For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">customizer</span> <span class="o">=</span> <span class="p">{</span><span class="n">cores_on_node</span><span class="s2">&quot;: (16, 64),</span>
+            <span class="s2">&quot;node_file&quot;</span><span class="p">:</span> <span class="s2">&quot;libe_nodes&quot;</span><span class="p">}</span>
+
+<span class="n">libE_specs</span><span class="p">[</span><span class="s2">&quot;resource_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">customizer</span>
+</pre></div>
+</div>
+</div>
+</details></section>
+<section id="formatting-options-for-libe-stats-file">
+<h2>Formatting Options for libE_stats File<a class="headerlink" href="#formatting-options-for-libe-stats-file" title="Link to this heading"></a></h2>
+<p>The allowable <code class="docutils literal notranslate"><span class="pre">libE_specs[&quot;stats_fmt&quot;]</span></code> fields are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&quot;task_timing&quot; [bool] = ``False``:
+    Outputs elapsed time for each task launched by the executor.
+
+&quot;task_datetime&quot; [bool] = ``False``:
+    Outputs the elapsed time and start and end time for each task launched by the executor.
+    Can be used with the ``&quot;plot_libe_tasks_util_v_time.py&quot;`` to give task utilization plots.
+
+&quot;show_resource_sets&quot; [bool] = ``False``:
+    Shows the resource set IDs assigned to each worker for each call of the user function.
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="data_structures.html" class="btn btn-neutral float-left" title="Configuring libEnsemble" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gen_specs.html" class="btn btn-neutral float-right" title="Generator Specs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 Argonne National Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
